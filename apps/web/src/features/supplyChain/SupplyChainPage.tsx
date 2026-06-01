@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Workflow, PinOff, Unlock, KeyRound, ShieldAlert, ArrowRight, ShieldCheck } from "lucide-react";
+import {
+  Workflow,
+  PinOff,
+  Unlock,
+  KeyRound,
+  ShieldAlert,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SummaryStats } from "@/components/ui/SummaryStats";
 import { FilterBar } from "@/components/ui/FilterBar";
@@ -10,8 +18,7 @@ import { WorkflowDetail } from "./WorkflowDetail";
 import { useDataset } from "@/hooks/useDataset";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { unpinnedActionCount } from "@/data/metrics";
-import { percent, relativeTime } from "@/lib/format";
-import { cn } from "@/lib/cn";
+import { percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import type { WorkflowAudit, SupplyChainIncident } from "@/data/types";
 
@@ -30,12 +37,38 @@ export function SupplyChainPage() {
 
   const unpinned = unpinnedActionCount(ds);
   const broad = ds.workflows.filter((w) => w.permissions === "broad").length;
-  const oidc = ds.workflows.length ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length : 0;
+  const oidc = ds.workflows.length
+    ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length
+    : 0;
 
   const facets: FacetDef<WorkflowAudit>[] = [
-    { key: "permissions", label: "Permissions", accessor: (r) => r.permissions, options: [{ value: "broad", label: "Broad" }, { value: "scoped", label: "Scoped" }] },
-    { key: "oidc", label: "OIDC", accessor: (r) => (r.usesOidc ? "yes" : "no"), options: [{ value: "yes", label: "Uses OIDC" }, { value: "no", label: "Static secrets" }] },
-    { key: "pinned", label: "Pinning", accessor: (r) => (r.actions.some((a) => !a.pinned) ? "unpinned" : "pinned"), options: [{ value: "unpinned", label: "Has unpinned" }, { value: "pinned", label: "Fully pinned" }] },
+    {
+      key: "permissions",
+      label: "Permissions",
+      accessor: (r) => r.permissions,
+      options: [
+        { value: "broad", label: "Broad" },
+        { value: "scoped", label: "Scoped" },
+      ],
+    },
+    {
+      key: "oidc",
+      label: "OIDC",
+      accessor: (r) => (r.usesOidc ? "yes" : "no"),
+      options: [
+        { value: "yes", label: "Uses OIDC" },
+        { value: "no", label: "Static secrets" },
+      ],
+    },
+    {
+      key: "pinned",
+      label: "Pinning",
+      accessor: (r) => (r.actions.some((a) => !a.pinned) ? "unpinned" : "pinned"),
+      options: [
+        { value: "unpinned", label: "Has unpinned" },
+        { value: "pinned", label: "Fully pinned" },
+      ],
+    },
   ];
 
   const rows = useFilteredRows(TABLE, ds.workflows, {
@@ -62,9 +95,13 @@ export function SupplyChainPage() {
       cell: (r) => {
         const u = r.actions.filter((a) => !a.pinned).length;
         return u > 0 ? (
-          <span className="inline-flex items-center gap-1.5 text-caption text-high"><PinOff className="size-3.5" /> {u} unpinned</span>
+          <span className="inline-flex items-center gap-1.5 text-caption text-high">
+            <PinOff className="size-3.5" /> {u} unpinned
+          </span>
         ) : (
-          <span className="inline-flex items-center gap-1.5 text-caption text-success"><ShieldCheck className="size-3.5" /> pinned</span>
+          <span className="inline-flex items-center gap-1.5 text-caption text-success">
+            <ShieldCheck className="size-3.5" /> pinned
+          </span>
         );
       },
     },
@@ -73,14 +110,30 @@ export function SupplyChainPage() {
       header: "Token",
       sortValue: (r) => r.permissions,
       hideBelow: "md",
-      cell: (r) => (r.permissions === "broad" ? <span className="inline-flex items-center gap-1.5 text-caption text-high"><Unlock className="size-3.5" /> broad</span> : <span className="text-caption text-ink-subtle">scoped</span>),
+      cell: (r) =>
+        r.permissions === "broad" ? (
+          <span className="inline-flex items-center gap-1.5 text-caption text-high">
+            <Unlock className="size-3.5" /> broad
+          </span>
+        ) : (
+          <span className="text-caption text-ink-subtle">scoped</span>
+        ),
     },
     {
       id: "oidc",
       header: "Cloud auth",
       sortValue: (r) => (r.usesOidc ? 1 : 0),
       hideBelow: "lg",
-      cell: (r) => (r.usesOidc ? <Badge tone="success" dot>OIDC</Badge> : <span className="inline-flex items-center gap-1.5 text-caption text-ink-subtle"><KeyRound className="size-3" /> secrets</span>),
+      cell: (r) =>
+        r.usesOidc ? (
+          <Badge tone="success" dot>
+            OIDC
+          </Badge>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-caption text-ink-subtle">
+            <KeyRound className="size-3" /> secrets
+          </span>
+        ),
     },
     {
       id: "risk",
@@ -117,9 +170,23 @@ export function SupplyChainPage() {
 
       <SummaryStats
         items={[
-          { label: "Workflows audited", value: ds.workflows.length, icon: <Workflow className="size-3.5" /> },
-          { label: "Unpinned actions", value: unpinned, tone: unpinned > 0 ? "text-high" : "text-success", icon: <PinOff className="size-3.5" /> },
-          { label: "Broad permissions", value: broad, tone: broad > 0 ? "text-high" : undefined, icon: <Unlock className="size-3.5" /> },
+          {
+            label: "Workflows audited",
+            value: ds.workflows.length,
+            icon: <Workflow className="size-3.5" />,
+          },
+          {
+            label: "Unpinned actions",
+            value: unpinned,
+            tone: unpinned > 0 ? "text-high" : "text-success",
+            icon: <PinOff className="size-3.5" />,
+          },
+          {
+            label: "Broad permissions",
+            value: broad,
+            tone: broad > 0 ? "text-high" : undefined,
+            icon: <Unlock className="size-3.5" />,
+          },
           { label: "OIDC adoption", value: percent(oidc), icon: <KeyRound className="size-3.5" /> },
         ]}
       />
@@ -139,7 +206,11 @@ export function SupplyChainPage() {
         rows={rows}
         getRowId={(r) => r.id}
         onRowClick={setSelected}
-        empty={{ icon: ShieldCheck, title: "No workflows match", description: "Adjust filters to see more." }}
+        empty={{
+          icon: ShieldCheck,
+          title: "No workflows match",
+          description: "Adjust filters to see more.",
+        }}
       />
 
       <WorkflowDetail workflow={selected} onClose={() => setSelected(null)} />
@@ -149,14 +220,26 @@ export function SupplyChainPage() {
 
 function IncidentCard({ incident }: { incident: SupplyChainIncident }) {
   const addToast = useUiStore((s) => s.addToast);
-  const statusTone = incident.status === "action-required" ? "danger" : incident.status === "monitoring" ? "warning" : "success";
-  const statusLabel = incident.status === "action-required" ? "Action required" : incident.status === "monitoring" ? "Monitoring" : "Resolved";
+  const statusTone =
+    incident.status === "action-required"
+      ? "danger"
+      : incident.status === "monitoring"
+        ? "warning"
+        : "success";
+  const statusLabel =
+    incident.status === "action-required"
+      ? "Action required"
+      : incident.status === "monitoring"
+        ? "Monitoring"
+        : "Resolved";
   return (
     <Card className="flex flex-col p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           <SeverityBadge severity={incident.severity} />
-          <Badge tone={statusTone} dot>{statusLabel}</Badge>
+          <Badge tone={statusTone} dot>
+            {statusLabel}
+          </Badge>
         </div>
         <span className="font-mono text-caption text-ink-tertiary">{incident.cve}</span>
       </div>
@@ -165,7 +248,13 @@ function IncidentCard({ incident }: { incident: SupplyChainIncident }) {
       <div className="mt-3 flex items-center justify-between">
         <span className="font-mono text-caption text-ink-tertiary">{incident.affectedAction}</span>
         <button
-          onClick={() => addToast({ title: "Mitigation guide opened", description: incident.title, variant: "info" })}
+          onClick={() =>
+            addToast({
+              title: "Mitigation guide opened",
+              description: incident.title,
+              variant: "info",
+            })
+          }
           className="flex items-center gap-1 text-caption font-medium text-primary-hover transition-colors hover:text-primary"
         >
           {incident.affectedReposCount} repos affected <ArrowRight className="size-3" />
