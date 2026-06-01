@@ -65,7 +65,12 @@ export function NotificationBell({ unread = 0 }: { unread?: number }) {
                     }}
                     className="flex w-full items-start gap-3 border-b border-hairline px-3 py-2.5 text-left transition-colors last:border-0 hover:bg-surface-3"
                   >
-                    <span className={cn("mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg", sev.badge)}>
+                    <span
+                      className={cn(
+                        "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg",
+                        sev.badge,
+                      )}
+                    >
                       <Icon className="size-3.5" />
                     </span>
                     <div className="min-w-0 flex-1">
@@ -80,7 +85,10 @@ export function NotificationBell({ unread = 0 }: { unread?: number }) {
           </div>
           <div className="border-t border-hairline p-1">
             <button
-              onClick={() => { navigate("/app/notifications"); close(); }}
+              onClick={() => {
+                navigate("/app/notifications");
+                close();
+              }}
               className="w-full rounded-md px-2.5 py-2 text-center text-body-sm font-medium text-primary-hover transition-colors hover:bg-surface-3"
             >
               View all notifications
