@@ -134,7 +134,10 @@ export function CommandPalette() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.12 }}
         >
-          <div className="absolute inset-0 bg-black/65 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <div
+            className="absolute inset-0 bg-black/65 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
           <motion.div
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -152,12 +155,16 @@ export function CommandPalette() {
                 placeholder="Search pages, organizations, actions…"
                 className="h-12 w-full bg-transparent text-body text-ink placeholder:text-ink-tertiary focus:outline-none"
               />
-              <kbd className="rounded bg-surface-3 px-1.5 py-0.5 font-mono text-[0.6875rem] text-ink-subtle">esc</kbd>
+              <kbd className="rounded bg-surface-3 px-1.5 py-0.5 font-mono text-[0.6875rem] text-ink-subtle">
+                esc
+              </kbd>
             </div>
 
             <div className="max-h-[52vh] overflow-y-auto p-2">
               {results.length === 0 && (
-                <p className="px-3 py-8 text-center text-body-sm text-ink-subtle">No matches found.</p>
+                <p className="px-3 py-8 text-center text-body-sm text-ink-subtle">
+                  No matches found.
+                </p>
               )}
               {groups.map(([group, items]) => (
                 <div key={group} className="mb-1">
