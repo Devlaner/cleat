@@ -34,7 +34,6 @@ bun run build      # type-check + production build
 bun run typecheck  # tsc --noEmit
 ```
 
-
 ---
 
 ## Ufazien Deployment
@@ -44,6 +43,7 @@ This project is configured for deployment to Ufazien Hosting.
 ### Build and Deploy
 
 1. Build your project (this will create a `dist` or `build` folder):
+
 ```bash
 npm run build
 # or
@@ -53,6 +53,7 @@ pnpm build
 ```
 
 2. Deploy to Ufazien:
+
 ```bash
 ufazienjs deploy
 ```
