@@ -29,13 +29,7 @@ export function MonoChip({
 }
 
 /** Generic scope/permission chip (e.g. OAuth scopes). */
-export function ScopeChip({
-  children,
-  danger,
-}: {
-  children: ReactNode;
-  danger?: boolean;
-}) {
+export function ScopeChip({ children, danger }: { children: ReactNode; danger?: boolean }) {
   return (
     <span
       className={cn(
