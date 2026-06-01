@@ -19,13 +19,48 @@ import { eventIcon, CATEGORY_LABEL } from "./eventMeta";
 import type { NotificationItem } from "@/hooks/useNotifications";
 
 const RULES = [
-  { id: "secret", label: "Active secret detected", severity: "critical" as const, channels: ["email", "slack"] },
-  { id: "kev", label: "Actively exploited (KEV) advisory", severity: "critical" as const, channels: ["email", "slack"] },
-  { id: "protection", label: "Branch protection disabled", severity: "high" as const, channels: ["slack"] },
-  { id: "public", label: "Repository made public", severity: "high" as const, channels: ["email", "slack"] },
-  { id: "admin", label: "New owner or admin added", severity: "high" as const, channels: ["email"] },
-  { id: "oauth", label: "New OAuth app authorized", severity: "medium" as const, channels: ["slack"] },
-  { id: "forcepush", label: "Force-push to default branch", severity: "medium" as const, channels: [] },
+  {
+    id: "secret",
+    label: "Active secret detected",
+    severity: "critical" as const,
+    channels: ["email", "slack"],
+  },
+  {
+    id: "kev",
+    label: "Actively exploited (KEV) advisory",
+    severity: "critical" as const,
+    channels: ["email", "slack"],
+  },
+  {
+    id: "protection",
+    label: "Branch protection disabled",
+    severity: "high" as const,
+    channels: ["slack"],
+  },
+  {
+    id: "public",
+    label: "Repository made public",
+    severity: "high" as const,
+    channels: ["email", "slack"],
+  },
+  {
+    id: "admin",
+    label: "New owner or admin added",
+    severity: "high" as const,
+    channels: ["email"],
+  },
+  {
+    id: "oauth",
+    label: "New OAuth app authorized",
+    severity: "medium" as const,
+    channels: ["slack"],
+  },
+  {
+    id: "forcepush",
+    label: "Force-push to default branch",
+    severity: "medium" as const,
+    channels: [],
+  },
 ];
 
 const CHANNEL_ICON = { email: Mail, slack: MessageSquare, webhook: Webhook } as const;
@@ -41,7 +76,8 @@ export function NotificationsPage() {
 
   const filtered = useMemo(() => {
     if (view === "unread") return items.filter((i) => !i.read);
-    if (view === "critical") return items.filter((i) => i.severity === "critical" || i.severity === "high");
+    if (view === "critical")
+      return items.filter((i) => i.severity === "critical" || i.severity === "high");
     return items;
   }, [items, view]);
 
@@ -57,7 +93,11 @@ export function NotificationsPage() {
         description="Critical events across your account and organizations, plus the rules that decide what reaches you."
         actions={
           unread > 0 && (
-            <Button variant="secondary" size="sm" onClick={() => markAllRead(items.map((i) => i.id))}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => markAllRead(items.map((i) => i.id))}
+            >
               <Check className="size-3.5" /> Mark all read
             </Button>
           )
@@ -66,10 +106,23 @@ export function NotificationsPage() {
 
       <SummaryStats
         items={[
-          { label: "Unread", value: unread, tone: unread > 0 ? "text-primary-hover" : undefined, icon: <Bell className="size-3.5" /> },
-          { label: "Critical", value: critical, tone: critical > 0 ? "text-critical" : "text-success" },
+          {
+            label: "Unread",
+            value: unread,
+            tone: unread > 0 ? "text-primary-hover" : undefined,
+            icon: <Bell className="size-3.5" />,
+          },
+          {
+            label: "Critical",
+            value: critical,
+            tone: critical > 0 ? "text-critical" : "text-success",
+          },
           { label: "This week", value: thisWeek },
-          { label: "Active rules", value: Object.values(rules).filter(Boolean).length, icon: <Sparkles className="size-3.5" /> },
+          {
+            label: "Active rules",
+            value: Object.values(rules).filter(Boolean).length,
+            icon: <Sparkles className="size-3.5" />,
+          },
         ]}
       />
 
@@ -77,16 +130,29 @@ export function NotificationsPage() {
         {/* Feed */}
         <div className="space-y-4 lg:col-span-2">
           <Segmented
-            options={[{ id: "all", label: "All" }, { id: "unread", label: `Unread${unread ? ` · ${unread}` : ""}` }, { id: "critical", label: "Critical" }]}
+            options={[
+              { id: "all", label: "All" },
+              { id: "unread", label: `Unread${unread ? ` · ${unread}` : ""}` },
+              { id: "critical", label: "Critical" },
+            ]}
             value={view}
             onChange={setView}
           />
           {groups.length === 0 ? (
-            <Card><EmptyState icon={BellOff} tone="success" title="Nothing here" description="No notifications match this view." /></Card>
+            <Card>
+              <EmptyState
+                icon={BellOff}
+                tone="success"
+                title="Nothing here"
+                description="No notifications match this view."
+              />
+            </Card>
           ) : (
             groups.map(([label, group]) => (
               <div key={label}>
-                <p className="mb-2 px-1 text-caption font-medium uppercase tracking-wide text-ink-tertiary">{label}</p>
+                <p className="mb-2 px-1 text-caption font-medium uppercase tracking-wide text-ink-tertiary">
+                  {label}
+                </p>
                 <Card className="divide-y divide-hairline overflow-hidden">
                   {group.map((n) => (
                     <NotificationRow key={n.id} item={n} onRead={() => markRead(n.id)} />
@@ -104,7 +170,16 @@ export function NotificationsPage() {
               title="Alert rules"
               description="What triggers a notification"
               action={
-                <button onClick={() => addToast({ title: "Rule builder", description: "Create a custom alert rule.", variant: "info" })} className="text-ink-subtle transition-colors hover:text-ink">
+                <button
+                  onClick={() =>
+                    addToast({
+                      title: "Rule builder",
+                      description: "Create a custom alert rule.",
+                      variant: "info",
+                    })
+                  }
+                  className="text-ink-subtle transition-colors hover:text-ink"
+                >
                   <Plus className="size-4" />
                 </button>
               }
@@ -128,7 +203,11 @@ export function NotificationsPage() {
                       </div>
                     </div>
                   </div>
-                  <Switch checked={rules[rule.id]!} onChange={(v) => setRules((r) => ({ ...r, [rule.id]: v }))} label={rule.label} />
+                  <Switch
+                    checked={rules[rule.id]!}
+                    onChange={(v) => setRules((r) => ({ ...r, [rule.id]: v }))}
+                    label={rule.label}
+                  />
                 </div>
               ))}
             </div>
@@ -143,8 +222,19 @@ function NotificationRow({ item, onRead }: { item: NotificationItem; onRead: () 
   const Icon = eventIcon(item.type);
   const sev = SEVERITY[item.severity];
   return (
-    <button onClick={onRead} className={cn("flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2", !item.read && "bg-surface-2/40")}>
-      <span className={cn("mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg", sev.badge)}>
+    <button
+      onClick={onRead}
+      className={cn(
+        "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2",
+        !item.read && "bg-surface-2/40",
+      )}
+    >
+      <span
+        className={cn(
+          "mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg",
+          sev.badge,
+        )}
+      >
         <Icon className="size-4" />
       </span>
       <div className="min-w-0 flex-1">
