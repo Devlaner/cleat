@@ -10,13 +10,7 @@ interface AvatarProps {
   className?: string;
 }
 
-export function Avatar({
-  seed,
-  label,
-  size = 28,
-  rounded = "md",
-  className,
-}: AvatarProps) {
+export function Avatar({ seed, label, size = 28, rounded = "md", className }: AvatarProps) {
   return (
     <span
       className={cn(
