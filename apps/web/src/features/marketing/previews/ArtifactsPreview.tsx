@@ -12,7 +12,8 @@ import type { Dataset, Artifact } from "@/data/types";
 
 export function ArtifactsPreview({ ds }: { ds: Dataset }) {
   const u = ds.usage;
-  const totalStorage = ds.artifacts.reduce((s, a) => s + a.sizeMb, 0) + ds.caches.reduce((s, c) => s + c.sizeMb, 0);
+  const totalStorage =
+    ds.artifacts.reduce((s, a) => s + a.sizeMb, 0) + ds.caches.reduce((s, c) => s + c.sizeMb, 0);
   const rows = [...ds.artifacts].sort((a, b) => b.sizeMb - a.sizeMb).slice(0, 4);
 
   const columns: Column<Artifact>[] = [
@@ -24,34 +25,104 @@ export function ArtifactsPreview({ ds }: { ds: Dataset }) {
           <Archive className="size-4 shrink-0 text-ink-tertiary" />
           <div className="min-w-0">
             <p className="truncate font-mono text-[0.8125rem] text-ink">{r.name}</p>
-            <p className="truncate text-caption text-ink-tertiary">{r.repo} · run {r.workflowRun}</p>
+            <p className="truncate text-caption text-ink-tertiary">
+              {r.repo} · run {r.workflowRun}
+            </p>
           </div>
         </div>
       ),
     },
-    { id: "size", header: "Size", align: "right", cell: (r) => <span className="tabular-nums text-ink-muted">{fromMb(r.sizeMb)}</span> },
-    { id: "downloads", header: "Downloads", align: "right", cell: (r) => <span className={cn("tabular-nums", r.downloads === 0 ? "text-ink-tertiary" : "text-ink-muted")}>{r.downloads}</span> },
-    { id: "expires", header: "Expires", align: "right", cell: (r) => { const d = daysUntil(r.expiresAt); return <span className={cn("text-caption", d < 7 ? "text-high" : "text-ink-subtle")}>{d <= 0 ? "expired" : `in ${d}d`}</span>; } },
-    { id: "tag", header: "", align: "right", cell: (r) => (r.downloads === 0 ? <Badge tone="success">reclaimable</Badge> : null) },
+    {
+      id: "size",
+      header: "Size",
+      align: "right",
+      cell: (r) => <span className="tabular-nums text-ink-muted">{fromMb(r.sizeMb)}</span>,
+    },
+    {
+      id: "downloads",
+      header: "Downloads",
+      align: "right",
+      cell: (r) => (
+        <span
+          className={cn("tabular-nums", r.downloads === 0 ? "text-ink-tertiary" : "text-ink-muted")}
+        >
+          {r.downloads}
+        </span>
+      ),
+    },
+    {
+      id: "expires",
+      header: "Expires",
+      align: "right",
+      cell: (r) => {
+        const d = daysUntil(r.expiresAt);
+        return (
+          <span className={cn("text-caption", d < 7 ? "text-high" : "text-ink-subtle")}>
+            {d <= 0 ? "expired" : `in ${d}d`}
+          </span>
+        );
+      },
+    },
+    {
+      id: "tag",
+      header: "",
+      align: "right",
+      cell: (r) => (r.downloads === 0 ? <Badge tone="success">reclaimable</Badge> : null),
+    },
   ];
 
   return (
     <div className="space-y-5 bg-canvas p-6">
-      <PreviewHeader eyebrow="Maintenance" title="Artifacts & cost" description="Reclaim storage spend from forgotten build artifacts, stale caches and untagged packages, then forecast your bill." />
+      <PreviewHeader
+        eyebrow="Maintenance"
+        title="Artifacts & cost"
+        description="Reclaim storage spend from forgotten build artifacts, stale caches and untagged packages, then forecast your bill."
+      />
       <SummaryStats
         items={[
-          { label: "Storage in use", value: fromMb(totalStorage), icon: <HardDrive className="size-3.5" /> },
-          { label: "Reclaimable now", value: currency(ds.account.reclaimable), tone: "text-success", icon: <PiggyBank className="size-3.5" /> },
-          { label: "Monthly spend", value: currency(u.monthlyCost), icon: <Archive className="size-3.5" /> },
-          { label: "Actions minutes", value: number(u.actionsMinutes), hint: `of ${number(u.minutesIncluded)} included`, icon: <Timer className="size-3.5" /> },
+          {
+            label: "Storage in use",
+            value: fromMb(totalStorage),
+            icon: <HardDrive className="size-3.5" />,
+          },
+          {
+            label: "Reclaimable now",
+            value: currency(ds.account.reclaimable),
+            tone: "text-success",
+            icon: <PiggyBank className="size-3.5" />,
+          },
+          {
+            label: "Monthly spend",
+            value: currency(u.monthlyCost),
+            icon: <Archive className="size-3.5" />,
+          },
+          {
+            label: "Actions minutes",
+            value: number(u.actionsMinutes),
+            hint: `of ${number(u.minutesIncluded)} included`,
+            icon: <Timer className="size-3.5" />,
+          },
         ]}
       />
       <div className="grid grid-cols-3 gap-4">
         <Card className="col-span-2">
-          <CardHeader title="Spend over time" description="Estimated monthly GitHub usage cost" action={<Badge tone="success" dot>{currency(ds.account.reclaimable)} reclaimable</Badge>} />
-          <div className="px-2 pb-2"><CostAreaChart data={u.series} height={150} /></div>
+          <CardHeader
+            title="Spend over time"
+            description="Estimated monthly GitHub usage cost"
+            action={
+              <Badge tone="success" dot>
+                {currency(ds.account.reclaimable)} reclaimable
+              </Badge>
+            }
+          />
+          <div className="px-2 pb-2">
+            <CostAreaChart data={u.series} height={150} />
+          </div>
           <div className="border-t border-hairline p-4">
-            <SegmentBar segments={u.breakdown.map((b) => ({ value: b.cost, hex: b.hex, label: b.label }))} height={8} />
+            <SegmentBar
+              segments={u.breakdown.map((b) => ({ value: b.cost, hex: b.hex, label: b.label }))}
+              height={8}
+            />
           </div>
         </Card>
         <Card>
@@ -62,7 +133,13 @@ export function ArtifactsPreview({ ds }: { ds: Dataset }) {
           </div>
         </Card>
       </div>
-      <DataTable tableKey="pv-artifacts" columns={columns} rows={rows} getRowId={(r) => r.id} empty={{ icon: Database, title: "No artifacts" }} />
+      <DataTable
+        tableKey="pv-artifacts"
+        columns={columns}
+        rows={rows}
+        getRowId={(r) => r.id}
+        empty={{ icon: Database, title: "No artifacts" }}
+      />
     </div>
   );
 }
