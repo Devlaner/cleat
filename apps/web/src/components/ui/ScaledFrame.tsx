@@ -33,7 +33,11 @@ export function ScaledFrame({
   }, [designWidth]);
 
   return (
-    <div ref={ref} className={cn("relative overflow-hidden", className)} style={{ height: viewportHeight * scale }}>
+    <div
+      ref={ref}
+      className={cn("relative overflow-hidden", className)}
+      style={{ height: viewportHeight * scale }}
+    >
       <div
         style={{
           width: designWidth,
