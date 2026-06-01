@@ -14,7 +14,7 @@ export interface ChipMeta {
 export const ECOSYSTEM: Record<string, ChipMeta> = {
   npm: { label: "npm", short: "npm", hex: "#cb3837" },
   pypi: { label: "PyPI", short: "py", hex: "#4b8bbe" },
-  "go": { label: "Go", short: "go", hex: "#00add8" },
+  go: { label: "Go", short: "go", hex: "#00add8" },
   maven: { label: "Maven", short: "mvn", hex: "#e34c26" },
   rubygems: { label: "RubyGems", short: "gem", hex: "#cc342d" },
   nuget: { label: "NuGet", short: "nu", hex: "#004880" },
