@@ -32,9 +32,23 @@ export function AccessPage() {
       <SummaryStats
         items={[
           { label: "Members", value: ds.members.length, icon: <Users className="size-3.5" /> },
-          { label: "Without 2FA", value: without2fa, tone: without2fa > 0 ? "text-critical" : "text-success", icon: <ShieldX className="size-3.5" /> },
-          { label: "Outside collaborators", value: outside, tone: outside > 0 ? "text-high" : undefined, icon: <UserMinus className="size-3.5" /> },
-          { label: "Installed apps", value: ds.apps.length, icon: <AppWindow className="size-3.5" /> },
+          {
+            label: "Without 2FA",
+            value: without2fa,
+            tone: without2fa > 0 ? "text-critical" : "text-success",
+            icon: <ShieldX className="size-3.5" />,
+          },
+          {
+            label: "Outside collaborators",
+            value: outside,
+            tone: outside > 0 ? "text-high" : undefined,
+            icon: <UserMinus className="size-3.5" />,
+          },
+          {
+            label: "Installed apps",
+            value: ds.apps.length,
+            icon: <AppWindow className="size-3.5" />,
+          },
         ]}
       />
 
