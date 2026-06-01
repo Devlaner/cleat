@@ -66,7 +66,12 @@ export function Segmented({
   className?: string;
 }) {
   return (
-    <div className={cn("inline-flex items-center gap-0.5 rounded-full bg-surface-2 p-0.5 ring-1 ring-inset ring-hairline", className)}>
+    <div
+      className={cn(
+        "inline-flex items-center gap-0.5 rounded-full bg-surface-2 p-0.5 ring-1 ring-inset ring-hairline",
+        className,
+      )}
+    >
       {options.map((o) => {
         const active = o.id === value;
         return (
@@ -75,7 +80,9 @@ export function Segmented({
             onClick={() => onChange(o.id)}
             className={cn(
               "rounded-full px-3 py-1 text-caption font-medium transition-colors",
-              active ? "bg-surface-4 text-ink ring-1 ring-inset ring-hairline-strong" : "text-ink-subtle hover:text-ink",
+              active
+                ? "bg-surface-4 text-ink ring-1 ring-inset ring-hairline-strong"
+                : "text-ink-subtle hover:text-ink",
             )}
           >
             {o.label}
