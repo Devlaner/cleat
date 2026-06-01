@@ -45,7 +45,9 @@ export function Drawer({
             <div className="flex items-start justify-between gap-4 border-b border-hairline p-4">
               <div className="min-w-0">
                 <h2 className="text-card-title font-medium text-ink">{title}</h2>
-                {description && <p className="mt-0.5 text-caption text-ink-subtle">{description}</p>}
+                {description && (
+                  <p className="mt-0.5 text-caption text-ink-subtle">{description}</p>
+                )}
               </div>
               <button
                 onClick={onClose}
