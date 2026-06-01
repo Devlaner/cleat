@@ -43,16 +43,31 @@ export function SidebarFooter({ collapsed }: { collapsed: boolean }) {
               <Avatar seed={me.login} label={me.name} size={32} rounded="full" />
               <div className="min-w-0">
                 <p className="truncate text-body-sm font-medium text-ink">{me.name}</p>
-                <p className="truncate text-caption text-ink-subtle">{me.name.toLowerCase().replace(" ", ".")}@example.com</p>
+                <p className="truncate text-caption text-ink-subtle">
+                  {me.name.toLowerCase().replace(" ", ".")}@example.com
+                </p>
               </div>
             </div>
             <div className="my-1 border-t border-hairline" />
-            <MenuItem icon={<Settings className="size-4" />} onClick={() => { navigate("/app/settings"); close(); }}>
+            <MenuItem
+              icon={<Settings className="size-4" />}
+              onClick={() => {
+                navigate("/app/settings");
+                close();
+              }}
+            >
               Settings
             </MenuItem>
             <MenuItem
               icon={<GithubMark size={16} />}
-              onClick={() => { addToast({ title: "GitHub connection healthy", description: "Last synced just now.", variant: "success" }); close(); }}
+              onClick={() => {
+                addToast({
+                  title: "GitHub connection healthy",
+                  description: "Last synced just now.",
+                  variant: "success",
+                });
+                close();
+              }}
             >
               GitHub connection
             </MenuItem>
@@ -63,7 +78,10 @@ export function SidebarFooter({ collapsed }: { collapsed: boolean }) {
             <MenuItem
               icon={<LogOut className="size-4" />}
               danger
-              onClick={() => { disconnect(); navigate("/"); }}
+              onClick={() => {
+                disconnect();
+                navigate("/");
+              }}
             >
               Disconnect
             </MenuItem>
