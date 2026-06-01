@@ -26,7 +26,9 @@ export function MarketingNav() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        scrolled ? "border-b border-hairline bg-canvas/80 backdrop-blur-md" : "border-b border-transparent",
+        scrolled
+          ? "border-b border-hairline bg-canvas/80 backdrop-blur-md"
+          : "border-b border-transparent",
       )}
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:px-6">
@@ -48,10 +50,14 @@ export function MarketingNav() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Link to="/connect">
-            <Button variant="ghost" size="sm">Sign in</Button>
+            <Button variant="ghost" size="sm">
+              Sign in
+            </Button>
           </Link>
           <Link to="/connect">
-            <Button variant="primary" size="sm">Get started</Button>
+            <Button variant="primary" size="sm">
+              Get started
+            </Button>
           </Link>
         </div>
 
@@ -68,12 +74,19 @@ export function MarketingNav() {
         <div className="border-t border-hairline bg-canvas px-5 py-4 md:hidden">
           <div className="flex flex-col gap-1">
             {LINKS.map((l) => (
-              <a key={l.label} href={l.href} className="rounded-md px-2 py-2 text-body-sm text-ink-muted" onClick={() => setOpen(false)}>
+              <a
+                key={l.label}
+                href={l.href}
+                className="rounded-md px-2 py-2 text-body-sm text-ink-muted"
+                onClick={() => setOpen(false)}
+              >
                 {l.label}
               </a>
             ))}
             <Link to="/connect" className="mt-2">
-              <Button variant="primary" className="w-full">Get started</Button>
+              <Button variant="primary" className="w-full">
+                Get started
+              </Button>
             </Link>
           </div>
         </div>
