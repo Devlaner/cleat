@@ -53,9 +53,7 @@ export function ConnectPage() {
           </div>
 
           <div className="p-6">
-            <h1 className="text-center text-card-title font-medium text-ink">
-              Authorize Cleat
-            </h1>
+            <h1 className="text-center text-card-title font-medium text-ink">Authorize Cleat</h1>
             <p className="mt-1.5 text-center text-body-sm text-ink-subtle">
               Cleat is requesting <span className="text-ink-muted">read-only</span> access to your
               GitHub account and organizations.
