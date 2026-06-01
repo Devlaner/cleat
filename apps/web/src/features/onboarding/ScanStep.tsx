@@ -32,8 +32,18 @@ export function ScanStep({ accountIds, onDone }: { accountIds: string[]; onDone:
   const stages: Stage[] = [
     { icon: FolderGit2, label: "Scanning repositories", target: repos, unit: "repos" },
     { icon: Package, label: "Analyzing dependencies", target: repos * 47, unit: "packages" },
-    { icon: Workflow, label: "Auditing Actions workflows", target: Math.round(repos * 1.6), unit: "workflows" },
-    { icon: KeyRound, label: "Hunting for secrets", target: Math.round(repos * 0.2) + 3, unit: "exposures" },
+    {
+      icon: Workflow,
+      label: "Auditing Actions workflows",
+      target: Math.round(repos * 1.6),
+      unit: "workflows",
+    },
+    {
+      icon: KeyRound,
+      label: "Hunting for secrets",
+      target: Math.round(repos * 0.2) + 3,
+      unit: "exposures",
+    },
     { icon: Users, label: "Reviewing access & members", target: members, unit: "identities" },
   ];
 
@@ -104,12 +114,19 @@ export function ScanStep({ accountIds, onDone }: { accountIds: string[]; onDone:
                       : "bg-surface-2 text-ink-subtle ring-hairline",
                 )}
               >
-                {complete ? <Check className="size-3.5" /> : active ? <Loader2 className="size-3.5 animate-spin" /> : <s.icon className="size-3.5" />}
+                {complete ? (
+                  <Check className="size-3.5" />
+                ) : active ? (
+                  <Loader2 className="size-3.5 animate-spin" />
+                ) : (
+                  <s.icon className="size-3.5" />
+                )}
               </span>
               <span className="flex-1 text-body-sm text-ink-muted">{s.label}</span>
               {complete && (
                 <span className="text-caption tabular-nums text-ink-subtle">
-                  <Counter value={s.target} duration={700} className="font-medium text-ink" /> {s.unit}
+                  <Counter value={s.target} duration={700} className="font-medium text-ink" />{" "}
+                  {s.unit}
                 </span>
               )}
             </div>
