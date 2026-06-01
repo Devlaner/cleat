@@ -17,7 +17,13 @@ interface FilterBarProps<T> {
 }
 
 export function FilterBar<T>({
-  tableKey, facets = [], searchPlaceholder = "Search…", count, total, noun = "results", right,
+  tableKey,
+  facets = [],
+  searchPlaceholder = "Search…",
+  count,
+  total,
+  noun = "results",
+  right,
 }: FilterBarProps<T>) {
   const ts = useTableState(tableKey);
   const setSearch = useFilterStore((s) => s.setSearch);
@@ -72,7 +78,12 @@ export function FilterBar<T>({
                     onClick={() => toggleFacet(tableKey, facet.key, opt.value)}
                     className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm text-ink-muted transition-colors hover:bg-surface-3"
                   >
-                    <span className={cn("flex size-4 items-center justify-center rounded border", on ? "border-primary bg-primary text-on-primary" : "border-hairline-strong")}>
+                    <span
+                      className={cn(
+                        "flex size-4 items-center justify-center rounded border",
+                        on ? "border-primary bg-primary text-on-primary" : "border-hairline-strong",
+                      )}
+                    >
                       {on && <Check className="size-3" />}
                     </span>
                     <span className="flex-1 truncate">{opt.label}</span>
@@ -96,7 +107,8 @@ export function FilterBar<T>({
       <div className="ml-auto flex items-center gap-3">
         {typeof count === "number" && (
           <span className="text-caption tabular-nums text-ink-tertiary">
-            {count}{typeof total === "number" && total !== count ? ` / ${total}` : ""} {noun}
+            {count}
+            {typeof total === "number" && total !== count ? ` / ${total}` : ""} {noun}
           </span>
         )}
         {right}
