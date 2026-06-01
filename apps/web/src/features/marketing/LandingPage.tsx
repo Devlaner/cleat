@@ -11,7 +11,9 @@ import { cn } from "@/lib/cn";
 import type { PreviewScreen } from "./ProductPreview";
 
 // The product preview pulls in charts, so it loads lazily to keep the landing light.
-const ProductPreview = lazy(() => import("./ProductPreview").then((m) => ({ default: m.ProductPreview })));
+const ProductPreview = lazy(() =>
+  import("./ProductPreview").then((m) => ({ default: m.ProductPreview })),
+);
 
 function PreviewBlock({ screen = "overview" }: { screen?: PreviewScreen }) {
   return (
@@ -27,7 +29,17 @@ function PreviewBlock({ screen = "overview" }: { screen?: PreviewScreen }) {
   );
 }
 
-function Showcase({ eyebrow, title, subtitle, screen }: { eyebrow: string; title: string; subtitle: string; screen: PreviewScreen }) {
+function Showcase({
+  eyebrow,
+  title,
+  subtitle,
+  screen,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  screen: PreviewScreen;
+}) {
   return (
     <section className="mx-auto max-w-7xl px-5 py-20 sm:px-6">
       <SectionHead eyebrow={eyebrow} title={title} subtitle={subtitle} />
@@ -39,12 +51,36 @@ function Showcase({ eyebrow, title, subtitle, screen }: { eyebrow: string; title
 }
 
 const FEATURES = [
-  { icon: KeyRound, title: "Secret scanning", body: "Catch leaked API keys, tokens and credentials across full history, with live validity checks so you fix what's actually exploitable." },
-  { icon: ShieldAlert, title: "Smart vulnerabilities", body: "Vulnerable dependencies ranked by severity, EPSS exploit probability, KEV status and reachability, not just raw alert volume." },
-  { icon: Workflow, title: "Supply-chain audit", body: "Find unpinned GitHub Actions, over-broad workflow permissions and risky third-party actions before the next tj-actions." },
-  { icon: Archive, title: "Cost & artifacts", body: "Reclaim storage spend from forgotten build artifacts, stale caches and untagged packages. See what you can delete today." },
-  { icon: Users, title: "Access & audit", body: "Review members, 2FA, outside collaborators, OAuth apps, webhooks and keys, with a full audit-log activity stream." },
-  { icon: Bell, title: "Critical alerts", body: "Get notified the moment something dangerous happens: a new admin, a disabled branch protection, a repo gone public." },
+  {
+    icon: KeyRound,
+    title: "Secret scanning",
+    body: "Catch leaked API keys, tokens and credentials across full history, with live validity checks so you fix what's actually exploitable.",
+  },
+  {
+    icon: ShieldAlert,
+    title: "Smart vulnerabilities",
+    body: "Vulnerable dependencies ranked by severity, EPSS exploit probability, KEV status and reachability, not just raw alert volume.",
+  },
+  {
+    icon: Workflow,
+    title: "Supply-chain audit",
+    body: "Find unpinned GitHub Actions, over-broad workflow permissions and risky third-party actions before the next tj-actions.",
+  },
+  {
+    icon: Archive,
+    title: "Cost & artifacts",
+    body: "Reclaim storage spend from forgotten build artifacts, stale caches and untagged packages. See what you can delete today.",
+  },
+  {
+    icon: Users,
+    title: "Access & audit",
+    body: "Review members, 2FA, outside collaborators, OAuth apps, webhooks and keys, with a full audit-log activity stream.",
+  },
+  {
+    icon: Bell,
+    title: "Critical alerts",
+    body: "Get notified the moment something dangerous happens: a new admin, a disabled branch protection, a repo gone public.",
+  },
 ];
 
 const STATS = [
@@ -59,7 +95,12 @@ const TIERS = [
     name: "Free",
     price: "$0",
     cadence: "forever",
-    features: ["Personal account", "Up to 5 repositories", "Weekly security scans", "Core secret & vuln alerts"],
+    features: [
+      "Personal account",
+      "Up to 5 repositories",
+      "Weekly security scans",
+      "Core secret & vuln alerts",
+    ],
     cta: "Start free",
     featured: false,
   },
@@ -67,7 +108,13 @@ const TIERS = [
     name: "Team",
     price: "$12",
     cadence: "per user / month",
-    features: ["Unlimited repositories", "Daily scans + supply-chain audit", "Artifact & cost insights", "Audit log + critical alerts", "Up to 3 organizations"],
+    features: [
+      "Unlimited repositories",
+      "Daily scans + supply-chain audit",
+      "Artifact & cost insights",
+      "Audit log + critical alerts",
+      "Up to 3 organizations",
+    ],
     cta: "Start 14-day trial",
     featured: true,
   },
@@ -75,7 +122,12 @@ const TIERS = [
     name: "Enterprise",
     price: "Custom",
     cadence: "annual",
-    features: ["SSO / SAML & SCIM", "Custom security policies", "Priority SLA & support", "Unlimited organizations"],
+    features: [
+      "SSO / SAML & SCIM",
+      "Custom security policies",
+      "Priority SLA & support",
+      "Unlimited organizations",
+    ],
     cta: "Contact sales",
     featured: false,
   },
@@ -106,9 +158,9 @@ export function LandingPage() {
             transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto mt-5 max-w-2xl text-body-lg text-ink-muted"
           >
-            Cleat connects to your account and organizations to surface leaked secrets,
-            vulnerable dependencies, risky workflows and reclaimable spend, then alerts you the
-            moment something critical happens.
+            Cleat connects to your account and organizations to surface leaked secrets, vulnerable
+            dependencies, risky workflows and reclaimable spend, then alerts you the moment
+            something critical happens.
           </motion.p>
 
           <motion.div
@@ -118,10 +170,14 @@ export function LandingPage() {
             className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <Link to="/connect">
-              <Button variant="primary" size="lg">Connect GitHub for free</Button>
+              <Button variant="primary" size="lg">
+                Connect GitHub for free
+              </Button>
             </Link>
             <a href="#features">
-              <Button variant="secondary" size="lg">See how it works</Button>
+              <Button variant="secondary" size="lg">
+                See how it works
+              </Button>
             </a>
           </motion.div>
 
@@ -143,11 +199,13 @@ export function LandingPage() {
             Trusted by security-minded teams
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-70">
-            {["Aurora Labs", "Northwind", "Helios Systems", "Vertex", "Lumen", "Cobalt"].map((name) => (
-              <span key={name} className="text-body font-semibold tracking-tight text-ink-subtle">
-                {name}
-              </span>
-            ))}
+            {["Aurora Labs", "Northwind", "Helios Systems", "Vertex", "Lumen", "Cobalt"].map(
+              (name) => (
+                <span key={name} className="text-body font-semibold tracking-tight text-ink-subtle">
+                  {name}
+                </span>
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -161,7 +219,11 @@ export function LandingPage() {
         />
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
-            <div key={f.title} className="animate-rise" style={{ animationDelay: `${(i % 3) * 70}ms` }}>
+            <div
+              key={f.title}
+              className="animate-rise"
+              style={{ animationDelay: `${(i % 3) * 70}ms` }}
+            >
               <Card className="group h-full p-6 transition-colors hover:border-hairline-strong">
                 <div className="flex size-10 items-center justify-center rounded-lg bg-surface-2 text-primary-hover ring-1 ring-inset ring-hairline transition-colors group-hover:bg-surface-3">
                   <f.icon className="size-5" />
@@ -251,10 +313,16 @@ export function LandingPage() {
         />
         <div className="mt-12 grid grid-cols-1 gap-4 lg:grid-cols-3">
           {TIERS.map((t) => (
-            <Card key={t.name} raised={t.featured} className={cn("relative flex flex-col p-6", t.featured && "ring-1 ring-primary/30")}>
+            <Card
+              key={t.name}
+              raised={t.featured}
+              className={cn("relative flex flex-col p-6", t.featured && "ring-1 ring-primary/30")}
+            >
               {t.featured && (
                 <div className="absolute -top-3 left-6">
-                  <Badge tone="primary" dot>Most popular</Badge>
+                  <Badge tone="primary" dot>
+                    Most popular
+                  </Badge>
                 </div>
               )}
               <h3 className="text-headline font-semibold text-ink">{t.name}</h3>
@@ -271,7 +339,9 @@ export function LandingPage() {
                 ))}
               </ul>
               <Link to="/connect" className="mt-6">
-                <Button variant={t.featured ? "primary" : "secondary"} className="w-full">{t.cta}</Button>
+                <Button variant={t.featured ? "primary" : "secondary"} className="w-full">
+                  {t.cta}
+                </Button>
               </Link>
             </Card>
           ))}
@@ -290,7 +360,9 @@ export function LandingPage() {
               Connect in seconds. Cleat runs your first scan immediately. No credit card required.
             </p>
             <Link to="/connect" className="mt-8 inline-block">
-              <Button variant="primary" size="lg">Connect GitHub</Button>
+              <Button variant="primary" size="lg">
+                Connect GitHub
+              </Button>
             </Link>
           </div>
         </Card>
@@ -301,7 +373,15 @@ export function LandingPage() {
   );
 }
 
-function SectionHead({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) {
+function SectionHead({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}) {
   return (
     <div className="mx-auto max-w-2xl text-center">
       <p className="text-eyebrow uppercase text-primary-hover">{eyebrow}</p>
