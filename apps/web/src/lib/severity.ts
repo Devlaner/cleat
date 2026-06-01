@@ -1,12 +1,6 @@
 export type Severity = "critical" | "high" | "medium" | "low" | "info";
 
-export const SEVERITY_ORDER: Severity[] = [
-  "critical",
-  "high",
-  "medium",
-  "low",
-  "info",
-];
+export const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 
 interface SeverityStyle {
   label: string;
