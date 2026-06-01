@@ -50,9 +50,19 @@ export function ProgressRing({
   const pct = Math.max(0, Math.min(1, value));
 
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+    <div
+      className="relative inline-flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackHex} strokeWidth={stroke} />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke={trackHex}
+          strokeWidth={stroke}
+        />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -83,7 +93,10 @@ export function SegmentBar({
 }) {
   const total = segments.reduce((s, x) => s + x.value, 0) || 1;
   return (
-    <div className={cn("flex w-full overflow-hidden rounded-full bg-surface-3", className)} style={{ height }}>
+    <div
+      className={cn("flex w-full overflow-hidden rounded-full bg-surface-3", className)}
+      style={{ height }}
+    >
       {segments.map((s, i) =>
         s.value > 0 ? (
           <div
