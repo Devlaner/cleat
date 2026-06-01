@@ -13,12 +13,40 @@ const ROLE_TONE = { owner: "primary", admin: "warning", member: "neutral" } as c
 
 export function MembersTab({ members }: { members: Member[] }) {
   const facets: FacetDef<Member>[] = [
-    { key: "role", label: "Role", accessor: (r) => r.role, options: [{ value: "owner", label: "Owner" }, { value: "admin", label: "Admin" }, { value: "member", label: "Member" }] },
-    { key: "twoFactor", label: "2FA", accessor: (r) => (r.twoFactor ? "on" : "off"), options: [{ value: "on", label: "2FA enabled" }, { value: "off", label: "2FA missing" }] },
-    { key: "outside", label: "Type", accessor: (r) => (r.outsideCollaborator ? "outside" : "member"), options: [{ value: "member", label: "Member" }, { value: "outside", label: "Outside collaborator" }] },
+    {
+      key: "role",
+      label: "Role",
+      accessor: (r) => r.role,
+      options: [
+        { value: "owner", label: "Owner" },
+        { value: "admin", label: "Admin" },
+        { value: "member", label: "Member" },
+      ],
+    },
+    {
+      key: "twoFactor",
+      label: "2FA",
+      accessor: (r) => (r.twoFactor ? "on" : "off"),
+      options: [
+        { value: "on", label: "2FA enabled" },
+        { value: "off", label: "2FA missing" },
+      ],
+    },
+    {
+      key: "outside",
+      label: "Type",
+      accessor: (r) => (r.outsideCollaborator ? "outside" : "member"),
+      options: [
+        { value: "member", label: "Member" },
+        { value: "outside", label: "Outside collaborator" },
+      ],
+    },
   ];
 
-  const rows = useFilteredRows(TABLE, members, { search: (r) => `${r.name} ${r.login} ${r.teams.join(" ")}`, facets });
+  const rows = useFilteredRows(TABLE, members, {
+    search: (r) => `${r.name} ${r.login} ${r.teams.join(" ")}`,
+    facets,
+  });
 
   const columns: Column<Member>[] = [
     {
@@ -35,29 +63,94 @@ export function MembersTab({ members }: { members: Member[] }) {
         </div>
       ),
     },
-    { id: "role", header: "Role", sortValue: (r) => r.role, cell: (r) => <Badge tone={ROLE_TONE[r.role]}>{r.role}{r.outsideCollaborator ? " · outside" : ""}</Badge> },
+    {
+      id: "role",
+      header: "Role",
+      sortValue: (r) => r.role,
+      cell: (r) => (
+        <Badge tone={ROLE_TONE[r.role]}>
+          {r.role}
+          {r.outsideCollaborator ? " · outside" : ""}
+        </Badge>
+      ),
+    },
     {
       id: "twoFactor",
       header: "2FA",
       sortValue: (r) => (r.twoFactor ? 1 : 0),
-      cell: (r) => r.twoFactor ? (
-        <span className="inline-flex items-center gap-1.5 text-caption text-success"><ShieldCheck className="size-3.5" /> enabled</span>
-      ) : (
-        <span className="inline-flex items-center gap-1.5 text-caption text-critical"><ShieldX className="size-3.5" /> missing</span>
+      cell: (r) =>
+        r.twoFactor ? (
+          <span className="inline-flex items-center gap-1.5 text-caption text-success">
+            <ShieldCheck className="size-3.5" /> enabled
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1.5 text-caption text-critical">
+            <ShieldX className="size-3.5" /> missing
+          </span>
+        ),
+    },
+    {
+      id: "teams",
+      header: "Teams",
+      hideBelow: "lg",
+      cell: (r) =>
+        r.teams.length ? (
+          <div className="flex flex-wrap gap-1">
+            {r.teams.map((t) => (
+              <Badge key={t} tone="muted">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        ) : (
+          <span className="text-caption text-ink-tertiary">None</span>
+        ),
+    },
+    {
+      id: "repoAccess",
+      header: "Repo access",
+      sortValue: (r) => r.repoAccess,
+      align: "right",
+      hideBelow: "md",
+      cell: (r) => <span className="tabular-nums text-ink-muted">{r.repoAccess}</span>,
+    },
+    {
+      id: "lastActiveAt",
+      header: "Last active",
+      sortValue: (r) => r.lastActiveAt,
+      align: "right",
+      hideBelow: "sm",
+      cell: (r) => (
+        <span className="text-caption text-ink-subtle">{relativeTime(r.lastActiveAt)}</span>
       ),
     },
-    { id: "teams", header: "Teams", hideBelow: "lg", cell: (r) => r.teams.length ? (
-      <div className="flex flex-wrap gap-1">{r.teams.map((t) => <Badge key={t} tone="muted">{t}</Badge>)}</div>
-    ) : <span className="text-caption text-ink-tertiary">None</span> },
-    { id: "repoAccess", header: "Repo access", sortValue: (r) => r.repoAccess, align: "right", hideBelow: "md", cell: (r) => <span className="tabular-nums text-ink-muted">{r.repoAccess}</span> },
-    { id: "lastActiveAt", header: "Last active", sortValue: (r) => r.lastActiveAt, align: "right", hideBelow: "sm", cell: (r) => <span className="text-caption text-ink-subtle">{relativeTime(r.lastActiveAt)}</span> },
   ];
 
   return (
     <div className="space-y-4">
-      <FilterBar tableKey={TABLE} facets={facets} searchPlaceholder="Search members…" count={rows.length} total={members.length} noun="members" />
-      <DataTable tableKey={TABLE} columns={columns} rows={rows} getRowId={(r) => r.id} empty={{ icon: UserCog, title: "No members match", description: "Adjust the filters above." }} />
-      <p className="text-caption text-ink-tertiary">{pluralize(members.filter((m) => !m.twoFactor).length, "member")} without 2FA · {pluralize(members.filter((m) => m.outsideCollaborator).length, "outside collaborator")}.</p>
+      <FilterBar
+        tableKey={TABLE}
+        facets={facets}
+        searchPlaceholder="Search members…"
+        count={rows.length}
+        total={members.length}
+        noun="members"
+      />
+      <DataTable
+        tableKey={TABLE}
+        columns={columns}
+        rows={rows}
+        getRowId={(r) => r.id}
+        empty={{
+          icon: UserCog,
+          title: "No members match",
+          description: "Adjust the filters above.",
+        }}
+      />
+      <p className="text-caption text-ink-tertiary">
+        {pluralize(members.filter((m) => !m.twoFactor).length, "member")} without 2FA ·{" "}
+        {pluralize(members.filter((m) => m.outsideCollaborator).length, "outside collaborator")}.
+      </p>
     </div>
   );
 }
