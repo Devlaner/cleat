@@ -1,0 +1,56 @@
+name: Bug report
+description: Something is not working the way it should
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. The more detail you give, the faster we can fix it.
+        If this is a security issue, please do not file it here. See our SECURITY.md instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us what went wrong, and what you expected to happen instead.
+      placeholder: I clicked X and expected Y, but Z happened.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Walk us through it, step by step.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See the problem
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Cleat?
+      options:
+        - Frontend (apps/web)
+        - Backend
+        - Docs
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The version from apps/web/package.json, if you know it.
+      placeholder: "1.6.1"
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, operating system, and anything else that might matter.
+      placeholder: Chrome 134 on Windows 11
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, console errors, or other context that could help.
