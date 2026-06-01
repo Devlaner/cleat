@@ -28,10 +28,43 @@ export function VulnerabilitiesPage() {
   const fixable = ds.vulnerabilities.filter((v) => v.fixedVersion).length;
 
   const facets: FacetDef<Vulnerability>[] = [
-    { key: "severity", label: "Severity", accessor: (r) => r.severity, options: (["critical", "high", "medium", "low"] as const).map((s) => ({ value: s, label: SEVERITY[s].label })) },
-    { key: "ecosystem", label: "Ecosystem", accessor: (r) => r.ecosystem, options: [...new Set(ds.vulnerabilities.map((v) => v.ecosystem))].map((e) => ({ value: e, label: ecosystem(e).label })) },
-    { key: "reachable", label: "Reachability", accessor: (r) => r.reachable, options: [{ value: "reachable", label: "Reachable" }, { value: "not-reachable", label: "Not reachable" }, { value: "unknown", label: "Unknown" }] },
-    { key: "kev", label: "Exploited (KEV)", accessor: (r) => (r.kev ? "yes" : "no"), options: [{ value: "yes", label: "In KEV catalog" }, { value: "no", label: "Not in KEV" }] },
+    {
+      key: "severity",
+      label: "Severity",
+      accessor: (r) => r.severity,
+      options: (["critical", "high", "medium", "low"] as const).map((s) => ({
+        value: s,
+        label: SEVERITY[s].label,
+      })),
+    },
+    {
+      key: "ecosystem",
+      label: "Ecosystem",
+      accessor: (r) => r.ecosystem,
+      options: [...new Set(ds.vulnerabilities.map((v) => v.ecosystem))].map((e) => ({
+        value: e,
+        label: ecosystem(e).label,
+      })),
+    },
+    {
+      key: "reachable",
+      label: "Reachability",
+      accessor: (r) => r.reachable,
+      options: [
+        { value: "reachable", label: "Reachable" },
+        { value: "not-reachable", label: "Not reachable" },
+        { value: "unknown", label: "Unknown" },
+      ],
+    },
+    {
+      key: "kev",
+      label: "Exploited (KEV)",
+      accessor: (r) => (r.kev ? "yes" : "no"),
+      options: [
+        { value: "yes", label: "In KEV catalog" },
+        { value: "no", label: "Not in KEV" },
+      ],
+    },
   ];
 
   const filtered = useFilteredRows(TABLE, ds.vulnerabilities, {
@@ -39,7 +72,10 @@ export function VulnerabilitiesPage() {
     facets,
   });
   // default ranking: highest priority first (DataTable preserves order until a header is clicked)
-  const rows = useMemo(() => [...filtered].sort((a, b) => vulnPriority(b) - vulnPriority(a)), [filtered]);
+  const rows = useMemo(
+    () => [...filtered].sort((a, b) => vulnPriority(b) - vulnPriority(a)),
+    [filtered],
+  );
 
   const columns: Column<Vulnerability>[] = [
     {
@@ -50,7 +86,16 @@ export function VulnerabilitiesPage() {
       cell: (r) => {
         const p = vulnPriority(r);
         const sev = p >= 75 ? "critical" : p >= 55 ? "high" : p >= 35 ? "medium" : "low";
-        return <span className={cn("inline-flex min-w-7 justify-center rounded-md px-1.5 py-0.5 text-caption font-semibold tabular-nums", SEVERITY[sev].badge)}>{p}</span>;
+        return (
+          <span
+            className={cn(
+              "inline-flex min-w-7 justify-center rounded-md px-1.5 py-0.5 text-caption font-semibold tabular-nums",
+              SEVERITY[sev].badge,
+            )}
+          >
+            {p}
+          </span>
+        );
       },
     },
     {
@@ -62,7 +107,9 @@ export function VulnerabilitiesPage() {
           <MonoChip short={ecosystem(r.ecosystem).short} hex={ecosystem(r.ecosystem).hex} />
           <div className="min-w-0">
             <p className="truncate font-medium text-ink">{r.title}</p>
-            <p className="truncate font-mono text-caption text-ink-tertiary">{r.package} {r.currentVersion}</p>
+            <p className="truncate font-mono text-caption text-ink-tertiary">
+              {r.package} {r.currentVersion}
+            </p>
           </div>
         </div>
       ),
@@ -72,7 +119,11 @@ export function VulnerabilitiesPage() {
       header: "CVSS",
       sortValue: (r) => r.cvss,
       align: "left",
-      cell: (r) => <span className={cn("font-semibold tabular-nums", SEVERITY[cvssToSeverity(r.cvss)].text)}>{r.cvss.toFixed(1)}</span>,
+      cell: (r) => (
+        <span className={cn("font-semibold tabular-nums", SEVERITY[cvssToSeverity(r.cvss)].text)}>
+          {r.cvss.toFixed(1)}
+        </span>
+      ),
     },
     {
       id: "epss",
@@ -94,21 +145,34 @@ export function VulnerabilitiesPage() {
       hideBelow: "lg",
       cell: (r) =>
         r.kev ? (
-          <Badge tone="danger"><Flame className="size-3" /> Exploited</Badge>
+          <Badge tone="danger">
+            <Flame className="size-3" /> Exploited
+          </Badge>
         ) : r.reachable === "reachable" ? (
-          <span className="inline-flex items-center gap-1 text-caption text-high"><Crosshair className="size-3" /> Reachable</span>
+          <span className="inline-flex items-center gap-1 text-caption text-high">
+            <Crosshair className="size-3" /> Reachable
+          </span>
         ) : (
           <span className="text-caption text-ink-tertiary">None</span>
         ),
     },
-    { id: "repos", header: "Repos", sortValue: (r) => r.affectedRepos.length, align: "right", hideBelow: "sm", cell: (r) => <span className="tabular-nums text-ink-muted">{r.affectedRepos.length}</span> },
+    {
+      id: "repos",
+      header: "Repos",
+      sortValue: (r) => r.affectedRepos.length,
+      align: "right",
+      hideBelow: "sm",
+      cell: (r) => <span className="tabular-nums text-ink-muted">{r.affectedRepos.length}</span>,
+    },
     {
       id: "fix",
       header: "Fix",
       align: "right",
       cell: (r) =>
         r.hasFixPr ? (
-          <span className="inline-flex items-center gap-1 text-caption text-primary-hover"><GitPullRequestArrow className="size-3" /> PR ready</span>
+          <span className="inline-flex items-center gap-1 text-caption text-primary-hover">
+            <GitPullRequestArrow className="size-3" /> PR ready
+          </span>
         ) : r.fixedVersion ? (
           <span className="font-mono text-caption text-ink-muted">{r.fixedVersion}</span>
         ) : (
@@ -127,10 +191,24 @@ export function VulnerabilitiesPage() {
 
       <SummaryStats
         items={[
-          { label: "Open advisories", value: ds.vulnerabilities.length, icon: <ShieldAlert className="size-3.5" /> },
+          {
+            label: "Open advisories",
+            value: ds.vulnerabilities.length,
+            icon: <ShieldAlert className="size-3.5" />,
+          },
           { label: "Critical", value: critical, tone: critical > 0 ? "text-critical" : undefined },
-          { label: "Actively exploited", value: kev, tone: kev > 0 ? "text-critical" : undefined, icon: <Flame className="size-3.5" /> },
-          { label: "With a fix available", value: fixable, tone: "text-success", icon: <GitPullRequestArrow className="size-3.5" /> },
+          {
+            label: "Actively exploited",
+            value: kev,
+            tone: kev > 0 ? "text-critical" : undefined,
+            icon: <Flame className="size-3.5" />,
+          },
+          {
+            label: "With a fix available",
+            value: fixable,
+            tone: "text-success",
+            icon: <GitPullRequestArrow className="size-3.5" />,
+          },
         ]}
       />
 
@@ -149,7 +227,11 @@ export function VulnerabilitiesPage() {
         rows={rows}
         getRowId={(r) => r.id}
         onRowClick={setSelected}
-        empty={{ icon: ShieldCheck, title: "No vulnerabilities match", description: "Adjust filters to see more." }}
+        empty={{
+          icon: ShieldCheck,
+          title: "No vulnerabilities match",
+          description: "Adjust filters to see more.",
+        }}
       />
 
       <p className="text-caption text-ink-tertiary">
