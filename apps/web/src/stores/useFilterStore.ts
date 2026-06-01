@@ -31,17 +31,14 @@ export const useFilterStore = create<FilterState>((set, get) => ({
   setSort: (key, sortKey) =>
     set((s) => {
       const cur = s.tables[key] ?? EMPTY;
-      const sortDir: SortDir =
-        cur.sortKey === sortKey && cur.sortDir === "desc" ? "asc" : "desc";
+      const sortDir: SortDir = cur.sortKey === sortKey && cur.sortDir === "desc" ? "asc" : "desc";
       return { tables: { ...s.tables, [key]: { ...cur, sortKey, sortDir } } };
     }),
   toggleFacet: (key, facet, value) =>
     set((s) => {
       const cur = s.tables[key] ?? EMPTY;
       const list = cur.facets[facet] ?? [];
-      const next = list.includes(value)
-        ? list.filter((v) => v !== value)
-        : [...list, value];
+      const next = list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
       return {
         tables: {
           ...s.tables,
@@ -49,8 +46,7 @@ export const useFilterStore = create<FilterState>((set, get) => ({
         },
       };
     }),
-  clear: (key) =>
-    set((s) => ({ tables: { ...s.tables, [key]: EMPTY } })),
+  clear: (key) => set((s) => ({ tables: { ...s.tables, [key]: EMPTY } })),
 }));
 
 /** Subscribe to one table's filter state. */
