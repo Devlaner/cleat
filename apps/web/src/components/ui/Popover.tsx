@@ -86,7 +86,9 @@ export function MenuItem({
       onClick={onClick}
       className={cn(
         "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
-        danger ? "text-critical hover:bg-critical/10" : "text-ink-muted hover:bg-surface-3 hover:text-ink",
+        danger
+          ? "text-critical hover:bg-critical/10"
+          : "text-ink-muted hover:bg-surface-3 hover:text-ink",
         active && "bg-surface-3 text-ink",
       )}
     >
