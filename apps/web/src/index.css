@@ -1,0 +1,305 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Cleat design tokens - derived from DESIGN.md (Linear dark system) *
+ * Dark canvas, scarce lavender accent, surface ladder, hairlines.    *
+ * Severity palette is product-only (not used on marketing surfaces). *
+ * ------------------------------------------------------------------ */
+@theme {
+  /* Surface ladder */
+  --color-canvas: #010102;
+  --color-surface-1: #0f1011;
+  --color-surface-2: #141516;
+  --color-surface-3: #18191a;
+  --color-surface-4: #191a1b;
+
+  /* Hairlines / borders */
+  --color-hairline: #23252a;
+  --color-hairline-strong: #34343a;
+  --color-hairline-tertiary: #3e3e44;
+
+  /* Text */
+  --color-ink: #f7f8f8;
+  --color-ink-muted: #d0d6e0;
+  --color-ink-subtle: #8a8f98;
+  /* nudged lighter than DESIGN.md's #62666d so small meta text clears ~4.5:1 AA,
+     while staying clearly quieter than ink-subtle */
+  --color-ink-tertiary: #787c85;
+
+  /* Brand / accent */
+  --color-primary: #5e6ad2;
+  --color-primary-hover: #828fff;
+  --color-primary-focus: #5e69d1;
+  --color-on-primary: #ffffff;
+  --color-brand-secure: #7a7fad;
+
+  /* Semantic */
+  --color-success: #27a644;
+
+  /* Severity (product surfaces only) */
+  --color-critical: #fb5b78;
+  --color-high: #ff9352;
+  --color-medium: #ecc24a;
+  --color-low: #5b9bf0;
+  --color-info: #8a8f98;
+
+  /* Typography */
+  --font-sans: "Inter Variable", "SF Pro Display", -apple-system, system-ui,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo,
+    monospace;
+
+  --text-display-xl: 5rem;
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.038em;
+  --text-display-xl--font-weight: 600;
+
+  --text-display-lg: 3.5rem;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.032em;
+  --text-display-lg--font-weight: 600;
+
+  --text-display-md: 2.5rem;
+  --text-display-md--line-height: 1.15;
+  --text-display-md--letter-spacing: -0.025em;
+  --text-display-md--font-weight: 600;
+
+  --text-headline: 1.75rem;
+  --text-headline--line-height: 1.2;
+  --text-headline--letter-spacing: -0.021em;
+  --text-headline--font-weight: 600;
+
+  --text-card-title: 1.375rem;
+  --text-card-title--line-height: 1.25;
+  --text-card-title--letter-spacing: -0.018em;
+  --text-card-title--font-weight: 500;
+
+  --text-subhead: 1.25rem;
+  --text-subhead--line-height: 1.4;
+  --text-subhead--letter-spacing: -0.01em;
+  --text-subhead--font-weight: 400;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--letter-spacing: -0.006em;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.003em;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.3;
+  --text-eyebrow--letter-spacing: 0.03em;
+  --text-eyebrow--font-weight: 500;
+
+  --text-mono: 0.8125rem;
+  --text-mono--line-height: 1.5;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+
+  /* Elevation - used sparingly (overlays / menus) */
+  --shadow-overlay: 0 16px 48px -12px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(35, 37, 42, 0.9);
+  --shadow-pop: 0 8px 28px -8px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(35, 37, 42, 0.9);
+
+  /* Motion */
+  --animate-fade-in: fade-in 0.3s ease both;
+  --animate-rise: rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-scan: scan 2.2s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(251, 91, 120, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(251, 91, 120, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 91, 120, 0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-primary) 35%, transparent);
+    color: var(--color-ink);
+  }
+
+  /* Interactive controls show a pointer; disabled ones don't. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  [role="switch"]:not(:disabled),
+  [role="menuitem"]:not(:disabled),
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /* Scrollbars - thin, surface-toned */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-hairline-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--color-hairline-strong);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-hairline-tertiary);
+  }
+
+  :focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-primary-focus) 60%, transparent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Honor the OS "reduce motion" setting: neutralize CSS animation + transitions. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Faint top-edge highlight on lifted panels - the DESIGN.md "pixel rendered" feel */
+  .panel-highlight {
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.045);
+  }
+
+  /* Background atmosphere: deep canvas with a faint lavender aurora + grid */
+  .cleat-aurora {
+    background-image:
+      radial-gradient(
+        60rem 40rem at 80% -10%,
+        color-mix(in srgb, var(--color-primary) 14%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        50rem 36rem at -5% 10%,
+        color-mix(in srgb, var(--color-brand-secure) 9%, transparent),
+        transparent 55%
+      );
+  }
+
+  .cleat-grid {
+    background-image:
+      linear-gradient(to right, rgba(35, 37, 42, 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(35, 37, 42, 0.5) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 0%, black, transparent 75%);
+    mask-image: radial-gradient(70% 60% at 50% 0%, black, transparent 75%);
+  }
+
+  .cleat-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+}
+
+/* Recharts tooltip/legend inherit our dark surfaces */
+.recharts-default-tooltip {
+  background-color: var(--color-surface-2) !important;
+  border: 1px solid var(--color-hairline-strong) !important;
+  border-radius: var(--radius-md) !important;
+}
+.recharts-cartesian-axis-tick-value {
+  fill: var(--color-ink-subtle);
+}
