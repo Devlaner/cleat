@@ -41,13 +41,19 @@ export function SecretsPage() {
       key: "severity",
       label: "Severity",
       accessor: (r) => r.severity,
-      options: (["critical", "high", "medium", "low"] as const).map((s) => ({ value: s, label: SEVERITY[s].label })),
+      options: (["critical", "high", "medium", "low"] as const).map((s) => ({
+        value: s,
+        label: SEVERITY[s].label,
+      })),
     },
     {
       key: "provider",
       label: "Provider",
       accessor: (r) => r.provider,
-      options: [...new Set(ds.secrets.map((s) => s.provider))].map((p) => ({ value: p, label: provider(p).label })),
+      options: [...new Set(ds.secrets.map((s) => s.provider))].map((p) => ({
+        value: p,
+        label: provider(p).label,
+      })),
     },
   ];
 
@@ -68,20 +74,53 @@ export function SecretsPage() {
         </div>
       ),
     },
-    { id: "repo", header: "Repository", sortValue: (r) => r.repo, cell: (r) => <span className="font-mono text-[0.8125rem] text-ink-muted">{r.repo}</span>, hideBelow: "md" },
-    { id: "file", header: "Location", cell: (r) => <span className="font-mono text-[0.8125rem] text-ink-subtle">{r.file}:{r.line}</span>, hideBelow: "lg" },
+    {
+      id: "repo",
+      header: "Repository",
+      sortValue: (r) => r.repo,
+      cell: (r) => <span className="font-mono text-[0.8125rem] text-ink-muted">{r.repo}</span>,
+      hideBelow: "md",
+    },
+    {
+      id: "file",
+      header: "Location",
+      cell: (r) => (
+        <span className="font-mono text-[0.8125rem] text-ink-subtle">
+          {r.file}:{r.line}
+        </span>
+      ),
+      hideBelow: "lg",
+    },
     {
       id: "validity",
       header: "Validity",
       sortValue: (r) => r.validity,
       cell: (r) => (
-        <StatusPill tone={r.validity === "active" ? "danger" : r.validity === "revoked" ? "neutral" : "warning"} pulse={r.validity === "active"}>
+        <StatusPill
+          tone={
+            r.validity === "active" ? "danger" : r.validity === "revoked" ? "neutral" : "warning"
+          }
+          pulse={r.validity === "active"}
+        >
           {r.validity === "active" ? "Active" : r.validity === "revoked" ? "Revoked" : "Unknown"}
         </StatusPill>
       ),
     },
-    { id: "severity", header: "Severity", sortValue: (r) => SEVERITY[r.severity].rank, align: "left", cell: (r) => <SeverityBadge severity={r.severity} /> },
-    { id: "detectedAt", header: "Detected", sortValue: (r) => r.detectedAt, cell: (r) => <span className="text-ink-subtle">{relativeTime(r.detectedAt)}</span>, hideBelow: "sm", align: "right" },
+    {
+      id: "severity",
+      header: "Severity",
+      sortValue: (r) => SEVERITY[r.severity].rank,
+      align: "left",
+      cell: (r) => <SeverityBadge severity={r.severity} />,
+    },
+    {
+      id: "detectedAt",
+      header: "Detected",
+      sortValue: (r) => r.detectedAt,
+      cell: (r) => <span className="text-ink-subtle">{relativeTime(r.detectedAt)}</span>,
+      hideBelow: "sm",
+      align: "right",
+    },
   ];
 
   return (
@@ -94,9 +133,18 @@ export function SecretsPage() {
 
       <SummaryStats
         items={[
-          { label: "Active secrets", value: active, tone: active > 0 ? "text-critical" : "text-success", icon: <Ban className="size-3.5" /> },
+          {
+            label: "Active secrets",
+            value: active,
+            tone: active > 0 ? "text-critical" : "text-success",
+            icon: <Ban className="size-3.5" />,
+          },
           { label: "Revoked", value: revoked, icon: <ShieldCheck className="size-3.5" /> },
-          { label: "Push protection blocks", value: blocked, icon: <ShieldHalf className="size-3.5" /> },
+          {
+            label: "Push protection blocks",
+            value: blocked,
+            icon: <ShieldHalf className="size-3.5" />,
+          },
           { label: "Repositories affected", value: repos, icon: <KeyRound className="size-3.5" /> },
         ]}
       />
@@ -116,7 +164,11 @@ export function SecretsPage() {
         rows={rows}
         getRowId={(r) => r.id}
         onRowClick={setSelected}
-        empty={{ icon: ShieldCheck, title: "No secrets match", description: "Try clearing filters, or enjoy a clean slate." }}
+        empty={{
+          icon: ShieldCheck,
+          title: "No secrets match",
+          description: "Try clearing filters, or enjoy a clean slate.",
+        }}
       />
 
       <SecretDetail secret={selected} onClose={() => setSelected(null)} />
