@@ -12,7 +12,12 @@ import { SegmentBar } from "@/components/ui/Meters";
 import { Button } from "@/components/ui/Button";
 import { useDataset } from "@/hooks/useDataset";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
-import { buildDependencies, licenseDistribution, COPYLEFT, type Dependency } from "./buildDependencies";
+import {
+  buildDependencies,
+  licenseDistribution,
+  COPYLEFT,
+  type Dependency,
+} from "./buildDependencies";
 import { buildSpdx, buildCycloneDx } from "./sbom";
 import { downloadFile } from "@/lib/download";
 import { ecosystem } from "@/lib/ecosystems";
@@ -34,17 +39,49 @@ export function DependenciesPage() {
   const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
 
   const facets: FacetDef<Dependency>[] = [
-    { key: "ecosystem", label: "Ecosystem", accessor: (r) => r.ecosystem, options: [...new Set(deps.map((d) => d.ecosystem))].map((e) => ({ value: e, label: ecosystem(e).label })) },
-    { key: "status", label: "Status", accessor: (r) => [r.vulnerable ? "vulnerable" : "", r.outdated ? "outdated" : ""].filter(Boolean), options: [{ value: "vulnerable", label: "Vulnerable" }, { value: "outdated", label: "Outdated" }] },
-    { key: "license", label: "License", accessor: (r) => r.license, options: dist.map((d) => ({ value: d.license, label: d.license })) },
+    {
+      key: "ecosystem",
+      label: "Ecosystem",
+      accessor: (r) => r.ecosystem,
+      options: [...new Set(deps.map((d) => d.ecosystem))].map((e) => ({
+        value: e,
+        label: ecosystem(e).label,
+      })),
+    },
+    {
+      key: "status",
+      label: "Status",
+      accessor: (r) =>
+        [r.vulnerable ? "vulnerable" : "", r.outdated ? "outdated" : ""].filter(Boolean),
+      options: [
+        { value: "vulnerable", label: "Vulnerable" },
+        { value: "outdated", label: "Outdated" },
+      ],
+    },
+    {
+      key: "license",
+      label: "License",
+      accessor: (r) => r.license,
+      options: dist.map((d) => ({ value: d.license, label: d.license })),
+    },
   ];
 
-  const rows = useFilteredRows(TABLE, deps, { search: (r) => `${r.name} ${r.ecosystem} ${r.license}`, facets });
+  const rows = useFilteredRows(TABLE, deps, {
+    search: (r) => `${r.name} ${r.ecosystem} ${r.license}`,
+    facets,
+  });
 
   function exportSbom() {
-    const content = format === "spdx" ? buildSpdx(ds.account.login, deps) : buildCycloneDx(ds.account.login, deps);
+    const content =
+      format === "spdx"
+        ? buildSpdx(ds.account.login, deps)
+        : buildCycloneDx(ds.account.login, deps);
     downloadFile(`${ds.account.login}-sbom.${format}.json`, content);
-    addToast({ title: `${format === "spdx" ? "SPDX" : "CycloneDX"} SBOM exported`, description: `${deps.length} components`, variant: "success" });
+    addToast({
+      title: `${format === "spdx" ? "SPDX" : "CycloneDX"} SBOM exported`,
+      description: `${deps.length} components`,
+      variant: "success",
+    });
   }
 
   const columns: Column<Dependency>[] = [
@@ -76,9 +113,20 @@ export function DependenciesPage() {
       header: "License",
       sortValue: (r) => r.license,
       hideBelow: "md",
-      cell: (r) => <Badge tone={COPYLEFT.has(r.license) ? "warning" : "neutral"}>{r.license}</Badge>,
+      cell: (r) => (
+        <Badge tone={COPYLEFT.has(r.license) ? "warning" : "neutral"}>{r.license}</Badge>
+      ),
     },
-    { id: "usedByRepos", header: "Used by", sortValue: (r) => r.usedByRepos, align: "right", hideBelow: "lg", cell: (r) => <span className="tabular-nums text-ink-muted">{pluralize(r.usedByRepos, "repo")}</span> },
+    {
+      id: "usedByRepos",
+      header: "Used by",
+      sortValue: (r) => r.usedByRepos,
+      align: "right",
+      hideBelow: "lg",
+      cell: (r) => (
+        <span className="tabular-nums text-ink-muted">{pluralize(r.usedByRepos, "repo")}</span>
+      ),
+    },
     {
       id: "status",
       header: "Status",
@@ -88,7 +136,9 @@ export function DependenciesPage() {
         r.vulnerable && r.vulnSeverity ? (
           <SeverityBadge severity={r.vulnSeverity} showDot={false} />
         ) : r.outdated ? (
-          <span className="inline-flex items-center gap-1 text-caption text-high"><ArrowUpCircle className="size-3" /> outdated</span>
+          <span className="inline-flex items-center gap-1 text-caption text-high">
+            <ArrowUpCircle className="size-3" /> outdated
+          </span>
         ) : (
           <span className="text-caption text-success">up to date</span>
         ),
@@ -105,24 +155,51 @@ export function DependenciesPage() {
 
       <SummaryStats
         items={[
-          { label: "Total dependencies", value: deps.length, icon: <Package className="size-3.5" /> },
-          { label: "Vulnerable", value: vulnerable, tone: vulnerable > 0 ? "text-critical" : "text-success", icon: <ShieldAlert className="size-3.5" /> },
-          { label: "Outdated", value: outdated, tone: outdated > 0 ? "text-high" : undefined, icon: <ArrowUpCircle className="size-3.5" /> },
-          { label: "Copyleft licenses", value: copyleft, tone: copyleft > 0 ? "text-high" : undefined, icon: <Scale className="size-3.5" /> },
+          {
+            label: "Total dependencies",
+            value: deps.length,
+            icon: <Package className="size-3.5" />,
+          },
+          {
+            label: "Vulnerable",
+            value: vulnerable,
+            tone: vulnerable > 0 ? "text-critical" : "text-success",
+            icon: <ShieldAlert className="size-3.5" />,
+          },
+          {
+            label: "Outdated",
+            value: outdated,
+            tone: outdated > 0 ? "text-high" : undefined,
+            icon: <ArrowUpCircle className="size-3.5" />,
+          },
+          {
+            label: "Copyleft licenses",
+            value: copyleft,
+            tone: copyleft > 0 ? "text-high" : undefined,
+            icon: <Scale className="size-3.5" />,
+          },
         ]}
       />
 
       {/* License compliance + SBOM export */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
-          <CardHeader title="License compliance" description="Distribution across all dependencies" />
+          <CardHeader
+            title="License compliance"
+            description="Distribution across all dependencies"
+          />
           <div className="space-y-3 p-4 pt-0">
-            <SegmentBar segments={dist.map((d) => ({ value: d.count, hex: d.hex, label: d.license }))} height={10} />
+            <SegmentBar
+              segments={dist.map((d) => ({ value: d.count, hex: d.hex, label: d.license }))}
+              height={10}
+            />
             <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 sm:grid-cols-3">
               {dist.map((d) => (
                 <div key={d.license} className="flex items-center gap-2 text-caption">
                   <span className="size-2 rounded-full" style={{ backgroundColor: d.hex }} />
-                  <span className={cn("text-ink-muted", d.copyleft && "text-high")}>{d.license}</span>
+                  <span className={cn("text-ink-muted", d.copyleft && "text-high")}>
+                    {d.license}
+                  </span>
                   <span className="ml-auto tabular-nums text-ink-subtle">{d.count}</span>
                 </div>
               ))}
@@ -131,16 +208,25 @@ export function DependenciesPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Export SBOM" description="Software bill of materials" icon={<FileJson className="size-4" />} />
+          <CardHeader
+            title="Export SBOM"
+            description="Software bill of materials"
+            icon={<FileJson className="size-4" />}
+          />
           <div className="space-y-3 p-4 pt-0">
             <Segmented
               className="w-full"
-              options={[{ id: "spdx", label: "SPDX" }, { id: "cyclonedx", label: "CycloneDX" }]}
+              options={[
+                { id: "spdx", label: "SPDX" },
+                { id: "cyclonedx", label: "CycloneDX" },
+              ]}
               value={format}
               onChange={setFormat}
             />
             <p className="text-caption text-ink-subtle">
-              {format === "spdx" ? "SPDX 2.3: broad tooling and compliance support." : "CycloneDX 1.5: security and VEX oriented."}
+              {format === "spdx"
+                ? "SPDX 2.3: broad tooling and compliance support."
+                : "CycloneDX 1.5: security and VEX oriented."}
             </p>
             <Button variant="primary" className="w-full" onClick={exportSbom}>
               <Download className="size-4" /> Download {deps.length} components
@@ -163,7 +249,11 @@ export function DependenciesPage() {
         columns={columns}
         rows={rows}
         getRowId={(r) => r.id}
-        empty={{ icon: Package, title: "No dependencies match", description: "Adjust the filters above." }}
+        empty={{
+          icon: Package,
+          title: "No dependencies match",
+          description: "Adjust the filters above.",
+        }}
       />
     </div>
   );
