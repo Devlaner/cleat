@@ -1,7 +1,11 @@
 import type { Dependency } from "./buildDependencies";
 
 const PURL_TYPE: Record<string, string> = {
-  npm: "npm", pypi: "pypi", go: "golang", maven: "maven", rubygems: "gem",
+  npm: "npm",
+  pypi: "pypi",
+  go: "golang",
+  maven: "maven",
+  rubygems: "gem",
 };
 
 function purl(d: Dependency): string {
@@ -24,7 +28,13 @@ export function buildSpdx(account: string, deps: Dependency[]): string {
         versionInfo: d.version,
         downloadLocation: "NOASSERTION",
         licenseConcluded: d.license,
-        externalRefs: [{ referenceCategory: "PACKAGE-MANAGER", referenceType: "purl", referenceLocator: purl(d) }],
+        externalRefs: [
+          {
+            referenceCategory: "PACKAGE-MANAGER",
+            referenceType: "purl",
+            referenceLocator: purl(d),
+          },
+        ],
       })),
     },
     null,
@@ -40,7 +50,11 @@ export function buildCycloneDx(account: string, deps: Dependency[]): string {
       specVersion: "1.5",
       serialNumber: `urn:uuid:${crypto.randomUUID()}`,
       version: 1,
-      metadata: { timestamp: new Date().toISOString(), tools: [{ vendor: "Cleat", name: "cleat-sbom" }], component: { type: "application", name: account } },
+      metadata: {
+        timestamp: new Date().toISOString(),
+        tools: [{ vendor: "Cleat", name: "cleat-sbom" }],
+        component: { type: "application", name: account },
+      },
       components: deps.map((d) => ({
         type: "library",
         name: d.name,
