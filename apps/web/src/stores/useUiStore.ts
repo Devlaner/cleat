@@ -49,8 +49,7 @@ export const useUiStore = create<UiState>()(
           }
         }, 4200);
       },
-      dismissToast: (id) =>
-        set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
+      dismissToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
     }),
     {
       name: "cleat-ui",
