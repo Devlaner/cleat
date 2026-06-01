@@ -75,7 +75,9 @@ export function Sidebar({ forceExpanded = false }: { forceExpanded?: boolean }) 
                 {section.title}
               </p>
             )}
-            {section.title && collapsed && i > 0 && <div className="mx-2 mb-2 border-t border-hairline" />}
+            {section.title && collapsed && i > 0 && (
+              <div className="mx-2 mb-2 border-t border-hairline" />
+            )}
             <div className="space-y-0.5">
               {section.items.map((item) => (
                 <SidebarLink
@@ -95,7 +97,15 @@ export function Sidebar({ forceExpanded = false }: { forceExpanded?: boolean }) 
   );
 }
 
-function SidebarLink({ item, collapsed, count }: { item: NavItem; collapsed: boolean; count?: number }) {
+function SidebarLink({
+  item,
+  collapsed,
+  count,
+}: {
+  item: NavItem;
+  collapsed: boolean;
+  count?: number;
+}) {
   const Icon = item.icon;
   const hasCount = typeof count === "number" && count > 0;
   const link = (
@@ -106,9 +116,7 @@ function SidebarLink({ item, collapsed, count }: { item: NavItem; collapsed: boo
         cn(
           "group relative flex items-center gap-2.5 rounded-md px-2.5 py-2 text-body-sm font-medium transition-colors",
           collapsed && "justify-center px-0",
-          isActive
-            ? "bg-surface-2 text-ink"
-            : "text-ink-subtle hover:bg-surface-1 hover:text-ink",
+          isActive ? "bg-surface-2 text-ink" : "text-ink-subtle hover:bg-surface-1 hover:text-ink",
         )
       }
     >
