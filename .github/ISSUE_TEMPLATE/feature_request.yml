@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest an idea or improvement for Cleat
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. The best requests start with the problem you are trying to solve,
+        not just the solution, so we can find the right fix together.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: What is getting in your way today?
+      placeholder: When I do X, it is hard to Y because ...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like to see?
+      description: Describe the change or feature you have in mind.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of Cleat?
+      options:
+        - Frontend (apps/web)
+        - Backend
+        - Docs
+        - Something new
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you have considered
+      description: Any other approaches or workarounds you have thought about.
