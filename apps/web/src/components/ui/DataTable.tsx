@@ -35,11 +35,22 @@ interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
   empty?: { icon: LucideIcon; title: string; description?: string };
   /** leading selection / control column */
-  selectable?: { isSelected: (row: T) => boolean; onToggle: (row: T) => void; allSelected?: boolean; onToggleAll?: () => void };
+  selectable?: {
+    isSelected: (row: T) => boolean;
+    onToggle: (row: T) => void;
+    allSelected?: boolean;
+    onToggleAll?: () => void;
+  };
 }
 
 export function DataTable<T>({
-  tableKey, columns, rows, getRowId, onRowClick, empty, selectable,
+  tableKey,
+  columns,
+  rows,
+  getRowId,
+  onRowClick,
+  empty,
+  selectable,
 }: DataTableProps<T>) {
   const ts = useTableState(tableKey);
   const setSort = useFilterStore((s) => s.setSort);
@@ -74,7 +85,10 @@ export function DataTable<T>({
             <tr className="border-b border-hairline">
               {selectable && (
                 <th className="w-10 px-3 py-2.5">
-                  <Checkbox checked={!!selectable.allSelected} onChange={() => selectable.onToggleAll?.()} />
+                  <Checkbox
+                    checked={!!selectable.allSelected}
+                    onChange={() => selectable.onToggleAll?.()}
+                  />
                 </th>
               )}
               {columns.map((col) => {
@@ -101,7 +115,11 @@ export function DataTable<T>({
                       >
                         {col.header}
                         {active ? (
-                          ts.sortDir === "asc" ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />
+                          ts.sortDir === "asc" ? (
+                            <ArrowUp className="size-3" />
+                          ) : (
+                            <ArrowDown className="size-3" />
+                          )
                         ) : (
                           <ChevronsUpDown className="size-3 opacity-50" />
                         )}
@@ -126,7 +144,10 @@ export function DataTable<T>({
               >
                 {selectable && (
                   <td className="px-3 py-2.5" onClick={(e) => e.stopPropagation()}>
-                    <Checkbox checked={selectable.isSelected(row)} onChange={() => selectable.onToggle(row)} />
+                    <Checkbox
+                      checked={selectable.isSelected(row)}
+                      onChange={() => selectable.onToggle(row)}
+                    />
                   </td>
                 )}
                 {columns.map((col) => (
@@ -159,12 +180,20 @@ export function Checkbox({ checked, onChange }: { checked: boolean; onChange: ()
       onClick={onChange}
       className={cn(
         "flex size-4 items-center justify-center rounded border transition-colors",
-        checked ? "border-primary bg-primary text-on-primary" : "border-hairline-strong hover:border-ink-subtle",
+        checked
+          ? "border-primary bg-primary text-on-primary"
+          : "border-hairline-strong hover:border-ink-subtle",
       )}
     >
       {checked && (
         <svg viewBox="0 0 12 12" className="size-3" fill="none">
-          <path d="M2.5 6.5 5 9l4.5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M2.5 6.5 5 9l4.5-5"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       )}
     </button>
