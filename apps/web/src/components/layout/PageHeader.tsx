@@ -15,11 +15,11 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between", className)}>
+    <div
+      className={cn("flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between", className)}
+    >
       <div className="min-w-0">
-        {eyebrow && (
-          <p className="mb-1 text-eyebrow uppercase text-ink-tertiary">{eyebrow}</p>
-        )}
+        {eyebrow && <p className="mb-1 text-eyebrow uppercase text-ink-tertiary">{eyebrow}</p>}
         <h1 className="text-headline font-semibold text-ink">{title}</h1>
         {description && (
           <p className="mt-1 max-w-2xl text-body-sm text-ink-subtle">{description}</p>
