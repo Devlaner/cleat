@@ -6,11 +6,16 @@ import { ChartTooltipBox } from "./ChartTooltip";
 
 export function SeverityDonut({ counts, size = 180 }: { counts: SeverityCounts; size?: number }) {
   const reduce = useReducedMotion();
-  const data = SEVERITY_ORDER.map((s) => ({ severity: s, name: SEVERITY[s].label, value: counts[s], hex: SEVERITY[s].hex })).filter(
-    (d) => d.value > 0,
-  );
+  const data = SEVERITY_ORDER.map((s) => ({
+    severity: s,
+    name: SEVERITY[s].label,
+    value: counts[s],
+    hex: SEVERITY[s].hex,
+  })).filter((d) => d.value > 0);
   const total = data.reduce((s, d) => s + d.value, 0);
-  const label = `Findings by severity: ${total} total. ${SEVERITY_ORDER.filter((s) => counts[s] > 0).map((s) => `${counts[s]} ${SEVERITY[s].label.toLowerCase()}`).join(", ")}.`;
+  const label = `Findings by severity: ${total} total. ${SEVERITY_ORDER.filter((s) => counts[s] > 0)
+    .map((s) => `${counts[s]} ${SEVERITY[s].label.toLowerCase()}`)
+    .join(", ")}.`;
 
   return (
     <div className="relative" style={{ width: size, height: size }} role="img" aria-label={label}>
@@ -37,7 +42,13 @@ export function SeverityDonut({ counts, size = 180 }: { counts: SeverityCounts; 
             content={({ active, payload }) =>
               active && payload?.length ? (
                 <ChartTooltipBox
-                  rows={[{ label: String(payload[0]!.name), value: payload[0]!.value as number, hex: (payload[0]!.payload as { hex: string }).hex }]}
+                  rows={[
+                    {
+                      label: String(payload[0]!.name),
+                      value: payload[0]!.value as number,
+                      hex: (payload[0]!.payload as { hex: string }).hex,
+                    },
+                  ]}
                 />
               ) : null
             }
