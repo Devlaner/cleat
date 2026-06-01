@@ -16,8 +16,7 @@ const VARIANTS: Record<Variant, string> = {
     "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2 hover:ring-hairline-strong",
   ghost: "bg-transparent text-ink-subtle hover:bg-surface-1 hover:text-ink",
   inverse: "bg-ink text-canvas hover:bg-white",
-  danger:
-    "bg-critical/12 text-critical ring-1 ring-inset ring-critical/30 hover:bg-critical/20",
+  danger: "bg-critical/12 text-critical ring-1 ring-inset ring-critical/30 hover:bg-critical/20",
 };
 
 // Heights grow to a ~44px touch target on coarse pointers (touch devices) only,
