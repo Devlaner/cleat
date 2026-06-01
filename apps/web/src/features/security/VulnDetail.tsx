@@ -21,7 +21,9 @@ export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onCl
       open={!!vuln}
       onClose={onClose}
       title={vuln?.title ?? ""}
-      description={vuln ? `${vuln.advisoryId} · published ${relativeTime(vuln.publishedAt)}` : undefined}
+      description={
+        vuln ? `${vuln.advisoryId} · published ${relativeTime(vuln.publishedAt)}` : undefined
+      }
       width={500}
       footer={
         vuln && (
@@ -31,14 +33,24 @@ export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onCl
               className="flex-1"
               disabled={!vuln.fixedVersion}
               onClick={() => {
-                addToast({ title: vuln.hasFixPr ? "Fix PR opened" : "Upgrade queued", description: `${vuln.package} → ${vuln.fixedVersion}`, variant: "success" });
+                addToast({
+                  title: vuln.hasFixPr ? "Fix PR opened" : "Upgrade queued",
+                  description: `${vuln.package} → ${vuln.fixedVersion}`,
+                  variant: "success",
+                });
                 onClose();
               }}
             >
               <GitPullRequestArrow className="size-4" />
-              {vuln.hasFixPr ? "Review fix PR" : vuln.fixedVersion ? `Upgrade to ${vuln.fixedVersion}` : "No fix available"}
+              {vuln.hasFixPr
+                ? "Review fix PR"
+                : vuln.fixedVersion
+                  ? `Upgrade to ${vuln.fixedVersion}`
+                  : "No fix available"}
             </Button>
-            <Button variant="secondary"><ExternalLink className="size-4" /> Advisory</Button>
+            <Button variant="secondary">
+              <ExternalLink className="size-4" /> Advisory
+            </Button>
           </div>
         )
       }
@@ -49,14 +61,37 @@ export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onCl
             <MonoChip short={eco.short} hex={eco.hex} />
             <span className="font-mono text-body-sm text-ink">{vuln.package}</span>
             <SeverityBadge severity={vuln.severity} />
-            {vuln.kev && <Badge tone="danger" dot>Actively exploited (KEV)</Badge>}
+            {vuln.kev && (
+              <Badge tone="danger" dot>
+                Actively exploited (KEV)
+              </Badge>
+            )}
           </div>
 
           {/* prioritization stack */}
           <div className="grid grid-cols-2 gap-2">
-            <Metric label="Priority" value={vulnPriority(vuln)} hint="fix-first score" hex="#5e6ad2" fraction={vulnPriority(vuln) / 100} />
-            <Metric label="CVSS" value={vuln.cvss.toFixed(1)} hint={SEVERITY[vuln.severity].label} hex={SEVERITY[vuln.severity].hex} fraction={vuln.cvss / 10} />
-            <Metric label="EPSS" value={percent(vuln.epss, 1)} hint="exploit probability" hex="#ff9352" fraction={vuln.epss} icon={<Flame className="size-3.5" />} />
+            <Metric
+              label="Priority"
+              value={vulnPriority(vuln)}
+              hint="fix-first score"
+              hex="#5e6ad2"
+              fraction={vulnPriority(vuln) / 100}
+            />
+            <Metric
+              label="CVSS"
+              value={vuln.cvss.toFixed(1)}
+              hint={SEVERITY[vuln.severity].label}
+              hex={SEVERITY[vuln.severity].hex}
+              fraction={vuln.cvss / 10}
+            />
+            <Metric
+              label="EPSS"
+              value={percent(vuln.epss, 1)}
+              hint="exploit probability"
+              hex="#ff9352"
+              fraction={vuln.epss}
+              icon={<Flame className="size-3.5" />}
+            />
             <Reachability reachable={vuln.reachable} />
           </div>
 
@@ -73,7 +108,10 @@ export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onCl
             </p>
             <div className="flex flex-wrap gap-1.5">
               {vuln.affectedRepos.map((r) => (
-                <span key={r} className="rounded-md bg-surface-2 px-2 py-1 font-mono text-caption text-ink-muted ring-1 ring-inset ring-hairline">
+                <span
+                  key={r}
+                  className="rounded-md bg-surface-2 px-2 py-1 font-mono text-caption text-ink-muted ring-1 ring-inset ring-hairline"
+                >
                   {r}
                 </span>
               ))}
@@ -85,10 +123,27 @@ export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onCl
   );
 }
 
-function Metric({ label, value, hint, hex, fraction, icon }: { label: string; value: React.ReactNode; hint: string; hex: string; fraction: number; icon?: React.ReactNode }) {
+function Metric({
+  label,
+  value,
+  hint,
+  hex,
+  fraction,
+  icon,
+}: {
+  label: string;
+  value: React.ReactNode;
+  hint: string;
+  hex: string;
+  fraction: number;
+  icon?: React.ReactNode;
+}) {
   return (
     <div className="rounded-lg border border-hairline bg-surface-2 p-3">
-      <div className="flex items-center gap-1.5 text-caption text-ink-subtle">{icon}{label}</div>
+      <div className="flex items-center gap-1.5 text-caption text-ink-subtle">
+        {icon}
+        {label}
+      </div>
       <p className="mt-1 text-card-title font-semibold tabular-nums text-ink">{value}</p>
       <p className="mb-2 text-caption text-ink-tertiary">{hint}</p>
       <ScoreBar value={fraction} hex={hex} height={4} />
@@ -104,7 +159,9 @@ function Reachability({ reachable }: { reachable: Vulnerability["reachable"] }) 
   }[reachable];
   return (
     <div className="rounded-lg border border-hairline bg-surface-2 p-3">
-      <div className="flex items-center gap-1.5 text-caption text-ink-subtle"><Crosshair className="size-3.5" /> Reachability</div>
+      <div className="flex items-center gap-1.5 text-caption text-ink-subtle">
+        <Crosshair className="size-3.5" /> Reachability
+      </div>
       <p className={cn("mt-1 flex items-center gap-1.5 text-card-title font-semibold", map.tone)}>
         {reachable === "not-reachable" && <ShieldCheck className="size-4" />}
         {map.label}
@@ -118,7 +175,14 @@ function Row({ label, value, mono }: { label: string; value: string; mono?: bool
   return (
     <div className="flex items-center justify-between gap-3 bg-surface-1 px-3 py-2">
       <dt className="text-caption text-ink-subtle">{label}</dt>
-      <dd className={cn("min-w-0 truncate text-body-sm text-ink", mono && "font-mono text-[0.8125rem]")}>{value}</dd>
+      <dd
+        className={cn(
+          "min-w-0 truncate text-body-sm text-ink",
+          mono && "font-mono text-[0.8125rem]",
+        )}
+      >
+        {value}
+      </dd>
     </div>
   );
 }
