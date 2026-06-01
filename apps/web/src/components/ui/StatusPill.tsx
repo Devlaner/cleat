@@ -25,7 +25,9 @@ export function StatusPill({
 }) {
   const t = TONES[tone];
   return (
-    <span className={cn("inline-flex items-center gap-1.5 text-caption font-medium", t.text, className)}>
+    <span
+      className={cn("inline-flex items-center gap-1.5 text-caption font-medium", t.text, className)}
+    >
       <span className={cn("size-1.5 rounded-full", t.dot, pulse && "animate-pulse-ring")} />
       {children}
     </span>
