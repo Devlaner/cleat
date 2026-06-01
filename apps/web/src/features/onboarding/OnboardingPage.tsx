@@ -56,19 +56,31 @@ export function OnboardingPage() {
             className="relative w-full max-w-lg"
           >
             <Card className="p-8">
-              <h1 className="text-center text-headline font-semibold text-ink">Choose what to monitor</h1>
+              <h1 className="text-center text-headline font-semibold text-ink">
+                Choose what to monitor
+              </h1>
               <p className="mt-2 text-center text-body-sm text-ink-subtle">
                 Select the account and organizations Cleat should scan. You can change this anytime.
               </p>
 
               <Group icon={<User className="size-3" />} label="Personal">
                 {personal.map((a) => (
-                  <AccountRow key={a.id} id={a.id} on={selected.includes(a.id)} onToggle={() => toggle(a.id)} />
+                  <AccountRow
+                    key={a.id}
+                    id={a.id}
+                    on={selected.includes(a.id)}
+                    onToggle={() => toggle(a.id)}
+                  />
                 ))}
               </Group>
               <Group icon={<Building2 className="size-3" />} label="Organizations">
                 {orgs.map((a) => (
-                  <AccountRow key={a.id} id={a.id} on={selected.includes(a.id)} onToggle={() => toggle(a.id)} />
+                  <AccountRow
+                    key={a.id}
+                    id={a.id}
+                    on={selected.includes(a.id)}
+                    onToggle={() => toggle(a.id)}
+                  />
                 ))}
               </Group>
 
@@ -93,10 +105,7 @@ export function OnboardingPage() {
             transition={{ duration: 0.3 }}
             className="relative w-full max-w-lg"
           >
-            <ScanStep
-              accountIds={selected}
-              onDone={() => navigate("/app/overview")}
-            />
+            <ScanStep accountIds={selected} onDone={() => navigate("/app/overview")} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -104,9 +113,21 @@ export function OnboardingPage() {
   );
 }
 
-function StepDot({ n, label, active, done }: { n: number; label: string; active: boolean; done: boolean }) {
+function StepDot({
+  n,
+  label,
+  active,
+  done,
+}: {
+  n: number;
+  label: string;
+  active: boolean;
+  done: boolean;
+}) {
   return (
-    <div className={cn("flex items-center gap-2", active || done ? "text-ink" : "text-ink-tertiary")}>
+    <div
+      className={cn("flex items-center gap-2", active || done ? "text-ink" : "text-ink-tertiary")}
+    >
       <span
         className={cn(
           "flex size-5 items-center justify-center rounded-full text-[0.625rem] font-semibold ring-1 ring-inset",
@@ -124,7 +145,15 @@ function StepDot({ n, label, active, done }: { n: number; label: string; active:
   );
 }
 
-function Group({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
+function Group({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="mt-5">
       <p className="mb-2 flex items-center gap-1.5 text-[0.6875rem] font-medium uppercase tracking-wide text-ink-tertiary">
@@ -149,7 +178,9 @@ function AccountRow({ id, on, onToggle }: { id: string; on: boolean; onToggle: (
       <Avatar seed={a.login} label={a.name} size={32} />
       <div className="min-w-0 flex-1">
         <p className="truncate text-body-sm font-medium text-ink">{a.name}</p>
-        <p className="truncate text-caption text-ink-subtle">@{a.login} · {a.repoCount} repos · {a.plan}</p>
+        <p className="truncate text-caption text-ink-subtle">
+          @{a.login} · {a.repoCount} repos · {a.plan}
+        </p>
       </div>
       <span
         className={cn(
