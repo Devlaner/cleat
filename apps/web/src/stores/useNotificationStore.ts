@@ -19,10 +19,8 @@ export const useNotificationStore = create<NotificationState>()(
     (set, get) => ({
       readIds: [],
       isRead: (id) => get().readIds.includes(id),
-      markRead: (id) =>
-        set((s) => (s.readIds.includes(id) ? s : { readIds: [...s.readIds, id] })),
-      markAllRead: (ids) =>
-        set((s) => ({ readIds: Array.from(new Set([...s.readIds, ...ids])) })),
+      markRead: (id) => set((s) => (s.readIds.includes(id) ? s : { readIds: [...s.readIds, id] })),
+      markAllRead: (ids) => set((s) => ({ readIds: Array.from(new Set([...s.readIds, ...ids])) })),
       reset: () => set({ readIds: [] }),
     }),
     { name: "cleat-notifications" },
