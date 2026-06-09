@@ -1,0 +1,28 @@
+#!/bin/sh
+# Enforce Conventional Commits on the first line of every commit message.
+
+header=$(head -n 1 "$1")
+
+# Let git's own generated messages through untouched.
+case "$header" in
+  "Merge "* | "Revert "* | "fixup! "* | "squash! "*)
+    exit 0
+    ;;
+esac
+
+pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9._-]+\))?!?: .+'
+
+if printf '%s' "$header" | grep -Eq "$pattern"; then
+  exit 0
+fi
+
+echo "" >&2
+echo "Your commit message does not follow Conventional Commits." >&2
+echo "" >&2
+echo "  Format:  type(scope): short summary" >&2
+echo "  Example: feat(api): add the health endpoint" >&2
+echo "" >&2
+echo "  Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert" >&2
+echo "  Scope is optional. Add a ! before the colon for a breaking change." >&2
+echo "" >&2
+exit 1
