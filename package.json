@@ -1,0 +1,8 @@
+{
+  "name": "cleat",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
