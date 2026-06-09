@@ -14,8 +14,8 @@ The repository is a monorepo with two halves:
 
 - `apps/web`: the frontend. It is built and working today, driven entirely by deterministic
   dummy data (no backend calls yet). React, TypeScript, Vite, Tailwind v4.
-- `backend/`: a placeholder for now. The real backend will be Java with Spring Boot. Nothing
-  is implemented yet; the design lives in `local/docs/architecture.md`.
+- `backend/`: Java with Spring Boot, scaffolded as a Gradle multi-module project. No application
+  code yet. See `backend/README.md`.
 
 ```
 cleat/
@@ -104,29 +104,37 @@ Two patterns worth knowing before you touch list screens or the landing page:
 
 ## Backend (`backend/`)
 
-Not built yet. When it lands it will be Java with Spring Boot, most likely a Gradle multi-module
-project. The full design, including the GitHub App integration, the scan pipeline, the data
-model, and how it maps to the frontend types, is written up in `local/docs/architecture.md` and
-`local/docs/arch_mermaid.md`.
+Java with Spring Boot, set up as a Gradle multi-module project. The structure is scaffolded but
+no application code is written yet (no main classes, no Gradle wrapper). See `backend/README.md`
+for the module rundown.
 
-The planned shape (subject to change as we build it):
+It is a modular monolith with two deployables off one codebase: `api` serves the frontend and
+receives webhooks (fast), `worker` does the slow async work (scans, enrichment, scheduled
+re-scans). Both depend on the shared `libs/*`.
 
 ```
 backend/
-  api/                # REST controllers, the read path the frontend calls
-  webhooks/           # GitHub webhook receiver
-  scan-orchestrator/  # coordinates scans per installation
-  workers/            # per-domain scan workers (security, supply chain, deps, cost, access)
-  enrichment/         # EPSS, KEV, OSV, license data plus scoring
-  domain/             # entities and business logic (vulnPriority, posture, hygiene)
-  persistence/        # JPA, migrations, repositories
-  github-client/      # GitHub App client: token manager and rate limiter
-  common/             # config, observability, error handling
+  settings.gradle.kts        registers every module
+  build.gradle.kts           Java 21, Spring Boot 3.3 BOM, shared plugins
+  apps/
+    api/                     deployable: REST read path + webhook receiver
+    worker/                  deployable: queue consumers, scheduled scans, enrichment
+  libs/
+    common/                  config, observability, errors, shared DTOs
+    domain/                  entities + business logic (vulnPriority, posture, hygiene)
+    persistence/             JPA, repositories, Flyway migrations
+    github-client/           GitHub App client: token manager + rate limiter
+    enrichment/              EPSS, KEV, OSV, SPDX feeds plus scoring
+    scanning/                scan orchestration + per-domain workers
 ```
 
-When you start the backend, the first move is to make its API return the same shapes the
-frontend already uses (see `apps/web/src/data/types.ts`), so the frontend can switch from local
-generation to live data with no UI change.
+An app pulls in a library with a Gradle project dependency, for example
+`implementation(project(":libs:domain"))`, then imports it in Java. Each module's package root is
+`dev.cleat.<module>` (the `github-client` module uses `dev.cleat.githubclient`).
+
+When you start the backend, the first move is to make the api return the same shapes the frontend
+already uses (see `apps/web/src/data/types.ts`), so the frontend can switch from local generation
+to live data with no UI change.
 
 ## Working conventions (whole repo)
 
