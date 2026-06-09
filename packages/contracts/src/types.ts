@@ -259,7 +259,11 @@ export interface Pat {
   expiresAt: string | null;
 }
 
-export type EventCategory = "security" | "access" | "supply-chain" | "maintenance";
+export type EventCategory =
+  | "security"
+  | "access"
+  | "supply-chain"
+  | "maintenance";
 
 export interface ActivityEvent {
   id: string;

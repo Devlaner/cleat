@@ -28,7 +28,7 @@ import { Badge, SeverityBadge } from "@/components/ui/Badge";
 import { ScoreBar } from "@/components/ui/Meters";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDataset } from "@/hooks/useDataset";
-import { scoreToGrade, GRADE_COLOR, SEVERITY} from "@/lib/severity";
+import { scoreToGrade, GRADE_COLOR, SEVERITY } from "@/lib/severity";
 import type { Severity } from "@cleat/contracts";
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";

@@ -15,12 +15,12 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
     "baseUrl": ".",
-   "paths": {
-  "@cleat/contracts": ["../../packages/contracts/src/types.ts"],
-  "@cleat/contracts/*": ["../../packages/contracts/src/*"],
-  "@contracts/*": ["../../packages/contracts/src/*"],
-  "@/*": ["./src/*"]
-},
+    "paths": {
+      "@cleat/contracts": ["../../packages/contracts/src/types.ts"],
+      "@cleat/contracts/*": ["../../packages/contracts/src/*"],
+      "@contracts/*": ["../../packages/contracts/src/*"],
+      "@/*": ["./src/*"]
+    },
 
     // Best practices
     "strict": true,
