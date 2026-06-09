@@ -1,6 +1,11 @@
 spring:
   application:
     name: cleat-api
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
 
 server:
   port: 8080
@@ -10,3 +15,10 @@ management:
     web:
       exposure:
         include: health,info
+  health:
+    defaults:
+      enabled: true
+    redis:
+      enabled: false
+    db:
+      enabled: false
