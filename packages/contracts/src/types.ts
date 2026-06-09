@@ -3,10 +3,11 @@
  * account) so the demo is stable across reloads. Generators live in ./generate
  * and the assembled, memoized datasets are exposed from ./index.
  */
-import type { Severity } from "../../../apps/web/src/lib/severity";
 
 export type AccountType = "user" | "org";
 export type Plan = "Free" | "Team" | "Enterprise";
+
+export type Severity = "critical" | "high" | "medium" | "low" | "info";
 
 export interface Account {
   id: string;
