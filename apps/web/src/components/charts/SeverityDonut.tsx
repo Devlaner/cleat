@@ -1,8 +1,9 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useReducedMotion } from "motion/react";
-import { SEVERITY, SEVERITY_ORDER, type Severity } from "@/lib/severity";
+import { SEVERITY, SEVERITY_ORDER } from "@/lib/severity";
 import type { SeverityCounts } from "@/data/metrics";
 import { ChartTooltipBox } from "./ChartTooltip";
+import type { Severity } from "@cleat/contracts";
 
 export function SeverityDonut({ counts, size = 180 }: { counts: SeverityCounts; size?: number }) {
   const reduce = useReducedMotion();

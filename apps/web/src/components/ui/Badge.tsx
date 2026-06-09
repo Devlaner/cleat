@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { SEVERITY, type Severity } from "@/lib/severity";
+import { SEVERITY} from "@/lib/severity";
+import type { Severity } from "@cleat/contracts";
 
 type Tone = "neutral" | "primary" | "success" | "danger" | "warning" | "muted";
 
