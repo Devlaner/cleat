@@ -43,8 +43,7 @@ together into one dark, focused dashboard:
 
 The frontend is built and working today. It runs on realistic, deterministic dummy data, so you
 can click through the entire product without connecting anything. The Java and Spring Boot backend
-that will replace the dummy data with live GitHub intelligence is designed but not yet built. The
-full system design lives in `local/docs/architecture.md`.
+that will replace the dummy data with live GitHub intelligence is designed but not yet built.
 
 ## Repository layout
 
@@ -84,8 +83,7 @@ lucide-react, and Motion. The visual system is documented in `apps/web/DESIGN.md
 
 **Backend (planned):** Java with Spring Boot, organized as a multi-module project covering the
 API, a webhook receiver, scan orchestration, per-domain workers, enrichment, and a GitHub App
-client. The architecture and data model are written up in `local/docs/architecture.md` and
-`local/docs/arch_mermaid.md`.
+client. See [`backend/README.md`](backend/README.md) for the module layout.
 
 ## Contributing
 
