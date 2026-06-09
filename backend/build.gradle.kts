@@ -1,9 +1,12 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
+import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
     id("org.springframework.boot") version "3.5.3" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
+    id("com.diffplug.spotless") version "7.0.4" apply false
 }
 
 allprojects {
@@ -18,6 +21,8 @@ allprojects {
 subprojects {
     apply(plugin = "java")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "checkstyle")
+    apply(plugin = "com.diffplug.spotless")
 
     java {
         toolchain {
@@ -29,6 +34,22 @@ subprojects {
         imports {
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
+    }
+
+    configure<SpotlessExtension> {
+        java {
+            palantirJavaFormat()
+            removeUnusedImports()
+            importOrder()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+    }
+
+    configure<CheckstyleExtension> {
+        toolVersion = "10.26.1"
+        configFile = rootProject.file("config/checkstyle/checkstyle.xml")
+        isIgnoreFailures = false
     }
 
     tasks.withType<Test> {
