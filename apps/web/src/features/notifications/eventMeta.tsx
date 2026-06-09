@@ -14,7 +14,7 @@ import {
   Activity,
   type LucideIcon,
 } from "lucide-react";
-import type { EventCategory } from "@/data/types";
+import type { EventCategory } from "@contracts/types";
 
 /** Icon per event type, with a sensible fallback. */
 export const EVENT_ICON: Record<string, LucideIcon> = {

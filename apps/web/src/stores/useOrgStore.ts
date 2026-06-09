@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ACCOUNTS, DEFAULT_ACCOUNT_ID, getAccount } from "@/data/accounts";
-import type { Account } from "@/data/types";
+import type { Account } from "@contracts/types";
 
 interface OrgState {
   /** simulated GitHub connection (set during onboarding) */

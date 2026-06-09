@@ -10,7 +10,7 @@ import { relativeTime, percent } from "@/lib/format";
 import { vulnPriority } from "@/data/metrics";
 import { useUiStore } from "@/stores/useUiStore";
 import { cn } from "@/lib/cn";
-import type { Vulnerability } from "@/data/types";
+import type { Vulnerability } from "@contracts/types";
 
 export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onClose: () => void }) {
   const addToast = useUiStore((s) => s.addToast);

@@ -13,7 +13,7 @@ import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { provider } from "@/lib/ecosystems";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
-import type { SecretFinding } from "@/data/types";
+import type { SecretFinding } from "@contracts/types";
 
 const TABLE = "secrets";
 

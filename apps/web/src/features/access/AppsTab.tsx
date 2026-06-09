@@ -6,7 +6,7 @@ import { ScopeChip } from "@/components/ui/Chip";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
-import type { InstalledApp } from "@/data/types";
+import type { InstalledApp } from "@contracts/types";
 
 const TABLE = "access-apps";
 

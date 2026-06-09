@@ -32,7 +32,7 @@ import { scoreToGrade, GRADE_COLOR, SEVERITY, type Severity } from "@/lib/severi
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Visibility, ScorecardCheck } from "@/data/types";
+import type { Visibility, ScorecardCheck } from "@contracts/types";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },

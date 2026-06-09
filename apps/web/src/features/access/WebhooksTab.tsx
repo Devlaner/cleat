@@ -6,7 +6,7 @@ import { ScopeChip } from "@/components/ui/Chip";
 import { StatusPill } from "@/components/ui/StatusPill";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime } from "@/lib/format";
-import type { Webhook } from "@/data/types";
+import type { Webhook } from "@contracts/types";
 
 const TABLE = "access-webhooks";
 

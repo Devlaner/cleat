@@ -8,7 +8,7 @@ import { CostAreaChart } from "@/components/charts/CostAreaChart";
 import { fromMb, currency, number, daysUntil, percent } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { PreviewHeader } from "./previewChrome";
-import type { Dataset, Artifact } from "@/data/types";
+import type { Dataset, Artifact } from "@contracts/types";
 
 export function ArtifactsPreview({ ds }: { ds: Dataset }) {
   const u = ds.usage;

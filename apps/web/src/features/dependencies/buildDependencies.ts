@@ -1,7 +1,7 @@
 import { Rng } from "@/data/rng";
 import { PACKAGES } from "@/data/catalog";
 import { cvssToSeverity, type Severity } from "@/lib/severity";
-import type { Dataset } from "@/data/types";
+import type { Dataset } from "@contracts/types";
 
 export interface Dependency {
   id: string;

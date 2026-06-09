@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useDataset } from "./useDataset";
 import { useNotificationStore } from "@/stores/useNotificationStore";
-import type { ActivityEvent } from "@/data/types";
+import type { ActivityEvent } from "@contracts/types";
 
 export interface NotificationItem extends ActivityEvent {
   read: boolean;

@@ -14,7 +14,7 @@ import { DataTable, type Column } from "@/components/ui/DataTable";
 import { unpinnedActionCount } from "@/data/metrics";
 import { percent } from "@/lib/format";
 import { PreviewHeader } from "./previewChrome";
-import type { Dataset, WorkflowAudit, SupplyChainIncident } from "@/data/types";
+import type { Dataset, WorkflowAudit, SupplyChainIncident } from "@contracts/types";
 
 function riskSev(score: number) {
   return score >= 60 ? "critical" : score >= 35 ? "high" : score >= 15 ? "medium" : "low";

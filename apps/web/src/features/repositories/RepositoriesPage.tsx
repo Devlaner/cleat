@@ -20,7 +20,7 @@ import { scoreToGrade, GRADE_COLOR } from "@/lib/severity";
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Repo, Visibility } from "@/data/types";
+import type { Repo, Visibility } from "@contracts/types";
 
 const TABLE = "repositories";
 
