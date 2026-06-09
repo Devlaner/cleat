@@ -1,0 +1,24 @@
+#!/bin/sh
+# Run formatting and lint checks for whichever part of the repo has staged changes.
+# Frontend uses prettier + eslint, backend uses Spotless. Nothing runs if the
+# change does not touch that area, so commits stay quick.
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if printf '%s\n' "$staged" | grep -q '^apps/web/'; then
+  echo "Checking frontend formatting and lint..."
+  ( cd apps/web && bun run format:check && bun run lint ) || {
+    echo "Frontend checks failed. Run 'bun run format' and 'bun run lint' in apps/web." >&2
+    exit 1
+  }
+fi
+
+if printf '%s\n' "$staged" | grep -q '^backend/'; then
+  echo "Checking backend formatting..."
+  ( cd backend && ./gradlew spotlessCheck --console=plain -q ) || {
+    echo "Backend formatting failed. Run './gradlew spotlessApply' in backend." >&2
+    exit 1
+  }
+fi
+
+exit 0
