@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CleatApiTests {
 
     @Test
-    void contextLoad(){
-
-    }
+    void contextLoad() {}
 }
