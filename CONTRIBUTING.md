@@ -16,7 +16,20 @@ Cleat is a monorepo:
 
 - `apps/web` is the frontend (React, TypeScript, Vite, Tailwind). It is built and runs on dummy
   data today.
-- `backend/` is where the Java and Spring Boot backend will live. It is a placeholder for now.
+- `backend/` is the Java and Spring Boot backend, a Gradle multi-module project. It is scaffolded
+  with no application code yet.
+
+## One-time setup: git hooks
+
+Point git at the shared hooks so your commits are checked before they land. Run this once after
+cloning:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This wires up two hooks: a `commit-msg` hook that enforces Conventional Commits, and a
+`pre-commit` hook that runs the formatter and linter for whichever part of the repo you touched.
 
 ## Working on the frontend
 
@@ -48,13 +61,27 @@ A few conventions that matter here:
 
 ## Working on the backend
 
-The backend is not built yet. The design lives in `local/docs/architecture.md`. If you want to
-start on it, open an issue first so we can line up the module structure and tech choices.
+The backend is a Gradle multi-module Spring Boot project under `backend/`. See `backend/README.md`
+for the module layout. You need Java 21. Use the wrapper, so there is no need to install Gradle:
+
+```bash
+cd backend
+./gradlew check            # format check, lint, compile, and test
+./gradlew spotlessApply    # auto-format your code
+./gradlew :apps:api:bootRun
+```
+
+Formatting is handled by Spotless (palantir-java-format) and linting by Checkstyle. If `check`
+fails on formatting, run `spotlessApply` and commit the result.
 
 ## Commits and pull requests
 
 - Keep commits small and focused. One logical change per commit reads much better in history.
-- Write clear commit messages in plain language. A short summary line, then detail if it helps.
+- Use [Conventional Commits](https://www.conventionalcommits.org). The first line is
+  `type(scope): summary`, for example `feat(api): add the health endpoint`. Valid types are feat,
+  fix, docs, style, refactor, perf, test, build, ci, chore, and revert. The scope is optional, and
+  a `!` before the colon marks a breaking change. The `commit-msg` hook enforces this.
+- Write the summary in plain language, then add detail in the body if it helps.
 - Do not add AI attribution lines (no "Generated with" or "Co-Authored-By") to commit messages.
 - Branch off `main`, push your branch, and open a pull request. Fill in the template so reviewers
   have context.
