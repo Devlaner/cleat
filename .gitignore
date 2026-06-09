@@ -1,1 +1,16 @@
 local/
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Gradle
+.gradle/
+build/
+
+# OS
+.DS_Store
+
+# Local env
+*.local
+application-local.yml
