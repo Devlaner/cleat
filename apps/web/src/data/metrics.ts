@@ -1,4 +1,4 @@
-import type { Severity } from "@/lib/severity";
+import type { Severity } from "@contracts/types";
 import type { Dataset, Repo, Vulnerability } from "./types";
 
 /**
