@@ -1,7 +1,6 @@
 /**
- * Cleat data model. All dummy data is typed and deterministic (seeded per
- * account) so the demo is stable across reloads. Generators live in ./generate
- * and the assembled, memoized datasets are exposed from ./index.
+ * Shared application contracts
+ * Types used across backend and frontend
  */
 
 export type AccountType = "user" | "org";
