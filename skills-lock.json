@@ -25,6 +25,12 @@
       "skillPath": "skills/gpt-tasteskill/SKILL.md",
       "computedHash": "cc8f0c601d8240a124e1d11634351a2be7b8a72fd807c75e5b6bf7afcd5ddee0"
     },
+    "grill-me": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/grill-me/SKILL.md",
+      "computedHash": "784f0dbb7403b0f00324bce9a112f715342777a0daee7bbb7385f9c6f0a170ea"
+    },
     "high-end-visual-design": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
