@@ -15,7 +15,7 @@ import { ecosystem } from "@/lib/ecosystems";
 import { SEVERITY, cvssToSeverity } from "@/lib/severity";
 import { percent, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Vulnerability } from "@contracts/types";
+import type { Vulnerability } from "@cleat/contracts";
 
 const TABLE = "vulnerabilities";
 

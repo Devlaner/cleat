@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime, pluralize } from "@/lib/format";
-import type { Member } from "@contracts/types";
+import type { Member } from "@cleat/contracts";
 
 const TABLE = "access-members";
 

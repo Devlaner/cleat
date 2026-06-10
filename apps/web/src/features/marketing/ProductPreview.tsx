@@ -11,7 +11,7 @@ import { NAV, type CountKey } from "@/config/nav";
 import { getDataset } from "@/data";
 import { sidebarCounts } from "@/data/metrics";
 import { cn } from "@/lib/cn";
-import type { Dataset } from "@contracts/types";
+import type { Dataset } from "@cleat/contracts";
 
 // Design size chosen so that at the widest marketing container the preview
 // renders at ~native scale (minimal downscaling keeps the sidebar crisp).

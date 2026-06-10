@@ -23,7 +23,7 @@ import { useDataset } from "@/hooks/useDataset";
 import { fromMb, currency, number, relativeTime, daysUntil, percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import { cn } from "@/lib/cn";
-import type { Artifact, CacheEntry, PackageEntry } from "@contracts/types";
+import type { Artifact, CacheEntry, PackageEntry } from "@cleat/contracts";
 
 type Tab = "artifacts" | "caches" | "packages";
 

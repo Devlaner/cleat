@@ -4,7 +4,7 @@ import { DataTable, type Column } from "@/components/ui/DataTable";
 import { Badge } from "@/components/ui/Badge";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime } from "@/lib/format";
-import type { AccessKey } from "@contracts/types";
+import type { AccessKey } from "@cleat/contracts";
 
 const TABLE = "access-keys";
 

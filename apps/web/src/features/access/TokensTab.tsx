@@ -6,7 +6,7 @@ import { ScopeChip } from "@/components/ui/Chip";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime, daysUntil } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Pat } from "@contracts/types";
+import type { Pat } from "@cleat/contracts";
 
 const TABLE = "access-tokens";
 

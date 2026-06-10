@@ -8,7 +8,7 @@ import { useDataset } from "@/hooks/useDataset";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
-import type { CodeScanAlert } from "@contracts/types";
+import type { CodeScanAlert } from "@cleat/contracts";
 
 const TABLE = "code-scanning";
 

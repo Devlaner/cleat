@@ -19,7 +19,7 @@ import { currency, fromMb, relativeTime, pluralize, percent } from "@/lib/format
 import { reclaimableMb } from "@/data/metrics";
 import { eventIcon } from "@/features/notifications/eventMeta";
 import { cn } from "@/lib/cn";
-import type { Dataset } from "@contracts/types";
+import type { Dataset } from "@cleat/contracts";
 
 /**
  * A non-interactive copy of the real Overview dashboard, built from the same

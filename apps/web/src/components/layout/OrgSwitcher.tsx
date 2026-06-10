@@ -5,7 +5,7 @@ import { Popover } from "@/components/ui/Popover";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
 import { useConnectedAccounts, useOrgStore, useActiveAccount } from "@/stores/useOrgStore";
-import type { Account } from "@contracts/types";
+import type { Account } from "@cleat/contracts";
 
 export function OrgSwitcher({ collapsed }: { collapsed?: boolean }) {
   const accounts = useConnectedAccounts();

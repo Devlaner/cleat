@@ -8,7 +8,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { useReducedMotion } from "motion/react";
-import type { PostureTrendPoint } from "@contracts/types";
+import type { PostureTrendPoint } from "@cleat/contracts";
 import { shortDate } from "@/lib/format";
 import { ChartTooltipBox } from "./ChartTooltip";
 

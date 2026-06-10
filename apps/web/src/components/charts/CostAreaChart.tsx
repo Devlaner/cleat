@@ -8,7 +8,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { useReducedMotion } from "motion/react";
-import type { UsagePoint } from "@contracts/types";
+import type { UsagePoint } from "@cleat/contracts";
 import { currency } from "@/lib/format";
 import { ChartTooltipBox } from "./ChartTooltip";
 

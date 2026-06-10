@@ -33,7 +33,7 @@ import type { Severity } from "@cleat/contracts";
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Visibility, ScorecardCheck } from "@contracts/types";
+import type { Visibility, ScorecardCheck } from "@cleat/contracts";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },
