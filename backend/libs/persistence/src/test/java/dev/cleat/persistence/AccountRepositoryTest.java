@@ -1,9 +1,12 @@
 package dev.cleat.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
@@ -16,8 +19,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest(properties = {"spring.jpa.hibernate.ddl-auto=validate"})
 @Testcontainers
 @Import(PersistenceTestConfig.class)
+@ImportAutoConfiguration(FlywayAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AccountRepositoryTest {
+public class AccountRepositoryTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
@@ -28,7 +32,9 @@ class AccountRepositoryTest {
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
 
-        registry.add("spring.flyway.enabled", () -> false);
+        registry.add("spring.flyway.url", postgres::getJdbcUrl);
+        registry.add("spring.flyway.user", postgres::getUsername);
+        registry.add("spring.flyway.password", postgres::getPassword);
     }
 
     @Autowired
@@ -37,11 +43,11 @@ class AccountRepositoryTest {
     @Test
     void shouldSaveAccountWithRepo() {
         AccountEntity account = new AccountEntity();
-
         RepoEntity repo = new RepoEntity();
         repo.setAccount(account);
-
-        account.setRepos(List.of(repo));
+        List<RepoEntity> repos = new ArrayList<>();
+        repos.add(repo);
+        account.setRepos(repos);
 
         AccountEntity saved = accountRepository.save(account);
 
