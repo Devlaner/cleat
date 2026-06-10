@@ -33,7 +33,7 @@ class AccountRepositoryTest {
     AccountRepository accountRepository;
 
     @Test
-    void should_save_account_with_repo() {
+    void shouldSaveAccountWithRepo() {
         AccountEntity account = new AccountEntity();
 
         RepoEntity repo = new RepoEntity();
