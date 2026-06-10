@@ -1,21 +1,21 @@
 spring:
   application:
     name: cleat-worker
-
-server:
-  port: 8081
-
-
+    # TODO: These excludes are temporary until the datasource lands in #5
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+server:
+  port: 8081
 
 management:
   endpoints:
     web:
       exposure:
-        include: "health,info"
+        include: health,info
   endpoint:
     health:
-      show-details: "always"
+      probes:
+        enabled: true
