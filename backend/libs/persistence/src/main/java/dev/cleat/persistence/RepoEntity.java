@@ -1,10 +1,11 @@
 package dev.cleat.persistence;
+
 import jakarta.persistence.*;
+import java.time.Instant;
+import java.util.UUID;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
-import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Table(name = "repo")
@@ -21,10 +22,10 @@ public class RepoEntity {
     UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="account_id",nullable = false)
+    @JoinColumn(name = "account_id", nullable = false)
     AccountEntity account;
 
     @CreationTimestamp
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false, updatable = false)
     Instant createdAt;
 }
