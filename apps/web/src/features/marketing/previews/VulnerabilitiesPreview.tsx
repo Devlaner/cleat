@@ -10,7 +10,7 @@ import { SEVERITY, cvssToSeverity } from "@/lib/severity";
 import { percent } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { PreviewHeader, PreviewFilterBar } from "./previewChrome";
-import type { Dataset, Vulnerability } from "@/data/types";
+import type { Dataset, Vulnerability } from "@cleat/contracts";
 
 export function VulnerabilitiesPreview({ ds }: { ds: Dataset }) {
   const rows = [...ds.vulnerabilities]

@@ -28,11 +28,12 @@ import { Badge, SeverityBadge } from "@/components/ui/Badge";
 import { ScoreBar } from "@/components/ui/Meters";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDataset } from "@/hooks/useDataset";
-import { scoreToGrade, GRADE_COLOR, SEVERITY, type Severity } from "@/lib/severity";
+import { scoreToGrade, GRADE_COLOR, SEVERITY } from "@/lib/severity";
+import type { Severity } from "@cleat/contracts";
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Visibility, ScorecardCheck } from "@/data/types";
+import type { Visibility, ScorecardCheck } from "@cleat/contracts";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
 import { relativeTime } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
-import type { WorkflowAudit } from "@/data/types";
+import type { WorkflowAudit } from "@cleat/contracts";
 
 export function WorkflowDetail({
   workflow,

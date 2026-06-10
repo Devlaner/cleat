@@ -20,7 +20,7 @@ import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { unpinnedActionCount } from "@/data/metrics";
 import { percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
-import type { WorkflowAudit, SupplyChainIncident } from "@/data/types";
+import type { WorkflowAudit, SupplyChainIncident } from "@cleat/contracts";
 
 const TABLE = "workflows";
 
