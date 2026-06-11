@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    testImplementation(project(":apps:api"))
     testRuntimeOnly(project(":apps:api"))
     api(project(":libs:domain"))
     implementation(project(":libs:common"))
@@ -18,8 +17,6 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-
     implementation("org.springframework.boot:spring-boot-starter")
 }
 

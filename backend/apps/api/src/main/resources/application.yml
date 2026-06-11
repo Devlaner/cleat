@@ -1,18 +1,13 @@
 spring:
   application:
     name: cleat-api
-
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/cleat_test
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
-
-  flyway:
-    enabled: true
+  autoconfigure:
+    exclude:
+      # Temporary: database is not wired yet.
+      # Remove these excludes once datasource is configured in issue #5.
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
 
 server:
   port: 8080
@@ -29,5 +24,3 @@ management:
       enabled: false
     db:
       enabled: false
-
-
