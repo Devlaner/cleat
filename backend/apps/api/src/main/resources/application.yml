@@ -1,13 +1,16 @@
 spring:
   application:
     name: cleat-api
-  autoconfigure:
-    exclude:
-    # Temporary: database is not wired yet.
-    # Remove these excludes once datasource is configured in issue #5.
-    - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-    - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cleat_db
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 server:
   port: 8080
