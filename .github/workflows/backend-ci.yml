@@ -30,5 +30,8 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Spotless, Checkstyle, compile, and test
         run: ./gradlew check --no-daemon
