@@ -59,3 +59,29 @@ for example `dev.cleat.domain` and `dev.cleat.githubclient`.
 
 Local dependencies (Postgres, Redis) are expected to run via Docker Compose. The
 two services build into one container image each.
+
+
+## Docker Setup
+
+This project uses Docker Compose to orchestrate the backend services, including the API, Worker, PostgreSQL database, and Redis cache.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+### Getting Started
+
+Navigate to the `backend` directory and use the following commands:
+
+1. **Start the Services:**
+   docker compose up -d
+
+2. **Verify Service Status:**
+   docker compose ps
+
+3. **Stop the Services:**
+   docker compose down
+
+### Configuration
+The environment-specific configurations are managed within the `application.yml` files located in each module (`api` and `worker`).
