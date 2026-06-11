@@ -19,7 +19,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest(properties = {"spring.jpa.hibernate.ddl-auto=validate"})
 @Testcontainers
 @Import(PersistenceTestConfig.class)
-@ImportAutoConfiguration(FlywayAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AccountRepositoryTest {
 
