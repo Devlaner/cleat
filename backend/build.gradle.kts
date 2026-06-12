@@ -1,5 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import org.gradle.api.plugins.quality.CheckstyleExtension
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
     java
@@ -31,7 +31,7 @@ subprojects {
 
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.3")
+            mavenBom(SpringBootPlugin.BOM_COORDINATES)
         }
     }
 
