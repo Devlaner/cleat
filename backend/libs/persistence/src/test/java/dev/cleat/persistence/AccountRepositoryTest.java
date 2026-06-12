@@ -37,15 +37,24 @@ public class AccountRepositoryTest {
     AccountRepository accountRepository;
 
     @Test
-    void shouldSaveAccountWithRepo() {
-        AccountEntity account = new AccountEntity();
-        RepoEntity repo = new RepoEntity();
+    void shouldSaveAccountWithRepos() {
+        AccountEntity account = new AccountEntity()
+                .setLogin("test-user")
+                .setName("Test User")
+                .setType("USER")
+                .setPlan("FREE");
+
+        RepoEntity repo =
+                new RepoEntity().setName("test-repo").setVisibility("PUBLIC").setAccount(account);
+
         account.setRepos(List.of(repo));
         repo.setAccount(account);
         accountRepository.saveAndFlush(account);
         testEntityManager.clear();
         AccountEntity found = accountRepository.findById(account.getId()).orElseThrow();
+
         Assertions.assertNotNull(found.getId());
         Assertions.assertEquals(1, found.getRepos().size());
+        Assertions.assertEquals("test-repo", found.getRepos().getFirst().getName());
     }
 }
