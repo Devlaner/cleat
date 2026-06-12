@@ -31,7 +31,7 @@ CREATE TABLE repo(
     archived BOOLEAN DEFAULT FALSE,
     open_vulns FLOAT DEFAULT 0.0,
     open_secrets FLOAT DEFAULT 0.0,
-    open_code_alert INT DEFAULT 0,
+    open_code_alerts INT DEFAULT 0,
     stale_branches INT DEFAULT 0,
     open_prs INT DEFAULT 0,
     hygiene_score FLOAT DEFAULT 0.0,
