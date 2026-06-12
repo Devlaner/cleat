@@ -3,6 +3,8 @@ package dev.cleat.persistence;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,10 +31,12 @@ public class AccountEntity {
     private String name;
 
     @Column(name = "type", nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private AccountType type;
 
-    @Column(name = "plan", nullable = false)
-    private String plan;
+    @Column(name = "plan")
+    @Enumerated(EnumType.STRING)
+    private Plan plan;
 
     @Column(name = "repo_count")
     private Integer repoCount = 0;
@@ -41,7 +45,7 @@ public class AccountEntity {
     private Integer memberCount = 0;
 
     @Column(name = "posture_score")
-    private Double postureScore = 0.0;
+    private Integer postureScore = 0;
 
     @Column(name = "monthly_spend")
     private Double monthlySpend = 0.0;
@@ -60,11 +64,11 @@ public class AccountEntity {
             UUID id,
             String login,
             String name,
-            String type,
-            String plan,
+            AccountType type,
+            Plan plan,
             Integer repoCount,
             Integer memberCount,
-            Double postureScore,
+            Integer postureScore,
             Double monthlySpend,
             Double reclaimable,
             OffsetDateTime createdAt,
@@ -112,20 +116,20 @@ public class AccountEntity {
         return this;
     }
 
-    public String getType() {
+    public AccountType getType() {
         return type;
     }
 
-    public AccountEntity setType(String type) {
+    public AccountEntity setType(AccountType type) {
         this.type = type;
         return this;
     }
 
-    public String getPlan() {
+    public Plan getPlan() {
         return plan;
     }
 
-    public AccountEntity setPlan(String plan) {
+    public AccountEntity setPlan(Plan plan) {
         this.plan = plan;
         return this;
     }
@@ -148,11 +152,11 @@ public class AccountEntity {
         return this;
     }
 
-    public Double getPostureScore() {
+    public Integer getPostureScore() {
         return postureScore;
     }
 
-    public AccountEntity setPostureScore(Double postureScore) {
+    public AccountEntity setPostureScore(Integer postureScore) {
         this.postureScore = postureScore;
         return this;
     }

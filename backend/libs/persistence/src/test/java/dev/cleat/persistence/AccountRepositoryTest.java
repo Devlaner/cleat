@@ -38,14 +38,10 @@ public class AccountRepositoryTest {
 
     @Test
     void shouldSaveAccountWithRepos() {
-        AccountEntity account = new AccountEntity()
-                .setLogin("test-user")
-                .setName("Test User")
-                .setType("USER")
-                .setPlan("FREE");
+        AccountEntity account =
+                new AccountEntity().setLogin("test-user").setName("Test User").setType(AccountType.USER);
 
-        RepoEntity repo =
-                new RepoEntity().setName("test-repo").setVisibility("PUBLIC").setAccount(account);
+        RepoEntity repo = new RepoEntity().setName("test-repo").setAccount(account);
 
         account.setRepos(List.of(repo));
         repo.setAccount(account);

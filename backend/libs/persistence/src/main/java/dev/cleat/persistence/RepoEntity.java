@@ -28,62 +28,62 @@ public class RepoEntity {
     @JoinColumn(name = "account_id", nullable = false)
     private AccountEntity account;
 
-    @Column(name = "visibility", nullable = false)
-    private String visibility;
+    @Column(name = "visibility")
+    private Visibility visibility;
 
     @Column(name = "language")
     private String language;
 
     @Column(name = "stars")
-    private Integer stars = 0;
+    private Integer stars;
 
     @Column(name = "default_branch")
     private String defaultBranch;
 
     @Column(name = "branch_protected")
-    private Boolean branchProtected = false;
+    private Boolean branchProtected;
 
     @Column(name = "has_readme")
-    private Boolean hasReadme = false;
+    private Boolean hasReadme;
 
     @Column(name = "has_license")
-    private Boolean hasLicense = false;
+    private Boolean hasLicense;
 
     @Column(name = "has_contributing")
-    private Boolean hasContributing = false;
+    private Boolean hasContributing;
 
     @Column(name = "has_codeowners")
-    private Boolean hasCodeowners = false;
+    private Boolean hasCodeowners;
 
     @Column(name = "has_ci")
-    private Boolean hasCi = false;
+    private Boolean hasCi;
 
     @Column(name = "size_mb")
-    private Double sizeMb = 0.0;
+    private Double sizeMb;
 
     @Column(name = "last_pushed_at")
     private OffsetDateTime lastPushedAt;
 
     @Column(name = "archived")
-    private Boolean archived = false;
+    private Boolean archived;
 
     @Column(name = "open_vulns")
-    private Double openVulns = 0.0;
+    private Integer openVulns;
 
     @Column(name = "open_secrets")
-    private Double openSecrets = 0.0;
+    private Integer openSecrets;
 
     @Column(name = "open_code_alerts")
-    private Integer openCodeAlerts = 0;
+    private Integer openCodeAlerts;
 
     @Column(name = "stale_branches")
-    private Integer staleBranches = 0;
+    private Integer staleBranches;
 
     @Column(name = "open_prs")
-    private Integer openPRs = 0;
+    private Integer openPRs;
 
     @Column(name = "hygiene_score")
-    private Double hygieneScore = 0.0;
+    private Double hygieneScore;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -93,7 +93,7 @@ public class RepoEntity {
             UUID id,
             String name,
             AccountEntity account,
-            String visibility,
+            Visibility visibility,
             String language,
             Integer stars,
             String defaultBranch,
@@ -106,8 +106,8 @@ public class RepoEntity {
             Double sizeMb,
             OffsetDateTime lastPushedAt,
             Boolean archived,
-            Double openVulns,
-            Double openSecrets,
+            Integer openVulns,
+            Integer openSecrets,
             Integer openCodeAlerts,
             Integer staleBranches,
             Integer openPRs,
@@ -167,11 +167,11 @@ public class RepoEntity {
         return this;
     }
 
-    public String getVisibility() {
+    public Visibility getVisibility() {
         return visibility;
     }
 
-    public RepoEntity setVisibility(String visibility) {
+    public RepoEntity setVisibility(Visibility visibility) {
         this.visibility = visibility;
         return this;
     }
@@ -284,20 +284,20 @@ public class RepoEntity {
         return this;
     }
 
-    public Double getOpenVulns() {
+    public Integer getOpenVulns() {
         return openVulns;
     }
 
-    public RepoEntity setOpenVulns(Double openVulns) {
+    public RepoEntity setOpenVulns(Integer openVulns) {
         this.openVulns = openVulns;
         return this;
     }
 
-    public Double getOpenSecrets() {
+    public Integer getOpenSecrets() {
         return openSecrets;
     }
 
-    public RepoEntity setOpenSecrets(Double openSecrets) {
+    public RepoEntity setOpenSecrets(Integer openSecrets) {
         this.openSecrets = openSecrets;
         return this;
     }
