@@ -11,34 +11,56 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "repo")
-@NoArgsConstructor
-@Setter
-@Getter
-@Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor
 public class RepoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
-    AccountEntity account;
+    private AccountEntity account;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    Instant createdAt;
+    private Instant createdAt;
+
+    public RepoEntity() {}
+
+    public RepoEntity(UUID id, AccountEntity account, Instant createdAt) {
+        this.id = id;
+        this.account = account;
+        this.createdAt = createdAt;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public RepoEntity setId(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public RepoEntity setAccount(AccountEntity account) {
+        this.account = account;
+        return this;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public RepoEntity setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
 }

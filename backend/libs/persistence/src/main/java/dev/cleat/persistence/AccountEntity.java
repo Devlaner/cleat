@@ -13,31 +13,55 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "account")
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    private UUID id;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    Instant createdAt;
+    private Instant createdAt;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<RepoEntity> repos = new ArrayList<>();
+    private List<RepoEntity> repos = new ArrayList<>();
+
+    public AccountEntity(UUID id, Instant createdAt, List<RepoEntity> repos) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.repos = repos;
+    }
+
+    public AccountEntity() {}
+
+    public UUID getId() {
+        return id;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<RepoEntity> getRepos() {
+        return repos;
+    }
+
+    public AccountEntity setId(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public AccountEntity setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public AccountEntity setRepos(List<RepoEntity> repos) {
+        this.repos = repos;
+        return this;
+    }
 }
