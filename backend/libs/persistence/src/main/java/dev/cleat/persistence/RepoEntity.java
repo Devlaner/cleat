@@ -21,33 +21,68 @@ public class RepoEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private AccountEntity account;
 
-    @Column(nullable = false)
+    @Column(name = "visibility", nullable = false)
     private String visibility;
 
+    @Column(name = "language")
     private String language;
+
+    @Column(name = "stars")
     private Integer stars = 0;
+
+    @Column(name = "default_branch")
     private String defaultBranch;
+
+    @Column(name = "branch_protected")
     private Boolean branchProtected = false;
+
+    @Column(name = "has_readme")
     private Boolean hasReadme = false;
+
+    @Column(name = "has_license")
     private Boolean hasLicense = false;
+
+    @Column(name = "has_contributing")
     private Boolean hasContributing = false;
+
+    @Column(name = "has_codeowners")
     private Boolean hasCodeowners = false;
+
+    @Column(name = "has_ci")
     private Boolean hasCi = false;
+
+    @Column(name = "size_mb")
     private Double sizeMb = 0.0;
+
+    @Column(name = "last_pushed_at")
     private OffsetDateTime lastPushedAt;
+
+    @Column(name = "archived")
     private Boolean archived = false;
+
+    @Column(name = "open_vulns")
     private Double openVulns = 0.0;
+
+    @Column(name = "open_secrets")
     private Double openSecrets = 0.0;
+
+    @Column(name = "open_code_alerts")
     private Integer openCodeAlerts = 0;
+
+    @Column(name = "stale_branches")
     private Integer staleBranches = 0;
+
+    @Column(name = "open_prs")
     private Integer openPRs = 0;
+
+    @Column(name = "hygiene_score")
     private Double hygieneScore = 0.0;
 
     @CreationTimestamp
