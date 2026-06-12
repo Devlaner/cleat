@@ -1,12 +1,12 @@
 package dev.cleat.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -23,6 +23,9 @@ public class AccountRepositoryTest {
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16");
 
+    @Autowired
+    private TestEntityManager testEntityManager;
+
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
@@ -37,14 +40,12 @@ public class AccountRepositoryTest {
     void shouldSaveAccountWithRepo() {
         AccountEntity account = new AccountEntity();
         RepoEntity repo = new RepoEntity();
+        account.setRepos(List.of(repo));
         repo.setAccount(account);
-        List<RepoEntity> repos = new ArrayList<>();
-        repos.add(repo);
-        account.setRepos(repos);
-
-        AccountEntity saved = accountRepository.save(account);
-
-        Assertions.assertNotNull(saved.getId());
-        Assertions.assertEquals(1, saved.getRepos().size());
+        accountRepository.saveAndFlush(account);
+        testEntityManager.clear();
+        AccountEntity found = accountRepository.findById(account.getId()).orElseThrow();
+        Assertions.assertNotNull(found.getId());
+        Assertions.assertEquals(1, found.getRepos().size());
     }
 }
