@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    testRuntimeOnly(project(":apps:api"))
+    implementation(project(":apps:api"))
     api(project(":libs:domain"))
     implementation(project(":libs:common"))
     api("org.springframework.boot:spring-boot-starter-data-jpa")

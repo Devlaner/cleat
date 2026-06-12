@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":apps:api"))
     implementation(project(":libs:common"))
     implementation(project(":libs:domain"))
     implementation(project(":libs:persistence"))
