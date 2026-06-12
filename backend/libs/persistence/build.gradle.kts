@@ -1,8 +1,8 @@
 plugins {
     `java-library`
 }
-
 dependencies {
+    testImplementation(project(":libs:persistence"))
     api(project(":libs:domain"))
     implementation(project(":libs:common"))
     api("org.springframework.boot:spring-boot-starter-data-jpa")
