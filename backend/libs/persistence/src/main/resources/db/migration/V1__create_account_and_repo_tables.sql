@@ -41,3 +41,6 @@ CREATE TABLE repo(
         REFERENCES account(id)
 );
 
+CREATE INDEX idx_repo_account_id ON repo(account_id);
+
+
