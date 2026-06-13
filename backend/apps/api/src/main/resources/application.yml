@@ -21,9 +21,7 @@ management:
       exposure:
         include: health,info
   health:
-    defaults:
+    db:
       enabled: true
     redis:
-      enabled: false
-    db:
-      enabled: false
+      enabled: true

@@ -24,3 +24,8 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    db:
+      enabled: true
+    redis:
+      enabled: true
