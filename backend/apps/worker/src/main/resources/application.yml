@@ -1,11 +1,16 @@
 spring:
   application:
     name: cleat-worker
-    # TODO: These excludes are temporary until the datasource lands in #5
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/${DB_NAME:cleat_db}
+    username: ${DB_USERNAME:cleat}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
 
 server:
   port: 8081
@@ -19,3 +24,8 @@ management:
     health:
       probes:
         enabled: true
+  health:
+    db:
+      enabled: true
+    redis:
+      enabled: true
