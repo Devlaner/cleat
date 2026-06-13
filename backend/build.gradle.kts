@@ -33,6 +33,7 @@ subprojects {
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
             mavenBom(SpringBootPlugin.BOM_COORDINATES)
+            mavenBom("org.testcontainers:testcontainers-bom:1.20.1")
         }
     }
 
