@@ -61,27 +61,31 @@ Local dependencies (Postgres, Redis) are expected to run via Docker Compose. The
 two services build into one container image each.
 
 
-## Docker Setup
+# Docker Setup
 
-This project uses Docker Compose to orchestrate the backend services, including the API, Worker, PostgreSQL database, and Redis cache.
+This project uses Docker Compose to orchestrate infrastructure services (PostgreSQL and Redis), while the API and Worker modules are managed via Gradle.
 
-### Prerequisites
+## Prerequisites
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+* Docker
+* Docker Compose
 
-### Getting Started
+## Getting Started
 
 Navigate to the `backend` directory and use the following commands:
 
-1. **Start the Services:**
-   docker compose up -d
+### 1. Infrastructure (Docker)
+Start the PostgreSQL and Redis containers:
+`docker compose up -d`
 
-2. **Verify Service Status:**
-   docker compose ps
+### 2. Running the Application (Gradle)
+Use Gradle to run the modules:
 
-3. **Stop the Services:**
-   docker compose down
+* For the API module: `./gradlew :apps:api:bootRun`
+* For the Worker module: `./gradlew :apps:worker:bootRun`
 
-### Configuration
-The environment-specific configurations are managed within the `application.yml` files located in each module (`api` and `worker`).
+> **Note:** Running integration tests locally requires the Docker containers to be up and running.
+
+## Configuration
+
+Environment-specific configurations are managed within the `application.yml` files located in each module (api and worker).
