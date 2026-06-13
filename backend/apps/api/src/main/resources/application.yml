@@ -1,6 +1,13 @@
 spring:
   application:
     name: cleat-api
+  autoconfigure:
+    exclude:
+      # Temporary: database is not wired yet.
+      # Remove these excludes once datasource is configured in issue #5.
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
 
 server:
   port: 8080
@@ -15,5 +22,3 @@ management:
       enabled: true
     redis:
       enabled: false
-    db:
-      enabled: true
