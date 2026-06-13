@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +40,19 @@ public class AccountEntity {
     private Plan plan;
 
     @Column(name = "repo_count")
-    private Integer repoCount = 0;
+    private Integer repoCount;
 
     @Column(name = "member_count")
-    private Integer memberCount = 0;
+    private Integer memberCount;
 
     @Column(name = "posture_score")
-    private Integer postureScore = 0;
+    private Integer postureScore;
 
     @Column(name = "monthly_spend")
-    private Double monthlySpend = 0.0;
+    private BigDecimal monthlySpend;
 
     @Column(name = "reclaimable")
-    private Double reclaimable = 0.0;
+    private BigDecimal reclaimable;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -69,8 +70,8 @@ public class AccountEntity {
             Integer repoCount,
             Integer memberCount,
             Integer postureScore,
-            Double monthlySpend,
-            Double reclaimable,
+            BigDecimal monthlySpend,
+            BigDecimal reclaimable,
             OffsetDateTime createdAt,
             List<RepoEntity> repos) {
         this.id = id;
@@ -161,20 +162,20 @@ public class AccountEntity {
         return this;
     }
 
-    public Double getMonthlySpend() {
+    public BigDecimal getMonthlySpend() {
         return monthlySpend;
     }
 
-    public AccountEntity setMonthlySpend(Double monthlySpend) {
+    public AccountEntity setMonthlySpend(BigDecimal monthlySpend) {
         this.monthlySpend = monthlySpend;
         return this;
     }
 
-    public Double getReclaimable() {
+    public BigDecimal getReclaimable() {
         return reclaimable;
     }
 
-    public AccountEntity setReclaimable(Double reclaimable) {
+    public AccountEntity setReclaimable(BigDecimal reclaimable) {
         this.reclaimable = reclaimable;
         return this;
     }

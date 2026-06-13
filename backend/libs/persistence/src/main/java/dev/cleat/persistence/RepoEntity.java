@@ -86,7 +86,7 @@ public class RepoEntity {
     private Integer openPRs;
 
     @Column(name = "hygiene_score")
-    private Double hygieneScore;
+    private Integer hygieneScore;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -114,7 +114,7 @@ public class RepoEntity {
             Integer openCodeAlerts,
             Integer staleBranches,
             Integer openPRs,
-            Double hygieneScore,
+            Integer hygieneScore,
             OffsetDateTime createdAt) {
         this.id = id;
         this.name = name;
@@ -332,11 +332,11 @@ public class RepoEntity {
         return this;
     }
 
-    public Double getHygieneScore() {
+    public Integer getHygieneScore() {
         return hygieneScore;
     }
 
-    public RepoEntity setHygieneScore(Double hygieneScore) {
+    public RepoEntity setHygieneScore(Integer hygieneScore) {
         this.hygieneScore = hygieneScore;
         return this;
     }
