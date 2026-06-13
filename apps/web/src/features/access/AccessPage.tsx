@@ -11,6 +11,7 @@ import { WebhooksTab } from "./WebhooksTab";
 import { KeysTab } from "./KeysTab";
 import { TokensTab } from "./TokensTab";
 import { AuditLogTab } from "./AuditLogTab";
+import { TailSpin } from "react-loader-spinner";
 
 type Tab = "members" | "apps" | "webhooks" | "keys" | "tokens" | "audit";
 
@@ -18,6 +19,13 @@ export function AccessPage() {
   const ds = useDataset();
   const [tab, setTab] = useState<Tab>("members");
 
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <TailSpin height="32" width="32" color="#5e6ad2" ariaLabel="loading" />
+      </div>
+    );
+  }
   const without2fa = membersWithout2fa(ds).length;
   const outside = ds.members.filter((m) => m.outsideCollaborator).length;
 

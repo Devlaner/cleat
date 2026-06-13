@@ -16,17 +16,14 @@ import { SEVERITY, cvssToSeverity } from "@/lib/severity";
 import { percent, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Vulnerability } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "vulnerabilities";
 
 export function VulnerabilitiesPage() {
   const ds = useDataset();
+
   const [selected, setSelected] = useState<Vulnerability | null>(null);
-
-  const critical = ds.vulnerabilities.filter((v) => v.severity === "critical").length;
-  const kev = ds.vulnerabilities.filter((v) => v.kev).length;
-  const fixable = ds.vulnerabilities.filter((v) => v.fixedVersion).length;
-
   const facets: FacetDef<Vulnerability>[] = [
     {
       key: "severity",
@@ -41,7 +38,7 @@ export function VulnerabilitiesPage() {
       key: "ecosystem",
       label: "Ecosystem",
       accessor: (r) => r.ecosystem,
-      options: [...new Set(ds.vulnerabilities.map((v) => v.ecosystem))].map((e) => ({
+      options: [...new Set(ds?.vulnerabilities?.map((v) => v.ecosystem) ?? [])].map((e) => ({
         value: e,
         label: ecosystem(e).label,
       })),
@@ -66,8 +63,7 @@ export function VulnerabilitiesPage() {
       ],
     },
   ];
-
-  const filtered = useFilteredRows(TABLE, ds.vulnerabilities, {
+  const filtered = useFilteredRows(TABLE, ds?.vulnerabilities ?? [], {
     search: (r) => `${r.package} ${r.title} ${r.advisoryId} ${r.cwe}`,
     facets,
   });
@@ -76,6 +72,19 @@ export function VulnerabilitiesPage() {
     () => [...filtered].sort((a, b) => vulnPriority(b) - vulnPriority(a)),
     [filtered],
   );
+
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <div className="text-[clamp(28px,5vw,60px)]">
+          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
+        </div>
+      </div>
+    );
+  }
+  const critical = ds.vulnerabilities.filter((v) => v.severity === "critical").length;
+  const kev = ds.vulnerabilities.filter((v) => v.kev).length;
+  const fixable = ds.vulnerabilities.filter((v) => v.fixedVersion).length;
 
   const columns: Column<Vulnerability>[] = [
     {

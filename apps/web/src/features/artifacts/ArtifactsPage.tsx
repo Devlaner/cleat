@@ -37,13 +37,32 @@ export function ArtifactsPage() {
   const [tab, setTab] = useState<Tab>("artifacts");
   const [deleted, setDeleted] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<Set<string>>(new Set());
-
   const artifacts = useMemo(
-    () => ds.artifacts.filter((a) => !deleted.has(a.id)),
-    [ds.artifacts, deleted],
+    () => ds?.artifacts.filter((a) => !deleted.has(a.id)) ?? [],
+    [ds, deleted],
   );
-  const caches = useMemo(() => ds.caches.filter((c) => !deleted.has(c.id)), [ds.caches, deleted]);
-  const packages = ds.packages;
+
+  const caches = useMemo(() => ds?.caches.filter((c) => !deleted.has(c.id)) ?? [], [ds, deleted]);
+
+  const packages = ds?.packages ?? [];
+  if (!ds) {
+    return (
+      <div className="space-y-5">
+        <PageHeader eyebrow="Maintenance" title="Artifacts & cost" description="Loading..." />
+
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className="h-24 animate-pulse rounded-xl border border-hairline bg-surface-2"
+            />
+          ))}
+        </div>
+
+        <div className="h-96 animate-pulse rounded-xl border border-hairline bg-surface-2" />
+      </div>
+    );
+  }
 
   const totalStorageMb =
     artifacts.reduce((s, a) => s + a.sizeMb, 0) +

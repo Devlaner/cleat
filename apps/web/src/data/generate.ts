@@ -1,4 +1,4 @@
-import { cvssToSeverity } from "@/lib/severity";
+import { cvssToSeverity } from "../lib/severity";
 import type { Severity } from "@cleat/contracts";
 import { Rng } from "./rng";
 import {

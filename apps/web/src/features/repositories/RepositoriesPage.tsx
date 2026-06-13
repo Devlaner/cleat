@@ -21,6 +21,7 @@ import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Repo, Visibility } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "repositories";
 
@@ -33,13 +34,6 @@ const VIS_ICON: Record<Visibility, typeof Lock> = {
 export function RepositoriesPage() {
   const ds = useDataset();
   const navigate = useNavigate();
-
-  const protectedCount = ds.repos.filter((r) => r.branchProtected).length;
-  const archived = ds.repos.filter((r) => r.archived).length;
-  const avgHygiene = Math.round(
-    ds.repos.reduce((s, r) => s + r.hygieneScore, 0) / Math.max(1, ds.repos.length),
-  );
-
   const facets: FacetDef<Repo>[] = [
     {
       key: "visibility",
@@ -55,7 +49,7 @@ export function RepositoriesPage() {
       key: "language",
       label: "Language",
       accessor: (r) => r.language,
-      options: [...new Set(ds.repos.map((r) => r.language))]
+      options: [...new Set(ds?.repos?.map((r) => r.language) ?? [])]
         .sort()
         .map((l) => ({ value: l, label: l })),
     },
@@ -76,10 +70,25 @@ export function RepositoriesPage() {
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.repos, {
+  const rows = useFilteredRows(TABLE, ds?.repos ?? [], {
     search: (r) => `${r.name} ${r.language} ${r.topics.join(" ")}`,
     facets,
   });
+
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <div className="text-[clamp(28px,5vw,60px)]">
+          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
+        </div>
+      </div>
+    );
+  }
+  const protectedCount = ds.repos.filter((r) => r.branchProtected).length;
+  const archived = ds.repos.filter((r) => r.archived).length;
+  const avgHygiene = Math.round(
+    ds.repos.reduce((s, r) => s + r.hygieneScore, 0) / Math.max(1, ds.repos.length),
+  );
 
   const columns: Column<Repo>[] = [
     {

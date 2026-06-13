@@ -21,6 +21,7 @@ import { unpinnedActionCount } from "@/data/metrics";
 import { percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import type { WorkflowAudit, SupplyChainIncident } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "workflows";
 
@@ -33,14 +34,8 @@ function riskTone(score: number) {
 
 export function SupplyChainPage() {
   const ds = useDataset();
+
   const [selected, setSelected] = useState<WorkflowAudit | null>(null);
-
-  const unpinned = unpinnedActionCount(ds);
-  const broad = ds.workflows.filter((w) => w.permissions === "broad").length;
-  const oidc = ds.workflows.length
-    ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length
-    : 0;
-
   const facets: FacetDef<WorkflowAudit>[] = [
     {
       key: "permissions",
@@ -71,10 +66,26 @@ export function SupplyChainPage() {
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.workflows, {
+  const rows = useFilteredRows(TABLE, ds?.workflows ?? [], {
     search: (r) => `${r.repo} ${r.workflow} ${r.actions.map((a) => a.name).join(" ")}`,
     facets,
   });
+  if (!ds) {
+    return (
+      <div className="space-y-5">
+        <PageHeader eyebrow="Supply chain" title="Actions audit" description="Loading data..." />
+
+        <div className="flex h-[300px] items-center justify-center">
+          <TailSpin height="60" width="60" color="#5e6ad2" />
+        </div>
+      </div>
+    );
+  }
+  const unpinned = unpinnedActionCount(ds);
+  const broad = ds.workflows.filter((w) => w.permissions === "broad").length;
+  const oidc = ds.workflows.length
+    ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length
+    : 0;
 
   const columns: Column<WorkflowAudit>[] = [
     {

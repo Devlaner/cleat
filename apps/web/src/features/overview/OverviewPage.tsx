@@ -29,9 +29,17 @@ import { scoreToGrade, GRADE_COLOR, SEVERITY } from "@/lib/severity";
 import { currency, fromMb, relativeTime, pluralize, percent } from "@/lib/format";
 import { eventIcon } from "@/features/notifications/eventMeta";
 import { cn } from "@/lib/cn";
+import { TailSpin } from "react-loader-spinner";
 
 export function OverviewPage() {
   const ds = useDataset();
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <TailSpin height="60" width="60" color="#5e6ad2" ariaLabel="loading" />
+      </div>
+    );
+  }
   const sev = severityBreakdown(ds);
   const findings = totalOpenFindings(ds);
   const grade = scoreToGrade(ds.account.postureScore);

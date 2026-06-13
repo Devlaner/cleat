@@ -14,18 +14,14 @@ import { provider } from "@/lib/ecosystems";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
 import type { SecretFinding } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "secrets";
 
 export function SecretsPage() {
   const ds = useDataset();
+
   const [selected, setSelected] = useState<SecretFinding | null>(null);
-
-  const active = ds.secrets.filter((s) => s.validity === "active").length;
-  const revoked = ds.secrets.filter((s) => s.validity === "revoked").length;
-  const blocked = ds.secrets.filter((s) => s.pushProtectionBlocked).length;
-  const repos = new Set(ds.secrets.map((s) => s.repo)).size;
-
   const facets: FacetDef<SecretFinding>[] = [
     {
       key: "validity",
@@ -50,17 +46,31 @@ export function SecretsPage() {
       key: "provider",
       label: "Provider",
       accessor: (r) => r.provider,
-      options: [...new Set(ds.secrets.map((s) => s.provider))].map((p) => ({
+      options: [...new Set(ds?.secrets?.map((s) => s.provider) ?? [])].map((p) => ({
         value: p,
         label: provider(p).label,
       })),
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.secrets, {
+  const rows = useFilteredRows(TABLE, ds?.secrets ?? [], {
     search: (r) => `${r.secretType} ${r.repo} ${r.file} ${r.author} ${provider(r.provider).label}`,
     facets,
   });
+
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <div className="text-[clamp(28px,5vw,60px)]">
+          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
+        </div>
+      </div>
+    );
+  }
+  const active = ds.secrets.filter((s) => s.validity === "active").length;
+  const revoked = ds.secrets.filter((s) => s.validity === "revoked").length;
+  const blocked = ds.secrets.filter((s) => s.pushProtectionBlocked).length;
+  const repos = new Set(ds.secrets.map((s) => s.repo)).size;
 
   const columns: Column<SecretFinding>[] = [
     {

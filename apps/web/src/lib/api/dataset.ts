@@ -6,19 +6,16 @@ import type { Dataset } from "@cleat/contracts";
  * Fully mimics real backend endpoint behavior.
  */
 export async function fetchDataset(accountId: string): Promise<Dataset> {
-  // MOCK MODE
   if (import.meta.env.VITE_USE_MOCK_API === "true") {
     await new Promise((r) => setTimeout(r, 50));
     return getDataset(accountId);
   }
 
-  // REAL BACKEND
-  const res = await fetch(`/api/dataset?accountId=${accountId}`);
+  const res = await fetch(`/api/dataset?accountId=${encodeURIComponent(accountId)}`);
 
   if (!res.ok) {
-    throw new Error("Failed to fetch dataset");
+    throw new Error(`Failed to fetch dataset: ${res.status} ${res.statusText}`);
   }
 
-  const data: Dataset = await res.json();
-  return data;
+  return (await res.json()) as Dataset;
 }
