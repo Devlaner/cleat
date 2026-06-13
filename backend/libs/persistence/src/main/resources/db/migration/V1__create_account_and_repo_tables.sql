@@ -8,7 +8,7 @@ CREATE TABLE account (
                          member_count    INTEGER DEFAULT 0,
                          posture_score   INTEGER DEFAULT 0,
                          monthly_spend   DECIMAL(19,4) DEFAULT 0.0,
-                         reclaimable     DECIMAL(19,4) PRECISION DEFAULT 0.0,
+                         reclaimable     DECIMAL(19,4) DEFAULT 0.0,
                          created_at      TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
