@@ -9,6 +9,7 @@ import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
 import type { CodeScanAlert } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "code-scanning";
 
@@ -23,10 +24,6 @@ const STATUS_META: Record<
 
 export function CodeScanningPage() {
   const ds = useDataset();
-  const open = ds.codeAlerts.filter((a) => a.status === "open").length;
-  const fixed = ds.codeAlerts.filter((a) => a.status === "fixed").length;
-  const dismissed = ds.codeAlerts.filter((a) => a.status === "dismissed").length;
-  const rules = new Set(ds.codeAlerts.map((a) => a.ruleId)).size;
 
   const facets: FacetDef<CodeScanAlert>[] = [
     {
@@ -52,14 +49,31 @@ export function CodeScanningPage() {
       key: "tool",
       label: "Tool",
       accessor: (r) => r.tool,
-      options: [...new Set(ds.codeAlerts.map((a) => a.tool))].map((t) => ({ value: t, label: t })),
+      options: [...new Set(ds?.codeAlerts?.map((a) => a.tool) ?? [])].map((t) => ({
+        value: t,
+        label: t,
+      })),
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.codeAlerts, {
+  const rows = useFilteredRows(TABLE, ds?.codeAlerts ?? [], {
     search: (r) => `${r.rule} ${r.ruleId} ${r.repo} ${r.file}`,
     facets,
   });
+
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <div className="text-[clamp(28px,5vw,60px)]">
+          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
+        </div>
+      </div>
+    );
+  }
+  const open = ds.codeAlerts.filter((a) => a.status === "open").length;
+  const fixed = ds.codeAlerts.filter((a) => a.status === "fixed").length;
+  const dismissed = ds.codeAlerts.filter((a) => a.status === "dismissed").length;
+  const rules = new Set(ds.codeAlerts.map((a) => a.ruleId)).size;
 
   const columns: Column<CodeScanAlert>[] = [
     {

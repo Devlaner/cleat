@@ -34,6 +34,7 @@ import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Visibility, ScorecardCheck } from "@cleat/contracts";
+import { TailSpin } from "react-loader-spinner";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },
@@ -51,6 +52,13 @@ function scoreHex(score: number) {
 export function RepoDetailPage() {
   const { repoId } = useParams();
   const ds = useDataset();
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <TailSpin height="60" width="60" color="#5e6ad2" ariaLabel="loading" />
+      </div>
+    );
+  }
   const repo = ds.repos.find((r) => r.id === repoId);
 
   if (!repo) {

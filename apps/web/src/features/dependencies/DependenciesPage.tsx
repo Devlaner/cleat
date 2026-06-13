@@ -24,19 +24,15 @@ import { ecosystem } from "@/lib/ecosystems";
 import { pluralize } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import { cn } from "@/lib/cn";
-
+import { TailSpin } from "react-loader-spinner";
 const TABLE = "dependencies";
 
 export function DependenciesPage() {
   const ds = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [format, setFormat] = useState("spdx");
-
-  const deps = useMemo(() => buildDependencies(ds), [ds]);
-  const dist = useMemo(() => licenseDistribution(deps), [deps]);
-  const vulnerable = deps.filter((d) => d.vulnerable).length;
-  const outdated = deps.filter((d) => d.outdated).length;
-  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+  const deps = useMemo(() => (ds ? buildDependencies(ds) : []), [ds]);
+  const dist = useMemo(() => (deps.length ? licenseDistribution(deps) : []), [deps]);
 
   const facets: FacetDef<Dependency>[] = [
     {
@@ -71,19 +67,36 @@ export function DependenciesPage() {
     facets,
   });
 
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center">
+        <div className="text-[clamp(28px,5vw,60px)]">
+          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
+        </div>
+      </div>
+    );
+  }
+
+  const vulnerable = deps.filter((d) => d.vulnerable).length;
+  const outdated = deps.filter((d) => d.outdated).length;
+  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+
   function exportSbom() {
+    if (!ds) return;
+
     const content =
       format === "spdx"
         ? buildSpdx(ds.account.login, deps)
         : buildCycloneDx(ds.account.login, deps);
+
     downloadFile(`${ds.account.login}-sbom.${format}.json`, content);
+
     addToast({
       title: `${format === "spdx" ? "SPDX" : "CycloneDX"} SBOM exported`,
       description: `${deps.length} components`,
       variant: "success",
     });
   }
-
   const columns: Column<Dependency>[] = [
     {
       id: "name",
