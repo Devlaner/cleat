@@ -14,7 +14,6 @@ import { provider } from "@/lib/ecosystems";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
 import type { SecretFinding } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "secrets";
 
