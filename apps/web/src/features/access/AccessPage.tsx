@@ -15,7 +15,7 @@ import { AuditLogTab } from "./AuditLogTab";
 type Tab = "members" | "apps" | "webhooks" | "keys" | "tokens" | "audit";
 
 export function AccessPage() {
-  const { data: ds, error, loading } = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
   const [tab, setTab] = useState<Tab>("members");
 
   if (loading) {
@@ -31,12 +31,17 @@ export function AccessPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
-        Failed to load access data.
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load access data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
       </div>
     );
   }
-
   if (!ds) {
     return (
       <div className="flex h-[60vh] items-center justify-center px-4 text-center">

@@ -9,6 +9,7 @@ export function useDataset() {
   const [data, setData] = useState<Dataset | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,11 +45,12 @@ export function useDataset() {
     return () => {
       cancelled = true;
     };
-  }, [accountId]);
+  }, [accountId, retry]);
 
   return {
     data,
     error,
     loading,
+    retry: () => setRetry((v) => v + 1),
   };
 }

@@ -32,7 +32,7 @@ function riskTone(score: number) {
 }
 
 export function SupplyChainPage() {
-  const { data: ds, error, loading } = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
 
   const [selected, setSelected] = useState<WorkflowAudit | null>(null);
   const facets: FacetDef<WorkflowAudit>[] = [
@@ -84,12 +84,17 @@ export function SupplyChainPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
-        Failed to load supply chain data.
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load supply chain data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
       </div>
     );
   }
-
   if (!ds) {
     return (
       <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">

@@ -28,7 +28,7 @@ import { cn } from "@/lib/cn";
 const TABLE = "dependencies";
 
 export function DependenciesPage() {
-  const { data: ds, error, loading } = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [format, setFormat] = useState("spdx");
   const deps = useMemo(() => (ds ? buildDependencies(ds) : []), [ds]);
@@ -80,12 +80,17 @@ export function DependenciesPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
-        Failed to load dependencies.
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load dependencies.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
       </div>
     );
   }
-
   if (!ds) {
     return (
       <div className="flex h-[60vh] flex-col items-center justify-center gap-2 text-sm text-ink-subtle">
