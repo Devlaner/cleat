@@ -21,7 +21,6 @@ import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Repo, Visibility } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "repositories";
 
@@ -32,8 +31,9 @@ const VIS_ICON: Record<Visibility, typeof Lock> = {
 };
 
 export function RepositoriesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
   const navigate = useNavigate();
+
   const facets: FacetDef<Repo>[] = [
     {
       key: "visibility",
@@ -74,16 +74,33 @@ export function RepositoriesPage() {
     search: (r) => `${r.name} ${r.language} ${r.topics.join(" ")}`,
     facets,
   });
-
-  if (!ds) {
+  if (loading) {
     return (
-      <div className="flex h-[300px] items-center justify-center">
-        <div className="text-[clamp(28px,5vw,60px)]">
-          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
-        </div>
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load repositories data.
+      </div>
+    );
+  }
+
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No data available.
+      </div>
+    );
+  }
+
   const protectedCount = ds.repos.filter((r) => r.branchProtected).length;
   const archived = ds.repos.filter((r) => r.archived).length;
   const avgHygiene = Math.round(

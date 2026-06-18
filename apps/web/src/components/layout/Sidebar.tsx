@@ -10,25 +10,17 @@ import { useUiStore } from "@/stores/useUiStore";
 import { useDataset } from "@/hooks/useDataset";
 import { useNotifications } from "@/hooks/useNotifications";
 import { sidebarCounts } from "@/data/metrics";
-import { TailSpin } from "react-loader-spinner";
 
 export function Sidebar({ forceExpanded = false }: { forceExpanded?: boolean }) {
   const storeCollapsed = useUiStore((s) => s.sidebarCollapsed);
   const toggle = useUiStore((s) => s.toggleSidebar);
   const collapsed = forceExpanded ? false : storeCollapsed;
 
-  const ds = useDataset();
+  const { data: ds } = useDataset();
   const { unread } = useNotifications();
-  if (!ds) {
-    return (
-      <div className="flex h-[300px] items-center justify-center">
-        <div className="text-[clamp(28px,5vw,60px)]">
-          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
-        </div>
-      </div>
-    );
-  }
-  const base = sidebarCounts(ds);
+
+  const base = ds ? sidebarCounts(ds) : ({} as ReturnType<typeof sidebarCounts>);
+
   const counts: Record<CountKey, number> = {
     ...base,
     artifactsReclaimable: 0,

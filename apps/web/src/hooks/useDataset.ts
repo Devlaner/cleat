@@ -3,28 +3,52 @@ import { fetchDataset } from "@/lib/api/dataset";
 import type { Dataset } from "@cleat/contracts";
 import { useOrgStore } from "@/stores/useOrgStore";
 
-export function useDataset(): Dataset | null {
+export function useDataset() {
   const accountId = useOrgStore((s) => s.activeAccountId);
+
   const [data, setData] = useState<Dataset | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     if (!accountId) {
       setData(null);
+      setError(null);
+      setLoading(false);
       return;
     }
 
-    setData(null);
+    setError(null);
+    setLoading(true);
 
-    fetchDataset(accountId).then((d) => {
-      if (!cancelled) setData(d);
-    });
+    fetchDataset(accountId)
+      .then((d) => {
+        if (!cancelled) {
+          setData(d);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setData(null);
+          setError(err instanceof Error ? err : new Error("Unexpected error"));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
 
     return () => {
       cancelled = true;
     };
   }, [accountId]);
 
-  return data;
+  return {
+    data,
+    error,
+    loading,
+  };
 }

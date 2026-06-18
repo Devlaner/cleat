@@ -9,7 +9,6 @@ import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
 import type { CodeScanAlert } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "code-scanning";
 
@@ -23,7 +22,7 @@ const STATUS_META: Record<
 };
 
 export function CodeScanningPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
 
   const facets: FacetDef<CodeScanAlert>[] = [
     {
@@ -61,15 +60,33 @@ export function CodeScanningPage() {
     facets,
   });
 
-  if (!ds) {
+  if (loading) {
     return (
-      <div className="flex h-[300px] items-center justify-center">
-        <div className="text-[clamp(28px,5vw,60px)]">
-          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
-        </div>
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load code scanning data.
+      </div>
+    );
+  }
+
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No data available.
+      </div>
+    );
+  }
+
   const open = ds.codeAlerts.filter((a) => a.status === "open").length;
   const fixed = ds.codeAlerts.filter((a) => a.status === "fixed").length;
   const dismissed = ds.codeAlerts.filter((a) => a.status === "dismissed").length;

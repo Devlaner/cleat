@@ -1,21 +1,38 @@
-import { getDataset } from "@/data";
 import type { Dataset } from "@cleat/contracts";
+import { getDataset } from "@/data";
 
-/**
- * Mock API layer for dataset.
- * Fully mimics real backend endpoint behavior.
- */
-export async function fetchDataset(accountId: string): Promise<Dataset> {
-  if (import.meta.env.VITE_USE_MOCK_API === "true") {
-    await new Promise((r) => setTimeout(r, 50));
-    return getDataset(accountId);
+const requestCache = new Map<string, Promise<Dataset>>();
+
+export function fetchDataset(accountId: string): Promise<Dataset> {
+  const cached = requestCache.get(accountId);
+
+  if (cached) {
+    return cached;
   }
 
-  const res = await fetch(`/api/dataset?accountId=${encodeURIComponent(accountId)}`);
+  const request = (async () => {
+    const useMockApi = import.meta.env.VITE_USE_MOCK_API !== "false";
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch dataset: ${res.status} ${res.statusText}`);
-  }
+    if (useMockApi) {
+      await new Promise((r) => setTimeout(r, 50));
 
-  return (await res.json()) as Dataset;
+      return getDataset(accountId);
+    }
+
+    const res = await fetch(`/api/dataset?accountId=${encodeURIComponent(accountId)}`);
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch dataset: ${res.status} ${res.statusText}`);
+    }
+
+    return (await res.json()) as Dataset;
+  })();
+
+  requestCache.set(accountId, request);
+
+  request.catch(() => {
+    requestCache.delete(accountId);
+  });
+
+  return request;
 }

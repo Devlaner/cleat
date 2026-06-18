@@ -11,18 +11,38 @@ import { WebhooksTab } from "./WebhooksTab";
 import { KeysTab } from "./KeysTab";
 import { TokensTab } from "./TokensTab";
 import { AuditLogTab } from "./AuditLogTab";
-import { TailSpin } from "react-loader-spinner";
 
 type Tab = "members" | "apps" | "webhooks" | "keys" | "tokens" | "audit";
 
 export function AccessPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
   const [tab, setTab] = useState<Tab>("members");
+
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load access data.
+      </div>
+    );
+  }
 
   if (!ds) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <TailSpin height="32" width="32" color="#5e6ad2" ariaLabel="loading" />
+      <div className="flex h-[60vh] items-center justify-center px-4 text-center">
+        <div>
+          <p className="text-sm font-medium text-ink">No access data available</p>
+        </div>
       </div>
     );
   }

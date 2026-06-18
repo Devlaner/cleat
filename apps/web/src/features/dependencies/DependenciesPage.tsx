@@ -24,11 +24,11 @@ import { ecosystem } from "@/lib/ecosystems";
 import { pluralize } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import { cn } from "@/lib/cn";
-import { TailSpin } from "react-loader-spinner";
+
 const TABLE = "dependencies";
 
 export function DependenciesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [format, setFormat] = useState("spdx");
   const deps = useMemo(() => (ds ? buildDependencies(ds) : []), [ds]);
@@ -67,16 +67,33 @@ export function DependenciesPage() {
     facets,
   });
 
-  if (!ds) {
+  if (loading) {
     return (
-      <div className="flex h-[300px] items-center justify-center">
-        <div className="text-[clamp(28px,5vw,60px)]">
-          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
-        </div>
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load dependencies.
+      </div>
+    );
+  }
+
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-2 text-sm text-ink-subtle">
+        <Package className="size-6" />
+        <span>No dependency data found.</span>
+      </div>
+    );
+  }
   const vulnerable = deps.filter((d) => d.vulnerable).length;
   const outdated = deps.filter((d) => d.outdated).length;
   const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;

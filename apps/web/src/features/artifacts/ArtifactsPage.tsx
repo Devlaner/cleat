@@ -32,7 +32,7 @@ function isReclaimable(a: Artifact) {
 }
 
 export function ArtifactsPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [tab, setTab] = useState<Tab>("artifacts");
   const [deleted, setDeleted] = useState<Set<string>>(new Set());
@@ -45,7 +45,7 @@ export function ArtifactsPage() {
   const caches = useMemo(() => ds?.caches.filter((c) => !deleted.has(c.id)) ?? [], [ds, deleted]);
 
   const packages = ds?.packages ?? [];
-  if (!ds) {
+  if (loading) {
     return (
       <div className="space-y-5">
         <PageHeader eyebrow="Maintenance" title="Artifacts & cost" description="Loading..." />
@@ -64,6 +64,21 @@ export function ArtifactsPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load artifacts data.
+      </div>
+    );
+  }
+
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No dataset available.
+      </div>
+    );
+  }
   const totalStorageMb =
     artifacts.reduce((s, a) => s + a.sizeMb, 0) +
     caches.reduce((s, c) => s + c.sizeMb, 0) +

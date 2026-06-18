@@ -9,7 +9,7 @@ export interface NotificationItem extends ActivityEvent {
 
 /** Activity events for the active account, merged with persisted read-state. */
 export function useNotifications() {
-  const ds = useDataset();
+  const { data: ds } = useDataset();
 
   const readIds = useNotificationStore((s) => s.readIds);
 

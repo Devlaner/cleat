@@ -16,12 +16,11 @@ import { SEVERITY, cvssToSeverity } from "@/lib/severity";
 import { percent, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Vulnerability } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "vulnerabilities";
 
 export function VulnerabilitiesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
 
   const [selected, setSelected] = useState<Vulnerability | null>(null);
   const facets: FacetDef<Vulnerability>[] = [
@@ -73,12 +72,29 @@ export function VulnerabilitiesPage() {
     [filtered],
   );
 
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load vulnerability data.
+      </div>
+    );
+  }
+
   if (!ds) {
     return (
-      <div className="flex h-[300px] items-center justify-center">
-        <div className="text-[clamp(28px,5vw,60px)]">
-          <TailSpin height="1em" width="1em" color="#5e6ad2" ariaLabel="loading" />
-        </div>
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No vulnerability data available.
       </div>
     );
   }

@@ -34,7 +34,6 @@ import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import type { Visibility, ScorecardCheck } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },
@@ -51,11 +50,35 @@ function scoreHex(score: number) {
 
 export function RepoDetailPage() {
   const { repoId } = useParams();
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[300px] items-center justify-center px-4 text-center text-sm text-ink-subtle">
+        Failed to load repository data.
+      </div>
+    );
+  }
+
   if (!ds) {
     return (
-      <div className="flex h-[300px] items-center justify-center">
-        <TailSpin height="60" width="60" color="#5e6ad2" ariaLabel="loading" />
+      <div className="flex h-[300px] items-center justify-center px-4 text-center">
+        <div>
+          <p className="text-sm font-medium text-ink">No repository data available</p>
+          <p className="mt-1 text-sm text-ink-subtle">
+            Select an account to view repository details.
+          </p>
+        </div>
       </div>
     );
   }

@@ -21,7 +21,6 @@ import { unpinnedActionCount } from "@/data/metrics";
 import { percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
 import type { WorkflowAudit, SupplyChainIncident } from "@cleat/contracts";
-import { TailSpin } from "react-loader-spinner";
 
 const TABLE = "workflows";
 
@@ -33,7 +32,7 @@ function riskTone(score: number) {
 }
 
 export function SupplyChainPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading } = useDataset();
 
   const [selected, setSelected] = useState<WorkflowAudit | null>(null);
   const facets: FacetDef<WorkflowAudit>[] = [
@@ -70,14 +69,31 @@ export function SupplyChainPage() {
     search: (r) => `${r.repo} ${r.workflow} ${r.actions.map((a) => a.name).join(" ")}`,
     facets,
   });
-  if (!ds) {
+
+  if (loading) {
     return (
       <div className="space-y-5">
         <PageHeader eyebrow="Supply chain" title="Actions audit" description="Loading data..." />
 
-        <div className="flex h-[300px] items-center justify-center">
-          <TailSpin height="60" width="60" color="#5e6ad2" />
+        <div className="flex h-[300px] items-center justify-center text-sm text-ink-subtle">
+          Loading workflow audit...
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        Failed to load supply chain data.
+      </div>
+    );
+  }
+
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No workflow audit data available.
       </div>
     );
   }
