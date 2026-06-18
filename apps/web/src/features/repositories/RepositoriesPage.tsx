@@ -31,14 +31,8 @@ const VIS_ICON: Record<Visibility, typeof Lock> = {
 };
 
 export function RepositoriesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
   const navigate = useNavigate();
-
-  const protectedCount = ds.repos.filter((r) => r.branchProtected).length;
-  const archived = ds.repos.filter((r) => r.archived).length;
-  const avgHygiene = Math.round(
-    ds.repos.reduce((s, r) => s + r.hygieneScore, 0) / Math.max(1, ds.repos.length),
-  );
 
   const facets: FacetDef<Repo>[] = [
     {
@@ -55,7 +49,7 @@ export function RepositoriesPage() {
       key: "language",
       label: "Language",
       accessor: (r) => r.language,
-      options: [...new Set(ds.repos.map((r) => r.language))]
+      options: [...new Set(ds?.repos?.map((r) => r.language) ?? [])]
         .sort()
         .map((l) => ({ value: l, label: l })),
     },
@@ -76,10 +70,47 @@ export function RepositoriesPage() {
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.repos, {
+  const rows = useFilteredRows(TABLE, ds?.repos ?? [], {
     search: (r) => `${r.name} ${r.language} ${r.topics.join(" ")}`,
     facets,
   });
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load repositories data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No data available.
+      </div>
+    );
+  }
+
+  const protectedCount = ds.repos.filter((r) => r.branchProtected).length;
+  const archived = ds.repos.filter((r) => r.archived).length;
+  const avgHygiene = Math.round(
+    ds.repos.reduce((s, r) => s + r.hygieneScore, 0) / Math.max(1, ds.repos.length),
+  );
 
   const columns: Column<Repo>[] = [
     {

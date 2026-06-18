@@ -18,14 +18,9 @@ import type { SecretFinding } from "@cleat/contracts";
 const TABLE = "secrets";
 
 export function SecretsPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
+
   const [selected, setSelected] = useState<SecretFinding | null>(null);
-
-  const active = ds.secrets.filter((s) => s.validity === "active").length;
-  const revoked = ds.secrets.filter((s) => s.validity === "revoked").length;
-  const blocked = ds.secrets.filter((s) => s.pushProtectionBlocked).length;
-  const repos = new Set(ds.secrets.map((s) => s.repo)).size;
-
   const facets: FacetDef<SecretFinding>[] = [
     {
       key: "validity",
@@ -50,17 +45,53 @@ export function SecretsPage() {
       key: "provider",
       label: "Provider",
       accessor: (r) => r.provider,
-      options: [...new Set(ds.secrets.map((s) => s.provider))].map((p) => ({
+      options: [...new Set(ds?.secrets?.map((s) => s.provider) ?? [])].map((p) => ({
         value: p,
         label: provider(p).label,
       })),
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.secrets, {
+  const rows = useFilteredRows(TABLE, ds?.secrets ?? [], {
     search: (r) => `${r.secretType} ${r.repo} ${r.file} ${r.author} ${provider(r.provider).label}`,
     facets,
   });
+
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load secrets data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No data available.
+      </div>
+    );
+  }
+  const active = ds.secrets.filter((s) => s.validity === "active").length;
+  const revoked = ds.secrets.filter((s) => s.validity === "revoked").length;
+  const blocked = ds.secrets.filter((s) => s.pushProtectionBlocked).length;
+  const repos = new Set(ds.secrets.map((s) => s.repo)).size;
 
   const columns: Column<SecretFinding>[] = [
     {
