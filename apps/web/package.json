@@ -48,5 +48,5 @@
     "lint:fix": "eslint . --fix",
     "format:check": "prettier --check ."
   },
-  "version": "1.7.0"
+  "version": "1.7.1"
 }

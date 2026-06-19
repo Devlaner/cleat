@@ -28,15 +28,11 @@ import { cn } from "@/lib/cn";
 const TABLE = "dependencies";
 
 export function DependenciesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [format, setFormat] = useState("spdx");
-
-  const deps = useMemo(() => buildDependencies(ds), [ds]);
-  const dist = useMemo(() => licenseDistribution(deps), [deps]);
-  const vulnerable = deps.filter((d) => d.vulnerable).length;
-  const outdated = deps.filter((d) => d.outdated).length;
-  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+  const deps = useMemo(() => (ds ? buildDependencies(ds) : []), [ds]);
+  const dist = useMemo(() => (deps.length ? licenseDistribution(deps) : []), [deps]);
 
   const facets: FacetDef<Dependency>[] = [
     {
@@ -71,19 +67,58 @@ export function DependenciesPage() {
     facets,
   });
 
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load dependencies.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-2 text-sm text-ink-subtle">
+        <Package className="size-6" />
+        <span>No dependency data found.</span>
+      </div>
+    );
+  }
+  const vulnerable = deps.filter((d) => d.vulnerable).length;
+  const outdated = deps.filter((d) => d.outdated).length;
+  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+
   function exportSbom() {
+    if (!ds) return;
+
     const content =
       format === "spdx"
         ? buildSpdx(ds.account.login, deps)
         : buildCycloneDx(ds.account.login, deps);
+
     downloadFile(`${ds.account.login}-sbom.${format}.json`, content);
+
     addToast({
       title: `${format === "spdx" ? "SPDX" : "CycloneDX"} SBOM exported`,
       description: `${deps.length} components`,
       variant: "success",
     });
   }
-
   const columns: Column<Dependency>[] = [
     {
       id: "name",

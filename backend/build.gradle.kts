@@ -1,5 +1,4 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
@@ -37,7 +36,8 @@ subprojects {
         }
     }
 
-    configure<SpotlessExtension> {
+
+    extensions.configure<SpotlessExtension> {
         java {
             palantirJavaFormat()
             removeUnusedImports()
@@ -47,7 +47,7 @@ subprojects {
         }
     }
 
-    configure<CheckstyleExtension> {
+    extensions.configure<CheckstyleExtension> {
         toolVersion = "10.26.1"
         configFile = rootProject.file("config/checkstyle/checkstyle.xml")
         isIgnoreFailures = false

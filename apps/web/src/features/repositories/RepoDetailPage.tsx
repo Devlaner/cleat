@@ -50,7 +50,50 @@ function scoreHex(score: number) {
 
 export function RepoDetailPage() {
   const { repoId } = useParams();
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[300px] items-center justify-center px-4 text-center text-sm text-ink-subtle">
+        Failed to load repository data.
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load repository data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[300px] items-center justify-center px-4 text-center">
+        <div>
+          <p className="text-sm font-medium text-ink">No repository data available</p>
+          <p className="mt-1 text-sm text-ink-subtle">
+            Select an account to view repository details.
+          </p>
+        </div>
+      </div>
+    );
+  }
   const repo = ds.repos.find((r) => r.id === repoId);
 
   if (!repo) {
