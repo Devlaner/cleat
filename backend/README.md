@@ -57,8 +57,7 @@ for example `dev.cleat.domain` and `dev.cleat.githubclient`.
 ./gradlew build                    # build and test everything
 ```
 
-Local dependencies (Postgres, Redis) are expected to run via Docker Compose. The
-two services build into one container image each.
+Local dependencies (Postgres, Redis) are expected to run via Docker Compose, while the API and Worker services are intended to be run locally via Gradle
 
 
 # Docker Setup
