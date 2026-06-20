@@ -13,3 +13,5 @@ build/
 # Local env
 *.local
 application-local.yml
+.env
+

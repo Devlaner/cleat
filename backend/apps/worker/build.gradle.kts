@@ -14,4 +14,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+          testImplementation("org.testcontainers:junit-jupiter")
+          testImplementation("org.testcontainers:postgresql")
+          testImplementation("org.testcontainers:testcontainers")
+          testImplementation("org.springframework.boot:spring-boot-testcontainers")
 }
