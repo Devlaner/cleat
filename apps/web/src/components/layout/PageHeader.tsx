@@ -7,15 +7,18 @@ export function PageHeader({
   description,
   actions,
   className,
+  "data-testid": dataTestId,
 }: {
   eyebrow?: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
   className?: string;
+  "data-testid"?: string;
 }) {
   return (
     <div
+      data-testid={dataTestId}
       className={cn("flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between", className)}
     >
       <div className="min-w-0">

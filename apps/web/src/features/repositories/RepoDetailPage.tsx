@@ -53,7 +53,7 @@ export function RepoDetailPage() {
   const { data: ds, error, loading, retry } = useDataset();
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
+      <div data-testid="repo-detail-page" className="flex h-[60vh] items-center justify-center">
         <div
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
           aria-label="loading"
@@ -64,14 +64,20 @@ export function RepoDetailPage() {
 
   if (error) {
     return (
-      <div className="flex h-[300px] items-center justify-center px-4 text-center text-sm text-ink-subtle">
+      <div
+        data-testid="repo-detail-page"
+        className="flex h-[300px] items-center justify-center px-4 text-center text-sm text-ink-subtle"
+      >
         Failed to load repository data.
       </div>
     );
   }
   if (error) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+      <div
+        data-testid="repo-detail-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
         <p> Failed to load repository data.</p>
         <button
           onClick={retry}
@@ -84,7 +90,10 @@ export function RepoDetailPage() {
   }
   if (!ds) {
     return (
-      <div className="flex h-[300px] items-center justify-center px-4 text-center">
+      <div
+        data-testid="repo-detail-page"
+        className="flex h-[300px] items-center justify-center px-4 text-center"
+      >
         <div>
           <p className="text-sm font-medium text-ink">No repository data available</p>
           <p className="mt-1 text-sm text-ink-subtle">
@@ -98,7 +107,7 @@ export function RepoDetailPage() {
 
   if (!repo) {
     return (
-      <div className="space-y-5">
+      <div data-testid="repo-detail-page" className="space-y-5">
         <BackLink />
         <Card>
           <EmptyState
@@ -131,7 +140,7 @@ export function RepoDetailPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="repo-detail-page" className="space-y-5">
       <BackLink />
       <PageHeader
         eyebrow={ds.account.name}

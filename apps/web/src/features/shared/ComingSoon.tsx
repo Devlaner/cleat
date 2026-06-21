@@ -10,14 +10,16 @@ export function ComingSoon({
   description,
   eyebrow,
   icon = Hammer,
+  testId,
 }: {
   title: string;
   description?: string;
   eyebrow?: string;
   icon?: LucideIcon;
+  testId?: string;
 }) {
   return (
-    <div className="space-y-6">
+    <div data-testid={testId ?? "coming-soon-page"} className="space-y-6">
       <PageHeader eyebrow={eyebrow} title={title} description={description} />
       <Card>
         <EmptyState

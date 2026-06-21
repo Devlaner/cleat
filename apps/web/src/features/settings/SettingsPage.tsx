@@ -52,7 +52,7 @@ export function SettingsPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div data-testid="settings-page" className="space-y-5">
       <PageHeader
         eyebrow="Governance"
         title="Settings"

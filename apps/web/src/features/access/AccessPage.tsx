@@ -55,7 +55,7 @@ export function AccessPage() {
   const outside = ds.members.filter((m) => m.outsideCollaborator).length;
 
   return (
-    <div className="space-y-5">
+    <div data-testid="access-page" className="space-y-5">
       <PageHeader
         eyebrow="Governance"
         title="Access & audit"

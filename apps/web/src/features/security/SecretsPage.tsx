@@ -59,7 +59,7 @@ export function SecretsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
+      <div data-testid="secrets-page" className="flex h-[60vh] items-center justify-center">
         <div
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
           aria-label="loading"
@@ -70,7 +70,10 @@ export function SecretsPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+      <div
+        data-testid="secrets-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
         <p> Failed to load secrets data.</p>
         <button
           onClick={retry}
@@ -83,7 +86,10 @@ export function SecretsPage() {
   }
   if (!ds) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+      <div
+        data-testid="secrets-page"
+        className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle"
+      >
         No data available.
       </div>
     );
@@ -155,7 +161,7 @@ export function SecretsPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="secrets-page" className="space-y-5">
       <PageHeader
         eyebrow="Security"
         title="Secrets"

@@ -231,7 +231,7 @@ export function RepositoriesPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="repositories-page" className="space-y-5">
       <PageHeader
         eyebrow="Maintenance"
         title="Repositories"
