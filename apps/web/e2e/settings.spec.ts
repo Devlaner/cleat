@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// Авторизация пользователя перед тестом настроек
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 

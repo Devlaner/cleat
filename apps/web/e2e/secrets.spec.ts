@@ -23,7 +23,5 @@ test.beforeEach(async ({ page }) => {
 test("secrets page loads", async ({ page }) => {
   await page.goto("/app/security/secrets");
 
-  console.log(await page.locator("body").innerText());
-
   await expect(page.getByTestId("secrets-page")).toBeVisible();
 });

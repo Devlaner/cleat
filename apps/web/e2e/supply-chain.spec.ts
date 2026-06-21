@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-// Инициализируем сессию в localStorage перед тестом supply-chain
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 
