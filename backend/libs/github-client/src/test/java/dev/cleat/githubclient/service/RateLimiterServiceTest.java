@@ -1,7 +1,7 @@
 package dev.cleat.githubclient.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ class RateLimiterServiceTest {
     private RateLimiterService rateLimiterService;
 
     @Test
-    void checkLimit_ThrowsException_WhenLimitIsZero() {
+    void checkLimitThrowsExceptionWhenLimitIsZero() {
         String id = "123";
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         when(valueOperations.get("rate_limit:" + id)).thenReturn("0");
