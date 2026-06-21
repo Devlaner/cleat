@@ -39,3 +39,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .ufazien.json
 # Ufazien CLI
 ufazien.py
+
+# Playwright
+test-results/
+playwright-report/
