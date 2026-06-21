@@ -72,7 +72,7 @@ export function SupplyChainPage() {
 
   if (loading) {
     return (
-      <div className="space-y-5">
+      <div data-testid="supply-chain-page" className="space-y-5">
         <PageHeader eyebrow="Supply chain" title="Actions audit" description="Loading data..." />
 
         <div className="flex h-[300px] items-center justify-center text-sm text-ink-subtle">
@@ -84,7 +84,10 @@ export function SupplyChainPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+      <div
+        data-testid="supply-chain-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
         <p> Failed to load supply chain data.</p>
         <button
           onClick={retry}
@@ -97,7 +100,10 @@ export function SupplyChainPage() {
   }
   if (!ds) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+      <div
+        data-testid="supply-chain-page"
+        className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle"
+      >
         No workflow audit data available.
       </div>
     );
@@ -180,7 +186,7 @@ export function SupplyChainPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="supply-chain-page" className="space-y-5">
       <PageHeader
         eyebrow="Supply chain"
         title="Actions audit"

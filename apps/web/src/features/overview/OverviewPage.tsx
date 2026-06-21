@@ -102,7 +102,7 @@ export function OverviewPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="overview-page" className="space-y-5">
       <PageHeader
         eyebrow={ds.account.name}
         title="Overview"
@@ -117,6 +117,7 @@ export function OverviewPage() {
       {/* KPIs */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatTile
+          data-testid="security-posture-card"
           label="Security posture"
           value={<span className={GRADE_COLOR[grade].text}>{ds.account.postureScore}</span>}
           icon={<ShieldCheck className="size-4" />}
@@ -131,6 +132,7 @@ export function OverviewPage() {
           accent="#5e6ad2"
         />
         <StatTile
+          data-testid="open-findings-card"
           label="Open findings"
           value={findings}
           icon={<AlertTriangle className="size-4" />}

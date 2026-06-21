@@ -181,7 +181,7 @@ export function DependenciesPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="dependencies-page" className="space-y-5">
       <PageHeader
         eyebrow="Supply chain"
         title="Dependencies & SBOM"

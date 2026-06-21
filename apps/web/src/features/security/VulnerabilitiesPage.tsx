@@ -212,7 +212,7 @@ export function VulnerabilitiesPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="vulnerabilities-page" className="space-y-5">
       <PageHeader
         eyebrow="Security"
         title="Vulnerabilities"

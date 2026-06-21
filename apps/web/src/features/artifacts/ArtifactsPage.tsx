@@ -47,7 +47,7 @@ export function ArtifactsPage() {
   const packages = ds?.packages ?? [];
   if (loading) {
     return (
-      <div className="space-y-5">
+      <div data-testid="artifacts-page" className="space-y-5">
         <PageHeader eyebrow="Maintenance" title="Artifacts & cost" description="Loading..." />
 
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
@@ -66,7 +66,10 @@ export function ArtifactsPage() {
 
   if (error) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+      <div
+        data-testid="artifacts-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
         <p> Failed to load artifacts data.</p>
         <button
           onClick={retry}
@@ -79,7 +82,10 @@ export function ArtifactsPage() {
   }
   if (!ds) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+      <div
+        data-testid="artifacts-page"
+        className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle"
+      >
         No dataset available.
       </div>
     );
@@ -131,7 +137,7 @@ export function ArtifactsPage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div data-testid="artifacts-page" className="space-y-5">
       <PageHeader
         eyebrow="Maintenance"
         title="Artifacts & cost"

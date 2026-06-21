@@ -86,7 +86,7 @@ export function NotificationsPage() {
   const thisWeek = items.filter((i) => Date.now() - +new Date(i.createdAt) < 7 * 86_400_000).length;
 
   return (
-    <div className="space-y-5">
+    <div data-testid="notifications-page" className="space-y-5">
       <PageHeader
         eyebrow="Governance"
         title="Notifications"
