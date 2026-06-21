@@ -1,12 +1,15 @@
 package dev.cleat.githubclient.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GitHubTokenResponse {
 
     private String token;
-    private String expires_at;
+
+    @JsonProperty("expires_at")
+    private String expiresAt;
 
     public String getToken() {
         return token;
@@ -16,11 +19,11 @@ public class GitHubTokenResponse {
         this.token = token;
     }
 
-    public String getExpires_at() {
-        return expires_at;
+    public String getExpiresAt() {
+        return expiresAt;
     }
 
-    public void setExpires_at(String expires_at) {
-        this.expires_at = expires_at;
+    public void setExpiresAt(String expiresAt) {
+        this.expiresAt = expiresAt;
     }
 }
