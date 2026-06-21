@@ -2,7 +2,6 @@ package dev.cleat.githubclient.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GitHubTokenResponse {
 

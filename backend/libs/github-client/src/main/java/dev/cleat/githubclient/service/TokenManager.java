@@ -3,10 +3,6 @@ package dev.cleat.githubclient.service;
 import dev.cleat.githubclient.dto.GitHubTokenResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -15,6 +11,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class TokenManager {
@@ -40,7 +39,8 @@ public class TokenManager {
     private String mintNewToken(String installationId) {
         String jwt = generateJwt();
 
-        GitHubTokenResponse response = webClient.post()
+        GitHubTokenResponse response = webClient
+                .post()
                 .uri("/app/installations/" + installationId + "/access_tokens")
                 .header("Authorization", "Bearer " + jwt)
                 .retrieve()
@@ -60,9 +60,9 @@ public class TokenManager {
 
     private String generateJwt() {
         try {
-            String key = new String(Files.readAllBytes(Paths.get(getClass().getClassLoader().getResource("private-key.pem").toURI())));
-            String privateKeyPEM = key
-                    .replace("-----BEGIN PRIVATE KEY-----", "")
+            String key = new String(Files.readAllBytes(Paths.get(
+                    getClass().getClassLoader().getResource("private-key.pem").toURI())));
+            String privateKeyPEM = key.replace("-----BEGIN PRIVATE KEY-----", "")
                     .replaceAll(System.lineSeparator(), "")
                     .replace("-----END PRIVATE KEY-----", "");
 
@@ -79,4 +79,5 @@ public class TokenManager {
         } catch (Exception e) {
             throw new RuntimeException("JWT yaradılması zamanı xəta baş verdi", e);
         }
-    }}
+    }
+}

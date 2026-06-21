@@ -9,9 +9,8 @@ public class GitHubClient {
     private final TokenManager tokenManager;
     private final RateLimiterService rateLimiterService;
 
-    public GitHubClient(WebClient.Builder webClientBuilder,
-                        TokenManager tokenManager,
-                        RateLimiterService rateLimiterService) {
+    public GitHubClient(
+            WebClient.Builder webClientBuilder, TokenManager tokenManager, RateLimiterService rateLimiterService) {
         this.webClient = webClientBuilder.build();
         this.tokenManager = tokenManager;
         this.rateLimiterService = rateLimiterService;
@@ -22,12 +21,14 @@ public class GitHubClient {
 
         String token = tokenManager.getInstallationToken(installationId);
 
-        return webClient.get()
+        return webClient
+                .get()
                 .uri(uri)
                 .header("Authorization", "Bearer " + token)
                 .exchange()
                 .flatMap(response -> {
-                    String remaining = response.headers().header("X-RateLimit-Remaining").get(0);
+                    String remaining =
+                            response.headers().header("X-RateLimit-Remaining").get(0);
                     rateLimiterService.updateLimit(installationId, remaining);
 
                     return response.bodyToMono(responseType);
