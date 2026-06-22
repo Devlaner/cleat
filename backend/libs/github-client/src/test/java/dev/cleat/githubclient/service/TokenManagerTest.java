@@ -3,6 +3,9 @@ package dev.cleat.githubclient.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,21 +43,21 @@ class TokenManagerTest {
     private WebClient.RequestBodySpec requestBodySpec;
 
     @Mock
-    private WebClient.RequestHeadersSpec requestHeadersSpec;
-
-    @Mock
     private WebClient.ResponseSpec responseSpec;
 
     private TokenManager tokenManager;
 
     @BeforeEach
     void setUp() {
-        tokenManager = new TokenManager(redisTemplate, webClient);
+        TokenManager realTokenManager = new TokenManager(redisTemplate, webClient);
+        tokenManager = spy(realTokenManager);
 
         ReflectionTestUtils.setField(tokenManager, "appId", "12345");
         ReflectionTestUtils.setField(tokenManager, "privateKeyPath", "src/test/resources/test-key.pem");
 
-        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+        doReturn("fake-jwt-token").when(tokenManager).generateJwt();
+
+        lenient().when(redisTemplate.opsForValue()).thenReturn(valueOperations);
     }
 
     @Test
