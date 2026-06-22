@@ -9,9 +9,8 @@ public class GitHubClient {
     private final TokenManager tokenManager;
     private final RateLimiterService rateLimiterService;
 
-    public GitHubClient(
-            WebClient.Builder webClientBuilder, TokenManager tokenManager, RateLimiterService rateLimiterService) {
-        this.webClient = webClientBuilder.build();
+    public GitHubClient(WebClient gitHubWebClient, TokenManager tokenManager, RateLimiterService rateLimiterService) {
+        this.webClient = gitHubWebClient;
         this.tokenManager = tokenManager;
         this.rateLimiterService = rateLimiterService;
     }

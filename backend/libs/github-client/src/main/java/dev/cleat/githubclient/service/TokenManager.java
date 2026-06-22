@@ -21,9 +21,9 @@ public class TokenManager {
     private final RedisTemplate<String, String> redisTemplate;
     private final WebClient webClient;
 
-    public TokenManager(RedisTemplate<String, String> redisTemplate, WebClient webClient) {
+    public TokenManager(RedisTemplate<String, String> redisTemplate, WebClient gitHubWebClient) {
         this.redisTemplate = redisTemplate;
-        this.webClient = webClient;
+        this.webClient = gitHubWebClient;
     }
 
     public String getInstallationToken(String installationId) {
@@ -71,9 +71,9 @@ public class TokenManager {
             PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(encoded));
 
             return Jwts.builder()
-                    .setIssuer("YOUR_GITHUB_APP_ID") // Bura öz App ID-ni yaz
+                    .setIssuer("YOUR_GITHUB_APP_ID")
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + 600000)) // 10 dəqiqəlik etibarlılıq
+                    .setExpiration(new Date(System.currentTimeMillis() + 600000))
                     .signWith(privateKey, SignatureAlgorithm.RS256)
                     .compact();
         } catch (Exception e) {
