@@ -10,6 +10,8 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,13 +57,19 @@ public class TokenManager {
                 .bodyToMono(GitHubTokenResponse.class)
                 .block();
 
-        if (response == null || response.getToken() == null) {
-            throw new RuntimeException("GitHub-dan token almaq mümkün olmadı");
+        if (response == null || response.getToken() == null || response.getExpiresAt() == null) {
+            throw new RuntimeException("Failed to retrieve a valid token from GitHub");
         }
 
         String newToken = response.getToken();
 
-        redisTemplate.opsForValue().set("token:" + installationId, newToken, Duration.ofSeconds(3600));
+        Instant expiresAt = Instant.parse(response.getExpiresAt());
+        long safetyMarginSeconds = 300;
+        long ttlSeconds = ChronoUnit.SECONDS.between(Instant.now(), expiresAt) - safetyMarginSeconds;
+
+        long finalTtl = Math.max(0, ttlSeconds);
+
+        redisTemplate.opsForValue().set("token:" + installationId, newToken, Duration.ofSeconds(finalTtl));
 
         return newToken;
     }
@@ -76,7 +84,7 @@ public class TokenManager {
             String key = Files.readString(path);
 
             String privateKeyPEM = key.replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replaceAll("\\s+", "") // Line separator-ları təmizləmək üçün daha effektiv üsul
+                    .replaceAll("\\s+", "")
                     .replace("-----END PRIVATE KEY-----", "");
 
             byte[] encoded = Base64.getDecoder().decode(privateKeyPEM);
