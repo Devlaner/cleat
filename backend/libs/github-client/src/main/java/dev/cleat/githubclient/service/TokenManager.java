@@ -74,7 +74,7 @@ public class TokenManager {
         return newToken;
     }
 
-    private String generateJwt() {
+    protected String generateJwt() {
         Path path = Paths.get(privateKeyPath);
         if (!Files.exists(path)) {
             throw new IllegalStateException("Private key file not found at path: " + privateKeyPath);
