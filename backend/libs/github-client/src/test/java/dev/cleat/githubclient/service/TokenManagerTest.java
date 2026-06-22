@@ -3,11 +3,7 @@ package dev.cleat.githubclient.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import dev.cleat.githubclient.dto.GitHubTokenResponse;
 import java.time.Duration;
@@ -54,17 +50,14 @@ class TokenManagerTest {
 
         ReflectionTestUtils.setField(tokenManager, "appId", "12345");
         ReflectionTestUtils.setField(tokenManager, "privateKeyPath", "src/test/resources/test-key.pem");
-
-        doReturn("fake-jwt-token").when(tokenManager).generateJwt();
-
-        lenient().when(redisTemplate.opsForValue()).thenReturn(valueOperations);
     }
 
     @Test
     void getInstallationTokenReturnsCachedTokenWhenExistsInRedis() {
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
         String installationId = "123";
         String expectedToken = "valid-token";
-
         when(valueOperations.get("token:" + installationId)).thenReturn(expectedToken);
 
         String actualToken = tokenManager.getInstallationToken(installationId);
@@ -74,28 +67,27 @@ class TokenManagerTest {
 
     @Test
     void getInstallationTokenMintNewTokenAndCacheItWhenCacheMiss() {
-        // Arrange
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+        doReturn("fake-jwt-token").when(tokenManager).generateJwt();
+
         String installationId = "123";
         String newToken = "new-minted-token";
-        String expiresAt = Instant.now().plus(1, ChronoUnit.HOURS).toString();
 
         GitHubTokenResponse response = new GitHubTokenResponse();
         response.setToken(newToken);
-        response.setExpiresAt(expiresAt);
+        response.setExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS).toString());
 
         when(valueOperations.get("token:" + installationId)).thenReturn(null);
 
-        // Mocking WebClient chain
+        // WebClient chain
         when(webClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(any(String.class))).thenReturn(requestBodySpec);
         when(requestBodySpec.header(any(), any())).thenReturn(requestBodySpec);
         when(requestBodySpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.bodyToMono(GitHubTokenResponse.class)).thenReturn(Mono.just(response));
 
-        // Act
         String actualToken = tokenManager.getInstallationToken(installationId);
 
-        // Assert
         assertEquals(newToken, actualToken);
         verify(valueOperations).set(eq("token:" + installationId), eq(newToken), any(Duration.class));
     }
