@@ -30,10 +30,13 @@ public class GitHubClient {
                 .toEntity(responseType)
                 .flatMap(entity -> {
                     List<String> remainingHeaders = entity.getHeaders().get("X-RateLimit-Remaining");
+                    List<String> resetHeaders = entity.getHeaders().get("X-RateLimit-Reset");
 
-                    if (remainingHeaders != null && !remainingHeaders.isEmpty()) {
-                        String remaining = remainingHeaders.get(0);
-                        rateLimiterService.updateLimit(installationId, remaining);
+                    if (remainingHeaders != null
+                            && !remainingHeaders.isEmpty()
+                            && resetHeaders != null
+                            && !resetHeaders.isEmpty()) {
+                        rateLimiterService.updateLimit(installationId, remainingHeaders.get(0), resetHeaders.get(0));
                     }
                     return Mono.justOrEmpty(entity.getBody());
                 })
