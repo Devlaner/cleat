@@ -11,6 +11,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Duration;
 import java.util.Base64;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,6 +26,12 @@ public class TokenManager {
         this.redisTemplate = redisTemplate;
         this.webClient = gitHubWebClient;
     }
+
+    @Value("${github.app-id}")
+    private String appId;
+
+    @Value("${github.private-key-path}")
+    private String privateKeyPath;
 
     public String getInstallationToken(String installationId) {
         String cachedToken = redisTemplate.opsForValue().get("token:" + installationId);
@@ -60,8 +67,7 @@ public class TokenManager {
 
     private String generateJwt() {
         try {
-            String key = new String(Files.readAllBytes(Paths.get(
-                    getClass().getClassLoader().getResource("private-key.pem").toURI())));
+            String key = new String(Files.readAllBytes(Paths.get(privateKeyPath)));
             String privateKeyPEM = key.replace("-----BEGIN PRIVATE KEY-----", "")
                     .replaceAll(System.lineSeparator(), "")
                     .replace("-----END PRIVATE KEY-----", "");
@@ -71,13 +77,13 @@ public class TokenManager {
             PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(encoded));
 
             return Jwts.builder()
-                    .setIssuer("YOUR_GITHUB_APP_ID")
+                    .setIssuer(appId) // Replace with your GitHub App ID
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis() + 600000))
                     .signWith(privateKey, SignatureAlgorithm.RS256)
                     .compact();
         } catch (Exception e) {
-            throw new RuntimeException("JWT yaradılması zamanı xəta baş verdi", e);
+            throw new RuntimeException("Error occurred while generating JWT", e);
         }
     }
 }
