@@ -34,7 +34,7 @@ export function Popover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="block w-full text-left"
+        className="block min-h-12 w-full rounded-md text-left px-3 transition-colors focus-visible:outline-2"
         aria-haspopup="menu"
         aria-expanded={open}
       >
@@ -49,14 +49,16 @@ export function Popover({
             transition={{ duration: 0.13, ease: [0.16, 1, 0.3, 1] }}
             style={{ width }}
             className={cn(
-              "absolute z-50 mt-1.5 origin-top rounded-lg border border-hairline-strong bg-surface-2 p-1 shadow-overlay",
+              "absolute z-50 mt-2 origin-top rounded-lg border border-hairline-strong bg-surface-2 p-1.5 shadow-overlay",
               align === "end" && "right-0",
               align === "center" && "left-1/2 -translate-x-1/2",
               panelClassName,
             )}
             role="menu"
           >
-            {typeof children === "function" ? children(close) : children}
+            <div className="flex flex-col gap-1">
+              {typeof children === "function" ? children(close) : children}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -85,7 +87,7 @@ export function MenuItem({
       role="menuitem"
       onClick={onClick}
       className={cn(
-        "flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
+        "flex  min-h-12 w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
         danger
           ? "text-critical hover:bg-critical/10"
           : "text-ink-muted hover:bg-surface-3 hover:text-ink",

@@ -270,7 +270,7 @@ function Field({
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <p className="text-body-sm text-ink">{label}</p>
-        {hint && <p className="text-caption text-ink-tertiary">{hint}</p>}
+        {hint && <p className="text-caption text-ink-subtle">{hint}</p>}
       </div>
       {children}
     </div>
@@ -292,7 +292,7 @@ function ToggleRow({
     <div className="flex items-center justify-between gap-4">
       <div>
         <p className="text-body-sm text-ink">{label}</p>
-        <p className="text-caption text-ink-tertiary">{desc}</p>
+        <p className="text-caption text-ink-subtle">{desc}</p>
       </div>
       <Switch checked={checked} onChange={onChange} label={label} />
     </div>

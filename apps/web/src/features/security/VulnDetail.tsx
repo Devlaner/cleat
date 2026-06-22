@@ -166,7 +166,7 @@ function Reachability({ reachable }: { reachable: Vulnerability["reachable"] }) 
         {reachable === "not-reachable" && <ShieldCheck className="size-4" />}
         {map.label}
       </p>
-      <p className="text-caption text-ink-tertiary">{map.hint}</p>
+      <p className="text-caption text-ink-subtle">{map.hint}</p>
     </div>
   );
 }

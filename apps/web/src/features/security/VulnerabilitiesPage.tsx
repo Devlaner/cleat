@@ -264,7 +264,7 @@ export function VulnerabilitiesPage() {
         }}
       />
 
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         Showing {pluralize(rows.length, "advisory", "advisories")} ranked by fix-first priority.
       </p>
 

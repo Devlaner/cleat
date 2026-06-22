@@ -171,6 +171,8 @@ export function NotificationsPage() {
               description="What triggers a notification"
               action={
                 <button
+                  type="button"
+                  aria-label="Create alert rule"
                   onClick={() =>
                     addToast({
                       title: "Rule builder",
@@ -180,7 +182,7 @@ export function NotificationsPage() {
                   }
                   className="text-ink-subtle transition-colors hover:text-ink"
                 >
-                  <Plus className="size-4" />
+                  <Plus className="size-4" aria-hidden="true" />
                 </button>
               }
             />
@@ -239,7 +241,7 @@ function NotificationRow({ item, onRead }: { item: NotificationItem; onRead: () 
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-body-sm text-ink">{item.message}</p>
-        <div className="mt-1 flex items-center gap-2 text-caption text-ink-tertiary">
+        <div className="mt-1 flex items-center gap-2 text-caption text-ink-muted">
           <Badge tone="muted">{CATEGORY_LABEL[item.category]}</Badge>
           <span>{item.actor}</span>
           <span>·</span>

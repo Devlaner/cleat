@@ -249,7 +249,7 @@ export function OverviewPreview({ ds }: { ds: Dataset }) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-body-sm text-ink">{e.message}</p>
-                    <p className="text-caption text-ink-tertiary">{relativeTime(e.createdAt)}</p>
+                    <p className="text-caption text-ink-subtle">{relativeTime(e.createdAt)}</p>
                   </div>
                 </div>
               );

@@ -67,7 +67,7 @@ export function ConnectPage() {
                   </span>
                   <div className="min-w-0">
                     <p className="text-body-sm text-ink">{s.label}</p>
-                    <p className="text-caption text-ink-tertiary">{s.detail}</p>
+                    <p className="text-caption text-ink-subtle">{s.detail}</p>
                   </div>
                 </div>
               ))}

@@ -34,14 +34,15 @@ export function FilterBar<T>({
   const hasFilters = activeFacetCount > 0 || ts.search.length > 0;
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-4">
       <div className="relative min-w-0 flex-1 sm:max-w-xs">
         <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-ink-tertiary" />
         <input
+          aria-label="Search"
           value={ts.search}
           onChange={(e) => setSearch(tableKey, e.target.value)}
           placeholder={searchPlaceholder}
-          className="h-9 w-full rounded-md border border-hairline bg-surface-1 pl-8 pr-3 text-body-sm text-ink placeholder:text-ink-tertiary transition-colors focus:border-hairline-strong focus:outline-none"
+          className="h-12 w-full rounded-md border border-hairline bg-surface-1 pl-8 pr-3 text-body-sm text-ink placeholder:text-ink-tertiary transition-colors focus:border-hairline-strong focus:outline-none"
         />
       </div>
 
@@ -53,16 +54,16 @@ export function FilterBar<T>({
             trigger={() => (
               <span
                 className={cn(
-                  "inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-body-sm transition-colors",
+                  "inline-flex h-12 min-w-[48px] items-center gap-1.5 rounded-md border px-3 text-body-sm transition-colors w-full justify-start",
                   selected.length > 0
                     ? "border-primary/40 bg-primary/10 text-ink"
                     : "border-hairline bg-surface-1 text-ink-subtle hover:text-ink",
                 )}
               >
-                <ListFilter className="size-3.5" />
-                {facet.label}
+                <ListFilter className="size-3.5 shrink-0" />
+                <span className="truncate">{facet.label}</span>
                 {selected.length > 0 && (
-                  <span className="rounded-full bg-primary/20 px-1.5 text-[0.6875rem] tabular-nums text-primary-hover">
+                  <span className="ml-auto rounded-full bg-primary/20 px-1.5 text-[0.6875rem] tabular-nums text-primary-hover">
                     {selected.length}
                   </span>
                 )}
@@ -76,7 +77,7 @@ export function FilterBar<T>({
                   <button
                     key={opt.value}
                     onClick={() => toggleFacet(tableKey, facet.key, opt.value)}
-                    className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm text-ink-muted transition-colors hover:bg-surface-3"
+                    className="flex min-h-12 items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm text-ink-muted transition-colors hover:bg-surface-3"
                   >
                     <span
                       className={cn(
@@ -98,7 +99,7 @@ export function FilterBar<T>({
       {hasFilters && (
         <button
           onClick={() => clear(tableKey)}
-          className="inline-flex h-9 items-center gap-1 rounded-md px-2 text-caption text-ink-subtle transition-colors hover:text-ink"
+          className="inline-flex h-12 items-center gap-1 rounded-md px-2 text-caption text-ink-subtle transition-colors hover:text-ink"
         >
           <X className="size-3.5" /> Clear
         </button>

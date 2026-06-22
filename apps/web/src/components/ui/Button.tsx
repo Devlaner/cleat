@@ -11,12 +11,16 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-focus shadow-[0_1px_0_0_rgba(255,255,255,0.12)_inset]",
-  secondary:
-    "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2 hover:ring-hairline-strong",
-  ghost: "bg-transparent text-ink-subtle hover:bg-surface-1 hover:text-ink",
-  inverse: "bg-ink text-canvas hover:bg-white",
-  danger: "bg-critical/12 text-critical ring-1 ring-inset ring-critical/30 hover:bg-critical/20",
+    "bg-button-primary text-white hover:bg-button-primary-hover active:bg-button-primary-focus shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+
+  secondary: "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2",
+
+  ghost: "bg-transparent text-ink-muted hover:bg-surface-1 hover:text-ink",
+
+  inverse: "bg-ink text-canvas hover:bg-inverse-surface-1",
+
+  danger:
+    "bg-critical/10 text-critical-strong ring-1 ring-inset ring-critical/30 hover:bg-critical/15",
 };
 
 // Heights grow to a ~44px touch target on coarse pointers (touch devices) only,
@@ -37,7 +41,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       className={cn(
         "inline-flex select-none items-center justify-center font-medium whitespace-nowrap",
-        "transition-all duration-150 disabled:pointer-events-none disabled:opacity-50",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+        "transition-all duration-150 disabled:pointer-events-none disabled:bg-surface-2 disabled:text-ink-muted",
         VARIANTS[variant],
         SIZES[size],
         className,

@@ -74,7 +74,7 @@ export function ProductPreview({ screen = "overview" }: { screen?: PreviewScreen
         <span className="size-2.5 rounded-full bg-hairline-tertiary" />
         <span className="size-2.5 rounded-full bg-hairline-tertiary" />
         <span className="size-2.5 rounded-full bg-hairline-tertiary" />
-        <div className="mx-auto flex items-center gap-1.5 rounded-md bg-surface-2 px-3 py-1 text-[0.6875rem] text-ink-tertiary">
+        <div className="mx-auto flex items-center gap-1.5 rounded-md bg-surface-2 px-3 py-1 text-[0.6875rem] text-ink-subtle">
           <span className="size-1.5 rounded-full bg-success" />
           app.cleat.dev/{def.url}
         </div>
@@ -179,7 +179,12 @@ function PreviewTopBar() {
         </kbd>
       </div>
       <div className="ml-auto flex items-center gap-1.5">
-        <span className="inline-flex h-8 items-center gap-1.5 rounded-md bg-primary px-3 text-button font-medium text-on-primary">
+        <span
+          className="
+            inline-flex h-8 items-center gap-1.5 rounded-md
+            bg-indigo-600 px-3 text-white font-medium
+          "
+        >
           <ScanLine className="size-3.5" /> Run scan
         </span>
         <span className="relative flex size-9 items-center justify-center rounded-md text-ink-subtle">

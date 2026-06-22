@@ -88,6 +88,7 @@ export function DataTable<T>({
                   <Checkbox
                     checked={!!selectable.allSelected}
                     onChange={() => selectable.onToggleAll?.()}
+                    label="Select all rows"
                   />
                 </th>
               )}
@@ -106,6 +107,7 @@ export function DataTable<T>({
                   >
                     {sortable ? (
                       <button
+                        aria-label={`Sort by ${String(col.header)}`}
                         onClick={() => setSort(tableKey, col.id)}
                         className={cn(
                           "inline-flex items-center gap-1 transition-colors hover:text-ink",
@@ -147,6 +149,7 @@ export function DataTable<T>({
                     <Checkbox
                       checked={selectable.isSelected(row)}
                       onChange={() => selectable.onToggle(row)}
+                      label={`Select ${getRowId(row)}`}
                     />
                   </td>
                 )}
@@ -172,11 +175,21 @@ export function DataTable<T>({
   );
 }
 
-export function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => void }) {
+export function Checkbox({
+  checked,
+  onChange,
+  label = "Toggle selection",
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label?: string;
+}) {
   return (
     <button
+      type="button"
       role="checkbox"
       aria-checked={checked}
+      aria-label={label}
       onClick={onChange}
       className={cn(
         "flex size-4 items-center justify-center rounded border transition-colors",

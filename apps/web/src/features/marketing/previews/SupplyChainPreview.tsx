@@ -152,9 +152,9 @@ function Bulletin({ incident }: { incident: SupplyChainIncident }) {
         </div>
         <span className="font-mono text-caption text-ink-tertiary">{incident.cve}</span>
       </div>
-      <h3 className="mt-2.5 flex items-center gap-1.5 text-body-sm font-medium text-ink">
+      <p className="mt-2.5 flex items-center gap-1.5 text-body-sm font-medium text-ink">
         <ShieldAlert className="size-3.5 text-high" /> {incident.title}
-      </h3>
+      </p>
       <p className="mt-1 flex-1 text-caption text-ink-subtle">{incident.summary}</p>
       <span className="mt-3 inline-flex items-center gap-1 text-caption font-medium text-primary-hover">
         {incident.affectedReposCount} repos affected <ArrowRight className="size-3" />
