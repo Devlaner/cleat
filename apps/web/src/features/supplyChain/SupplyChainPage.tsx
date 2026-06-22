@@ -75,7 +75,11 @@ export function SupplyChainPage() {
       <div data-testid="supply-chain-page" className="space-y-5">
         <PageHeader eyebrow="Supply chain" title="Actions audit" description="Loading data..." />
 
-        <div className="flex h-[300px] items-center justify-center text-sm text-ink-subtle">
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex h-[300px] items-center justify-center text-sm text-ink-subtle"
+        >
           Loading workflow audit...
         </div>
       </div>
@@ -134,11 +138,11 @@ export function SupplyChainPage() {
         const u = r.actions.filter((a) => !a.pinned).length;
         return u > 0 ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-high">
-            <PinOff className="size-3.5" /> {u} unpinned
+            <PinOff aria-hidden="true" className="size-3.5" /> {u} unpinned
           </span>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-caption text-success">
-            <ShieldCheck className="size-3.5" /> pinned
+            <ShieldCheck aria-hidden="true" className="size-3.5" /> pinned
           </span>
         );
       },
@@ -151,7 +155,7 @@ export function SupplyChainPage() {
       cell: (r) =>
         r.permissions === "broad" ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-high">
-            <Unlock className="size-3.5" /> broad
+            <Unlock aria-hidden="true" className="size-3.5" /> broad
           </span>
         ) : (
           <span className="text-caption text-ink-subtle">scoped</span>
@@ -169,7 +173,7 @@ export function SupplyChainPage() {
           </Badge>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-caption text-ink-subtle">
-            <KeyRound className="size-3" /> secrets
+            <KeyRound aria-hidden="true" className="size-3" /> secrets
           </span>
         ),
     },
@@ -196,7 +200,7 @@ export function SupplyChainPage() {
       {/* Incident bulletins */}
       <div>
         <div className="mb-3 flex items-center gap-2">
-          <ShieldAlert className="size-4 text-high" />
+          <ShieldAlert aria-hidden="true" className="size-4 text-high" />
           <h2 className="text-body-sm font-medium text-ink">Supply-chain bulletins</h2>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -217,13 +221,13 @@ export function SupplyChainPage() {
             label: "Unpinned actions",
             value: unpinned,
             tone: unpinned > 0 ? "text-high" : "text-success",
-            icon: <PinOff className="size-3.5" />,
+            icon: <PinOff aria-hidden="true" className="size-3.5" />,
           },
           {
             label: "Broad permissions",
             value: broad,
             tone: broad > 0 ? "text-high" : undefined,
-            icon: <Unlock className="size-3.5" />,
+            icon: <Unlock aria-hidden="true" className="size-3.5" />,
           },
           { label: "OIDC adoption", value: percent(oidc), icon: <KeyRound className="size-3.5" /> },
         ]}

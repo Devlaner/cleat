@@ -38,6 +38,7 @@ export function OverviewPage() {
       <div className="flex h-[60vh] items-center justify-center">
         <div
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          role="status"
           aria-label="loading"
         />
       </div>

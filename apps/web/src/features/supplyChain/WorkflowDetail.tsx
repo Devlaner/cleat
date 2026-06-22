@@ -43,7 +43,8 @@ export function WorkflowDetail({
               onClose();
             }}
           >
-            <Pin className="size-4" /> Pin {unpinned} action{unpinned > 1 ? "s" : ""} to commit SHA
+            <Pin aria-hidden="true" className="size-4" /> Pin {unpinned} action
+            {unpinned > 1 ? "s" : ""} to commit SHA
           </Button>
         )
       }
