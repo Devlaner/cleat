@@ -1,7 +1,9 @@
 package dev.cleat.githubclient.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class GitHubClient {
@@ -24,13 +26,16 @@ public class GitHubClient {
                 .get()
                 .uri(uri)
                 .header("Authorization", "Bearer " + token)
-                .exchange()
-                .flatMap(response -> {
-                    String remaining =
-                            response.headers().header("X-RateLimit-Remaining").get(0);
-                    rateLimiterService.updateLimit(installationId, remaining);
+                .retrieve()
+                .toEntity(responseType)
+                .flatMap(entity -> {
+                    List<String> remainingHeaders = entity.getHeaders().get("X-RateLimit-Remaining");
 
-                    return response.bodyToMono(responseType);
+                    if (remainingHeaders != null && !remainingHeaders.isEmpty()) {
+                        String remaining = remainingHeaders.get(0);
+                        rateLimiterService.updateLimit(installationId, remaining);
+                    }
+                    return Mono.justOrEmpty(entity.getBody());
                 })
                 .block();
     }
