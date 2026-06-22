@@ -30,27 +30,34 @@ class GitHubClientTest {
     @BeforeEach
     void setUp() {
         ExchangeFunction exchangeFunction = request -> {
-            if (!request.headers().getFirst("Authorization").startsWith("Bearer ")) {
+            // Authorization header-in mövcudluğunu və formatını yoxlayırıq
+            if (request.headers().getFirst("Authorization") == null
+                    || !request.headers().getFirst("Authorization").startsWith("Bearer ")) {
                 return Mono.just(ClientResponse.create(HttpStatus.UNAUTHORIZED).build());
             }
 
             return Mono.just(ClientResponse.create(HttpStatus.OK)
                     .header("X-RateLimit-Remaining", "4999")
-                    .header("X-RateLimit-Reset", "1767272800") // Nümunə vaxt
+                    .header("X-RateLimit-Reset", "1767272800")
                     .body("{\"name\": \"test\"}")
                     .build());
         };
 
         WebClient webClient =
                 WebClient.builder().exchangeFunction(exchangeFunction).build();
+
         gitHubClient = new GitHubClient(webClient, tokenManager, rateLimiterService);
     }
 
     @Test
     void getSendsBearerTokenAndUpdatesRateLimit() {
         String installationId = "123";
-        when(tokenManager.getInstallationToken(installationId)).thenReturn("fake-token");
+        String fakeToken = "fake-token";
+
+        when(tokenManager.getInstallationToken(installationId)).thenReturn(fakeToken);
+
         String response = gitHubClient.get("/test", installationId, String.class);
+
         verify(rateLimiterService).checkLimit(installationId);
         assertEquals("{\"name\": \"test\"}", response);
         verify(rateLimiterService).updateLimit(eq(installationId), eq("4999"), eq("1767272800"));
