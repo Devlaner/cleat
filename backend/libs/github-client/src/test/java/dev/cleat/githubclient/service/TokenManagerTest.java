@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -49,6 +50,10 @@ class TokenManagerTest {
     @BeforeEach
     void setUp() {
         tokenManager = new TokenManager(redisTemplate, webClient);
+
+        ReflectionTestUtils.setField(tokenManager, "appId", "12345");
+        ReflectionTestUtils.setField(tokenManager, "privateKeyPath", "src/test/resources/test-key.pem");
+
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
     }
 
@@ -89,7 +94,6 @@ class TokenManagerTest {
 
         // Assert
         assertEquals(newToken, actualToken);
-        // Verify that the token was saved to Redis with calculated TTL
         verify(valueOperations).set(eq("token:" + installationId), eq(newToken), any(Duration.class));
     }
 }
