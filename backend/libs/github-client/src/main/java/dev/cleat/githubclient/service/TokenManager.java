@@ -4,6 +4,7 @@ import dev.cleat.githubclient.dto.GitHubTokenResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
@@ -66,10 +67,16 @@ public class TokenManager {
     }
 
     private String generateJwt() {
+        Path path = Paths.get(privateKeyPath);
+        if (!Files.exists(path)) {
+            throw new IllegalStateException("Private key file not found at path: " + privateKeyPath);
+        }
+
         try {
-            String key = new String(Files.readAllBytes(Paths.get(privateKeyPath)));
+            String key = Files.readString(path);
+
             String privateKeyPEM = key.replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replaceAll(System.lineSeparator(), "")
+                    .replaceAll("\\s+", "") // Line separator-ları təmizləmək üçün daha effektiv üsul
                     .replace("-----END PRIVATE KEY-----", "");
 
             byte[] encoded = Base64.getDecoder().decode(privateKeyPEM);
@@ -77,7 +84,7 @@ public class TokenManager {
             PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(encoded));
 
             return Jwts.builder()
-                    .setIssuer(appId) // Replace with your GitHub App ID
+                    .setIssuer(appId)
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis() + 600000))
                     .signWith(privateKey, SignatureAlgorithm.RS256)
