@@ -139,7 +139,9 @@ to live data with no UI change.
 ## Working conventions (whole repo)
 
 - Many small commits, each focused on one thing.
-- No AI attribution in commit messages. Do not add "Generated with" or "Co-Authored-By" lines.
+- Add AI attribution when an assistant contributes. In both the commit message and the PR
+  description, include a short bullet list of the changes the assistant made, and add the standard
+  "Generated with" and "Co-Authored-By" trailer lines.
 - Git identity is already set at the repo level.
 - Keep secrets out of the repo. Cleat is a security product, so we hold ourselves to the bar we
   sell.
