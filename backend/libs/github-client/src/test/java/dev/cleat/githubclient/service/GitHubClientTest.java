@@ -47,7 +47,7 @@ class GitHubClientTest {
     }
 
     @Test
-    void get_SendsBearerTokenAndUpdatesRateLimit() {
+    void getSendsBearerTokenAndUpdatesRateLimit() {
         String installationId = "123";
         when(tokenManager.getInstallationToken(installationId)).thenReturn("fake-token");
         String response = gitHubClient.get("/test", installationId, String.class);
