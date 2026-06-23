@@ -1,4 +1,4 @@
-package dev.cleat.domain;
+package dev.cleat.persistence;
 
 import dev.cleat.common.dto.response.DatasetDto;
 import dev.cleat.common.exception.NotFoundException;

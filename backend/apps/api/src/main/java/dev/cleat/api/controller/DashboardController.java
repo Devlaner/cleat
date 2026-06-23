@@ -1,7 +1,7 @@
 package dev.cleat.api.controller;
 
 import dev.cleat.common.dto.response.DatasetDto;
-import dev.cleat.domain.DashboardService;
+import dev.cleat.persistence.DashboardService;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
