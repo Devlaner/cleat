@@ -11,6 +11,7 @@ export interface Column<T> {
   cell: (row: T) => ReactNode;
   /** providing this makes the column sortable */
   sortValue?: (row: T) => string | number;
+  sortLabel?: string;
   align?: "left" | "right" | "center";
   /** tailwind width/utility classes for the cell + header */
   className?: string;
@@ -109,7 +110,7 @@ export function DataTable<T>({
                   >
                     {sortable ? (
                       <button
-                        aria-label={`Sort by ${String(col.header)}`}
+                        aria-label={`Sort by ${col.sortLabel ?? String(col.header)}`}
                         onClick={() => setSort(tableKey, col.id)}
                         className={cn(
                           "inline-flex items-center gap-1 transition-colors hover:text-ink",
