@@ -28,15 +28,11 @@ import { cn } from "@/lib/cn";
 const TABLE = "dependencies";
 
 export function DependenciesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
   const addToast = useUiStore((s) => s.addToast);
   const [format, setFormat] = useState("spdx");
-
-  const deps = useMemo(() => buildDependencies(ds), [ds]);
-  const dist = useMemo(() => licenseDistribution(deps), [deps]);
-  const vulnerable = deps.filter((d) => d.vulnerable).length;
-  const outdated = deps.filter((d) => d.outdated).length;
-  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+  const deps = useMemo(() => (ds ? buildDependencies(ds) : []), [ds]);
+  const dist = useMemo(() => (deps.length ? licenseDistribution(deps) : []), [deps]);
 
   const facets: FacetDef<Dependency>[] = [
     {
@@ -71,19 +67,58 @@ export function DependenciesPage() {
     facets,
   });
 
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          aria-label="loading"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load dependencies.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-2 text-sm text-ink-subtle">
+        <Package aria-hidden="true" className="size-6" />
+        <span>No dependency data found.</span>
+      </div>
+    );
+  }
+  const vulnerable = deps.filter((d) => d.vulnerable).length;
+  const outdated = deps.filter((d) => d.outdated).length;
+  const copyleft = deps.filter((d) => COPYLEFT.has(d.license)).length;
+
   function exportSbom() {
+    if (!ds) return;
+
     const content =
       format === "spdx"
         ? buildSpdx(ds.account.login, deps)
         : buildCycloneDx(ds.account.login, deps);
+
     downloadFile(`${ds.account.login}-sbom.${format}.json`, content);
+
     addToast({
       title: `${format === "spdx" ? "SPDX" : "CycloneDX"} SBOM exported`,
       description: `${deps.length} components`,
       variant: "success",
     });
   }
-
   const columns: Column<Dependency>[] = [
     {
       id: "name",
@@ -137,7 +172,7 @@ export function DependenciesPage() {
           <SeverityBadge severity={r.vulnSeverity} showDot={false} />
         ) : r.outdated ? (
           <span className="inline-flex items-center gap-1 text-caption text-high">
-            <ArrowUpCircle className="size-3" /> outdated
+            <ArrowUpCircle aria-hidden="true" className="size-3" /> outdated
           </span>
         ) : (
           <span className="text-caption text-success">up to date</span>
@@ -146,7 +181,7 @@ export function DependenciesPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="dependencies-page" className="space-y-5">
       <PageHeader
         eyebrow="Supply chain"
         title="Dependencies & SBOM"
@@ -211,7 +246,7 @@ export function DependenciesPage() {
           <CardHeader
             title="Export SBOM"
             description="Software bill of materials"
-            icon={<FileJson className="size-4" />}
+            icon={<FileJson aria-hidden="true" className="size-4" />}
           />
           <div className="space-y-3 p-4 pt-0">
             <Segmented
@@ -229,7 +264,7 @@ export function DependenciesPage() {
                 : "CycloneDX 1.5: security and VEX oriented."}
             </p>
             <Button variant="primary" className="w-full" onClick={exportSbom}>
-              <Download className="size-4" /> Download {deps.length} components
+              <Download aria-hidden="true" className="size-4" /> Download {deps.length} components
             </Button>
           </div>
         </Card>

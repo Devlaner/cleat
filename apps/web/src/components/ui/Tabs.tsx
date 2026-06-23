@@ -20,7 +20,7 @@ export function Tabs({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-center gap-1 border-b border-hairline", className)}>
+    <div className={cn("flex flex-wrap items-center gap-1 border-b border-hairline", className)}>
       {tabs.map((t) => {
         const active = t.id === value;
         return (

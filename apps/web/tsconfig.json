@@ -16,6 +16,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
+      "@cleat/contracts": ["../../packages/contracts/src/index.ts"],
       "@/*": ["./src/*"]
     },
 

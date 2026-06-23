@@ -1,4 +1,6 @@
+node_modules
 local/
+
 # IDE
 .idea/
 *.iml

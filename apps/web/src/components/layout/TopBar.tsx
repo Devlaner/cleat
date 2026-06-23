@@ -25,6 +25,7 @@ export function TopBar() {
       {/* Command/search trigger */}
       <button
         onClick={() => setCommandOpen(true)}
+        aria-label="Search or jump to pages"
         className="group flex h-9 w-full max-w-xs items-center gap-2 rounded-md border border-hairline bg-surface-1 px-3 text-ink-subtle transition-colors hover:border-hairline-strong"
       >
         <Search className="size-4" />

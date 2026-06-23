@@ -20,7 +20,7 @@ import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { unpinnedActionCount } from "@/data/metrics";
 import { percent } from "@/lib/format";
 import { useUiStore } from "@/stores/useUiStore";
-import type { WorkflowAudit, SupplyChainIncident } from "@/data/types";
+import type { WorkflowAudit, SupplyChainIncident } from "@cleat/contracts";
 
 const TABLE = "workflows";
 
@@ -32,15 +32,9 @@ function riskTone(score: number) {
 }
 
 export function SupplyChainPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
+
   const [selected, setSelected] = useState<WorkflowAudit | null>(null);
-
-  const unpinned = unpinnedActionCount(ds);
-  const broad = ds.workflows.filter((w) => w.permissions === "broad").length;
-  const oidc = ds.workflows.length
-    ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length
-    : 0;
-
   const facets: FacetDef<WorkflowAudit>[] = [
     {
       key: "permissions",
@@ -71,10 +65,58 @@ export function SupplyChainPage() {
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.workflows, {
+  const rows = useFilteredRows(TABLE, ds?.workflows ?? [], {
     search: (r) => `${r.repo} ${r.workflow} ${r.actions.map((a) => a.name).join(" ")}`,
     facets,
   });
+
+  if (loading) {
+    return (
+      <div data-testid="supply-chain-page" className="space-y-5">
+        <PageHeader eyebrow="Supply chain" title="Actions audit" description="Loading data..." />
+
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex h-[300px] items-center justify-center text-sm text-ink-subtle"
+        >
+          Loading workflow audit...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        data-testid="supply-chain-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
+        <p> Failed to load supply chain data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div
+        data-testid="supply-chain-page"
+        className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle"
+      >
+        No workflow audit data available.
+      </div>
+    );
+  }
+  const unpinned = unpinnedActionCount(ds);
+  const broad = ds.workflows.filter((w) => w.permissions === "broad").length;
+  const oidc = ds.workflows.length
+    ? ds.workflows.filter((w) => w.usesOidc).length / ds.workflows.length
+    : 0;
 
   const columns: Column<WorkflowAudit>[] = [
     {
@@ -96,11 +138,11 @@ export function SupplyChainPage() {
         const u = r.actions.filter((a) => !a.pinned).length;
         return u > 0 ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-high">
-            <PinOff className="size-3.5" /> {u} unpinned
+            <PinOff aria-hidden="true" className="size-3.5" /> {u} unpinned
           </span>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-caption text-success">
-            <ShieldCheck className="size-3.5" /> pinned
+            <ShieldCheck aria-hidden="true" className="size-3.5" /> pinned
           </span>
         );
       },
@@ -113,7 +155,7 @@ export function SupplyChainPage() {
       cell: (r) =>
         r.permissions === "broad" ? (
           <span className="inline-flex items-center gap-1.5 text-caption text-high">
-            <Unlock className="size-3.5" /> broad
+            <Unlock aria-hidden="true" className="size-3.5" /> broad
           </span>
         ) : (
           <span className="text-caption text-ink-subtle">scoped</span>
@@ -131,7 +173,7 @@ export function SupplyChainPage() {
           </Badge>
         ) : (
           <span className="inline-flex items-center gap-1.5 text-caption text-ink-subtle">
-            <KeyRound className="size-3" /> secrets
+            <KeyRound aria-hidden="true" className="size-3" /> secrets
           </span>
         ),
     },
@@ -148,7 +190,7 @@ export function SupplyChainPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="supply-chain-page" className="space-y-5">
       <PageHeader
         eyebrow="Supply chain"
         title="Actions audit"
@@ -158,7 +200,7 @@ export function SupplyChainPage() {
       {/* Incident bulletins */}
       <div>
         <div className="mb-3 flex items-center gap-2">
-          <ShieldAlert className="size-4 text-high" />
+          <ShieldAlert aria-hidden="true" className="size-4 text-high" />
           <h2 className="text-body-sm font-medium text-ink">Supply-chain bulletins</h2>
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -179,13 +221,13 @@ export function SupplyChainPage() {
             label: "Unpinned actions",
             value: unpinned,
             tone: unpinned > 0 ? "text-high" : "text-success",
-            icon: <PinOff className="size-3.5" />,
+            icon: <PinOff aria-hidden="true" className="size-3.5" />,
           },
           {
             label: "Broad permissions",
             value: broad,
             tone: broad > 0 ? "text-high" : undefined,
-            icon: <Unlock className="size-3.5" />,
+            icon: <Unlock aria-hidden="true" className="size-3.5" />,
           },
           { label: "OIDC adoption", value: percent(oidc), icon: <KeyRound className="size-3.5" /> },
         ]}

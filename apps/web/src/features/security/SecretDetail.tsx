@@ -9,7 +9,7 @@ import { provider } from "@/lib/ecosystems";
 import { relativeTime } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { useUiStore } from "@/stores/useUiStore";
-import type { SecretFinding } from "@/data/types";
+import type { SecretFinding } from "@cleat/contracts";
 
 const STEPS = [
   {

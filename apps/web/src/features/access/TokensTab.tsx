@@ -6,7 +6,7 @@ import { ScopeChip } from "@/components/ui/Chip";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime, daysUntil } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Pat } from "@/data/types";
+import type { Pat } from "@cleat/contracts";
 
 const TABLE = "access-tokens";
 
@@ -154,7 +154,7 @@ export function TokensTab({ pats }: { pats: Pat[] }) {
         getRowId={(r) => r.id}
         empty={{ icon: KeyRound, title: "No tokens", description: "No personal access tokens." }}
       />
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         {classic} classic · {pats.length - classic} fine-grained · {expiring} expired or expiring
         soon.
       </p>

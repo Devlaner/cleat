@@ -1,10 +1,56 @@
-import { useMemo } from "react";
-import { getDataset } from "@/data";
-import type { Dataset } from "@/data/types";
+import { useEffect, useState } from "react";
+import { fetchDataset } from "@/lib/api/dataset";
+import type { Dataset } from "@cleat/contracts";
 import { useOrgStore } from "@/stores/useOrgStore";
 
-/** The memoized dataset for the currently active account. */
-export function useDataset(): Dataset {
+export function useDataset() {
   const accountId = useOrgStore((s) => s.activeAccountId);
-  return useMemo(() => getDataset(accountId), [accountId]);
+
+  const [data, setData] = useState<Dataset | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [retry, setRetry] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!accountId) {
+      setData(null);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
+    setError(null);
+    setLoading(true);
+
+    fetchDataset(accountId)
+      .then((d) => {
+        if (!cancelled) {
+          setData(d);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setData(null);
+          setError(err instanceof Error ? err : new Error("Unexpected error"));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [accountId, retry]);
+
+  return {
+    data,
+    error,
+    loading,
+    retry: () => setRetry((v) => v + 1),
+  };
 }

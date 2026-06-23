@@ -19,7 +19,7 @@ import { currency, fromMb, relativeTime, pluralize, percent } from "@/lib/format
 import { reclaimableMb } from "@/data/metrics";
 import { eventIcon } from "@/features/notifications/eventMeta";
 import { cn } from "@/lib/cn";
-import type { Dataset } from "@/data/types";
+import type { Dataset } from "@cleat/contracts";
 
 /**
  * A non-interactive copy of the real Overview dashboard, built from the same
@@ -249,7 +249,7 @@ export function OverviewPreview({ ds }: { ds: Dataset }) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-body-sm text-ink">{e.message}</p>
-                    <p className="text-caption text-ink-tertiary">{relativeTime(e.createdAt)}</p>
+                    <p className="text-caption text-ink-subtle">{relativeTime(e.createdAt)}</p>
                   </div>
                 </div>
               );

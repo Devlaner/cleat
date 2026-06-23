@@ -41,7 +41,7 @@ export function MarketingFooter() {
         ))}
       </div>
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-hairline px-6 py-6 sm:flex-row">
-        <p className="text-caption text-ink-tertiary">
+        <p className="text-caption text-ink-subtle">
           © {new Date().getFullYear()} Cleat. A demo product.
         </p>
         <div className="flex items-center gap-4 text-ink-subtle">

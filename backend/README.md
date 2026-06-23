@@ -77,3 +77,34 @@ Backend:
 
 4. Data Container: The Frontend `Dataset` type is backed by `DatasetDto`. To switch from mock data 
    to real data, requests should be sent to the `/api/dashboard/dataset` endpoint.
+Local dependencies (Postgres, Redis) are expected to run via Docker Compose, while the API and Worker services are intended to be run locally via Gradle
+
+
+# Docker Setup
+
+This project uses Docker Compose to orchestrate infrastructure services (PostgreSQL and Redis), while the API and Worker modules are managed via Gradle.
+
+## Prerequisites
+
+* Docker
+* Docker Compose
+
+## Getting Started
+
+Navigate to the `backend` directory and use the following commands:
+
+### 1. Infrastructure (Docker)
+Start the PostgreSQL and Redis containers:
+`docker compose up -d`
+
+### 2. Running the Application (Gradle)
+Use Gradle to run the modules:
+
+* For the API module: `./gradlew :apps:api:bootRun`
+* For the Worker module: `./gradlew :apps:worker:bootRun`
+
+> **Note:** Running integration tests locally requires the Docker containers to be up and running.
+
+## Configuration
+
+Environment-specific configurations are managed within the `application.yml` files located in each module (api and worker).

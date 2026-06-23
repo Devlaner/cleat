@@ -16,9 +16,11 @@ export function Sidebar({ forceExpanded = false }: { forceExpanded?: boolean }) 
   const toggle = useUiStore((s) => s.toggleSidebar);
   const collapsed = forceExpanded ? false : storeCollapsed;
 
-  const ds = useDataset();
+  const { data: ds } = useDataset();
   const { unread } = useNotifications();
-  const base = sidebarCounts(ds);
+
+  const base = ds ? sidebarCounts(ds) : ({} as ReturnType<typeof sidebarCounts>);
+
   const counts: Record<CountKey, number> = {
     ...base,
     artifactsReclaimable: 0,

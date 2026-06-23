@@ -1,0 +1,3 @@
+github:
+  app-id: ${GITHUB_APP_ID}
+  private-key-path: ${GITHUB_PRIVATE_KEY_PATH}

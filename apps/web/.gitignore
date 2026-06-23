@@ -16,7 +16,6 @@ coverage
 # logs
 logs
 _.log
-report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # dotenv environment variable files
 .env
@@ -39,3 +38,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .ufazien.json
 # Ufazien CLI
 ufazien.py
+
+# Playwright
+test-results/
+playwright-report/

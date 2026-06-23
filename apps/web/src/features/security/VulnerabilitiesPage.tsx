@@ -15,18 +15,14 @@ import { ecosystem } from "@/lib/ecosystems";
 import { SEVERITY, cvssToSeverity } from "@/lib/severity";
 import { percent, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Vulnerability } from "@/data/types";
+import type { Vulnerability } from "@cleat/contracts";
 
 const TABLE = "vulnerabilities";
 
 export function VulnerabilitiesPage() {
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
+
   const [selected, setSelected] = useState<Vulnerability | null>(null);
-
-  const critical = ds.vulnerabilities.filter((v) => v.severity === "critical").length;
-  const kev = ds.vulnerabilities.filter((v) => v.kev).length;
-  const fixable = ds.vulnerabilities.filter((v) => v.fixedVersion).length;
-
   const facets: FacetDef<Vulnerability>[] = [
     {
       key: "severity",
@@ -41,7 +37,7 @@ export function VulnerabilitiesPage() {
       key: "ecosystem",
       label: "Ecosystem",
       accessor: (r) => r.ecosystem,
-      options: [...new Set(ds.vulnerabilities.map((v) => v.ecosystem))].map((e) => ({
+      options: [...new Set(ds?.vulnerabilities?.map((v) => v.ecosystem) ?? [])].map((e) => ({
         value: e,
         label: ecosystem(e).label,
       })),
@@ -66,8 +62,7 @@ export function VulnerabilitiesPage() {
       ],
     },
   ];
-
-  const filtered = useFilteredRows(TABLE, ds.vulnerabilities, {
+  const filtered = useFilteredRows(TABLE, ds?.vulnerabilities ?? [], {
     search: (r) => `${r.package} ${r.title} ${r.advisoryId} ${r.cwe}`,
     facets,
   });
@@ -76,6 +71,42 @@ export function VulnerabilitiesPage() {
     () => [...filtered].sort((a, b) => vulnPriority(b) - vulnPriority(a)),
     [filtered],
   );
+
+  if (loading) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center">
+        <div
+          role="status"
+          aria-label="Loading vulnerability data"
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle">
+        <p> Failed to load vulnerability data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle">
+        No vulnerability data available.
+      </div>
+    );
+  }
+  const critical = ds.vulnerabilities.filter((v) => v.severity === "critical").length;
+  const kev = ds.vulnerabilities.filter((v) => v.kev).length;
+  const fixable = ds.vulnerabilities.filter((v) => v.fixedVersion).length;
 
   const columns: Column<Vulnerability>[] = [
     {
@@ -146,11 +177,11 @@ export function VulnerabilitiesPage() {
       cell: (r) =>
         r.kev ? (
           <Badge tone="danger">
-            <Flame className="size-3" /> Exploited
+            <Flame aria-hidden="true" className="size-3" /> Exploited
           </Badge>
         ) : r.reachable === "reachable" ? (
           <span className="inline-flex items-center gap-1 text-caption text-high">
-            <Crosshair className="size-3" /> Reachable
+            <Crosshair aria-hidden="true" className="size-3" /> Reachable
           </span>
         ) : (
           <span className="text-caption text-ink-tertiary">None</span>
@@ -182,7 +213,7 @@ export function VulnerabilitiesPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="vulnerabilities-page" className="space-y-5">
       <PageHeader
         eyebrow="Security"
         title="Vulnerabilities"
@@ -194,20 +225,20 @@ export function VulnerabilitiesPage() {
           {
             label: "Open advisories",
             value: ds.vulnerabilities.length,
-            icon: <ShieldAlert className="size-3.5" />,
+            icon: <ShieldAlert aria-hidden="true" className="size-3.5" />,
           },
           { label: "Critical", value: critical, tone: critical > 0 ? "text-critical" : undefined },
           {
             label: "Actively exploited",
             value: kev,
             tone: kev > 0 ? "text-critical" : undefined,
-            icon: <Flame className="size-3.5" />,
+            icon: <Flame aria-hidden="true" className="size-3.5" />,
           },
           {
             label: "With a fix available",
             value: fixable,
             tone: "text-success",
-            icon: <GitPullRequestArrow className="size-3.5" />,
+            icon: <GitPullRequestArrow aria-hidden="true" className="size-3.5" />,
           },
         ]}
       />
@@ -234,7 +265,7 @@ export function VulnerabilitiesPage() {
         }}
       />
 
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         Showing {pluralize(rows.length, "advisory", "advisories")} ranked by fix-first priority.
       </p>
 

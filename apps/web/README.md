@@ -36,6 +36,18 @@ bun run typecheck  # tsc --noEmit
 
 ---
 
+## Dataset API mode
+
+By default, the app uses the local mock dataset.
+
+To use the HTTP API instead, create a `.env` file and set:
+
+```env
+VITE_USE_MOCK_API=false
+```
+
+---
+
 ## Ufazien Deployment
 
 This project is configured for deployment to Ufazien Hosting.

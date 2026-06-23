@@ -14,6 +14,7 @@ interface StatTileProps {
   hint?: ReactNode;
   accent?: string;
   className?: string;
+  "data-testid"?: string;
 }
 
 export function StatTile({
@@ -25,13 +26,14 @@ export function StatTile({
   hint,
   accent,
   className,
+  "data-testid": dataTestId,
 }: StatTileProps) {
   const hasDelta = typeof delta === "number";
   const isUp = (delta ?? 0) >= 0;
   const isGood = goodDirection === "up" ? isUp : !isUp;
 
   return (
-    <Card className={cn("relative overflow-hidden p-4", className)}>
+    <Card data-testid={dataTestId} className={cn("relative overflow-hidden p-4", className)}>
       {accent && (
         <span
           className="absolute inset-x-0 top-0 h-px"

@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { relativeTime, pluralize } from "@/lib/format";
-import type { Member } from "@/data/types";
+import type { Member } from "@cleat/contracts";
 
 const TABLE = "access-members";
 
@@ -147,7 +147,7 @@ export function MembersTab({ members }: { members: Member[] }) {
           description: "Adjust the filters above.",
         }}
       />
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         {pluralize(members.filter((m) => !m.twoFactor).length, "member")} without 2FA ·{" "}
         {pluralize(members.filter((m) => m.outsideCollaborator).length, "outside collaborator")}.
       </p>

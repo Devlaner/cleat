@@ -1,4 +1,4 @@
-export type Severity = "critical" | "high" | "medium" | "low" | "info";
+import type { Severity } from "@cleat/contracts";
 
 export const SEVERITY_ORDER: Severity[] = ["critical", "high", "medium", "low", "info"];
 

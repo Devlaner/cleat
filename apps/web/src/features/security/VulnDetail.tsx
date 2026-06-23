@@ -10,7 +10,7 @@ import { relativeTime, percent } from "@/lib/format";
 import { vulnPriority } from "@/data/metrics";
 import { useUiStore } from "@/stores/useUiStore";
 import { cn } from "@/lib/cn";
-import type { Vulnerability } from "@/data/types";
+import type { Vulnerability } from "@cleat/contracts";
 
 export function VulnDetail({ vuln, onClose }: { vuln: Vulnerability | null; onClose: () => void }) {
   const addToast = useUiStore((s) => s.addToast);
@@ -166,7 +166,7 @@ function Reachability({ reachable }: { reachable: Vulnerability["reachable"] }) 
         {reachable === "not-reachable" && <ShieldCheck className="size-4" />}
         {map.label}
       </p>
-      <p className="text-caption text-ink-tertiary">{map.hint}</p>
+      <p className="text-caption text-ink-subtle">{map.hint}</p>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { useDataset } from "@/hooks/useDataset";
 import { useFilteredRows, type FacetDef } from "@/hooks/useFilteredRows";
 import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
-import type { CodeScanAlert } from "@/data/types";
+import type { CodeScanAlert } from "@cleat/contracts";
 
 const TABLE = "code-scanning";
 
@@ -22,11 +22,7 @@ const STATUS_META: Record<
 };
 
 export function CodeScanningPage() {
-  const ds = useDataset();
-  const open = ds.codeAlerts.filter((a) => a.status === "open").length;
-  const fixed = ds.codeAlerts.filter((a) => a.status === "fixed").length;
-  const dismissed = ds.codeAlerts.filter((a) => a.status === "dismissed").length;
-  const rules = new Set(ds.codeAlerts.map((a) => a.ruleId)).size;
+  const { data: ds, error, loading, retry } = useDataset();
 
   const facets: FacetDef<CodeScanAlert>[] = [
     {
@@ -52,14 +48,61 @@ export function CodeScanningPage() {
       key: "tool",
       label: "Tool",
       accessor: (r) => r.tool,
-      options: [...new Set(ds.codeAlerts.map((a) => a.tool))].map((t) => ({ value: t, label: t })),
+      options: [...new Set(ds?.codeAlerts?.map((a) => a.tool) ?? [])].map((t) => ({
+        value: t,
+        label: t,
+      })),
     },
   ];
 
-  const rows = useFilteredRows(TABLE, ds.codeAlerts, {
+  const rows = useFilteredRows(TABLE, ds?.codeAlerts ?? [], {
     search: (r) => `${r.rule} ${r.ruleId} ${r.repo} ${r.file}`,
     facets,
   });
+
+  if (loading) {
+    return (
+      <div data-testid="code-scanning-page" className="flex h-[60vh] items-center justify-center">
+        <div
+          role="status"
+          aria-label="Loading code scanning data"
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        data-testid="code-scanning-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
+        <p> Failed to load code scanning data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div
+        data-testid="code-scanning-page"
+        className="flex h-[60vh] items-center justify-center text-sm text-ink-subtle"
+      >
+        No data available.
+      </div>
+    );
+  }
+
+  const open = ds.codeAlerts.filter((a) => a.status === "open").length;
+  const fixed = ds.codeAlerts.filter((a) => a.status === "fixed").length;
+  const dismissed = ds.codeAlerts.filter((a) => a.status === "dismissed").length;
+  const rules = new Set(ds.codeAlerts.map((a) => a.ruleId)).size;
 
   const columns: Column<CodeScanAlert>[] = [
     {
@@ -127,7 +170,7 @@ export function CodeScanningPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="code-scanning-page" className="space-y-5">
       <PageHeader
         eyebrow="Security"
         title="Code scanning"

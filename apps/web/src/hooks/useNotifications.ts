@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useDataset } from "./useDataset";
 import { useNotificationStore } from "@/stores/useNotificationStore";
-import type { ActivityEvent } from "@/data/types";
+import type { ActivityEvent } from "@cleat/contracts";
 
 export interface NotificationItem extends ActivityEvent {
   read: boolean;
@@ -9,15 +9,22 @@ export interface NotificationItem extends ActivityEvent {
 
 /** Activity events for the active account, merged with persisted read-state. */
 export function useNotifications() {
-  const ds = useDataset();
+  const { data: ds } = useDataset();
+
   const readIds = useNotificationStore((s) => s.readIds);
 
   return useMemo(() => {
+    if (!ds) {
+      return { items: [], unread: 0 };
+    }
+
     const items: NotificationItem[] = ds.events.map((e) => ({
       ...e,
       read: readIds.includes(e.id),
     }));
+
     const unread = items.filter((i) => !i.read).length;
+
     return { items, unread };
-  }, [ds.events, readIds]);
+  }, [ds, readIds]);
 }

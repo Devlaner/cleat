@@ -11,6 +11,7 @@ export interface Column<T> {
   cell: (row: T) => ReactNode;
   /** providing this makes the column sortable */
   sortValue?: (row: T) => string | number;
+  sortLabel?: string;
   align?: "left" | "right" | "center";
   /** tailwind width/utility classes for the cell + header */
   className?: string;
@@ -33,6 +34,7 @@ interface DataTableProps<T> {
   rows: T[];
   getRowId: (row: T) => string;
   onRowClick?: (row: T) => void;
+  testId?: string;
   empty?: { icon: LucideIcon; title: string; description?: string };
   /** leading selection / control column */
   selectable?: {
@@ -51,6 +53,7 @@ export function DataTable<T>({
   onRowClick,
   empty,
   selectable,
+  testId,
 }: DataTableProps<T>) {
   const ts = useTableState(tableKey);
   const setSort = useFilterStore((s) => s.setSort);
@@ -80,7 +83,7 @@ export function DataTable<T>({
   return (
     <div className="overflow-hidden rounded-lg border border-hairline bg-surface-1">
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-body-sm">
+        <table data-testid={testId} className="w-full border-collapse text-body-sm">
           <thead>
             <tr className="border-b border-hairline">
               {selectable && (
@@ -88,6 +91,7 @@ export function DataTable<T>({
                   <Checkbox
                     checked={!!selectable.allSelected}
                     onChange={() => selectable.onToggleAll?.()}
+                    label="Select all rows"
                   />
                 </th>
               )}
@@ -106,6 +110,7 @@ export function DataTable<T>({
                   >
                     {sortable ? (
                       <button
+                        aria-label={`Sort by ${col.sortLabel ?? String(col.header)}`}
                         onClick={() => setSort(tableKey, col.id)}
                         className={cn(
                           "inline-flex items-center gap-1 transition-colors hover:text-ink",
@@ -136,6 +141,7 @@ export function DataTable<T>({
             {sorted.map((row) => (
               <tr
                 key={getRowId(row)}
+                data-testid={`table-row-${getRowId(row)}`}
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
                 className={cn(
                   "border-b border-hairline/60 last:border-0 transition-colors",
@@ -147,6 +153,7 @@ export function DataTable<T>({
                     <Checkbox
                       checked={selectable.isSelected(row)}
                       onChange={() => selectable.onToggle(row)}
+                      label={`Select ${getRowId(row)}`}
                     />
                   </td>
                 )}
@@ -172,11 +179,21 @@ export function DataTable<T>({
   );
 }
 
-export function Checkbox({ checked, onChange }: { checked: boolean; onChange: () => void }) {
+export function Checkbox({
+  checked,
+  onChange,
+  label = "Toggle selection",
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label?: string;
+}) {
   return (
     <button
+      type="button"
       role="checkbox"
       aria-checked={checked}
+      aria-label={label}
       onClick={onChange}
       className={cn(
         "flex size-4 items-center justify-center rounded border transition-colors",

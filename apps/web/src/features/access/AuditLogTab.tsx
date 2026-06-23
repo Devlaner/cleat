@@ -7,7 +7,7 @@ import { SEVERITY } from "@/lib/severity";
 import { relativeTime } from "@/lib/format";
 import { eventIcon, CATEGORY_LABEL } from "@/features/notifications/eventMeta";
 import { cn } from "@/lib/cn";
-import type { ActivityEvent, EventCategory } from "@/data/types";
+import type { ActivityEvent, EventCategory } from "@cleat/contracts";
 
 const TABLE = "access-audit";
 

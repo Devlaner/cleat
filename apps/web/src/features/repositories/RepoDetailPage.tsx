@@ -28,11 +28,12 @@ import { Badge, SeverityBadge } from "@/components/ui/Badge";
 import { ScoreBar } from "@/components/ui/Meters";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDataset } from "@/hooks/useDataset";
-import { scoreToGrade, GRADE_COLOR, SEVERITY, type Severity } from "@/lib/severity";
+import { scoreToGrade, GRADE_COLOR, SEVERITY } from "@/lib/severity";
+import type { Severity } from "@cleat/contracts";
 import { languageColor } from "@/lib/ecosystems";
 import { relativeTime, compactNumber, fromMb } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import type { Visibility, ScorecardCheck } from "@/data/types";
+import type { Visibility, ScorecardCheck } from "@cleat/contracts";
 
 const VIS: Record<Visibility, { icon: typeof Lock; label: string }> = {
   private: { icon: Lock, label: "Private" },
@@ -49,12 +50,55 @@ function scoreHex(score: number) {
 
 export function RepoDetailPage() {
   const { repoId } = useParams();
-  const ds = useDataset();
+  const { data: ds, error, loading, retry } = useDataset();
+  if (loading) {
+    return (
+      <div data-testid="repo-detail-page" className="flex h-[60vh] items-center justify-center">
+        <div
+          role="status"
+          aria-label="loading"
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        data-testid="repo-detail-page"
+        className="flex h-[60vh] flex-col items-center justify-center gap-3 text-sm text-ink-subtle"
+      >
+        <p> Failed to load repository data.</p>
+        <button
+          onClick={retry}
+          className="rounded-md bg-surface-2 px-3 py-2 text-ink hover:bg-surface-3"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+  if (!ds) {
+    return (
+      <div
+        data-testid="repo-detail-page"
+        className="flex h-[300px] items-center justify-center px-4 text-center"
+      >
+        <div>
+          <p className="text-sm font-medium text-ink">No repository data available</p>
+          <p className="mt-1 text-sm text-ink-subtle">
+            Select an account to view repository details.
+          </p>
+        </div>
+      </div>
+    );
+  }
   const repo = ds.repos.find((r) => r.id === repoId);
 
   if (!repo) {
     return (
-      <div className="space-y-5">
+      <div data-testid="repo-detail-page" className="space-y-5">
         <BackLink />
         <Card>
           <EmptyState
@@ -87,7 +131,7 @@ export function RepoDetailPage() {
   ];
 
   return (
-    <div className="space-y-5">
+    <div data-testid="repo-detail-page" className="space-y-5">
       <BackLink />
       <PageHeader
         eyebrow={ds.account.name}
@@ -97,7 +141,7 @@ export function RepoDetailPage() {
             {repo.name}
             {repo.archived && (
               <Badge tone="muted">
-                <Archive className="size-3" /> Archived
+                <Archive aria-hidden="true" className="size-3" /> Archived
               </Badge>
             )}
           </span>
@@ -112,10 +156,10 @@ export function RepoDetailPage() {
               {repo.language}
             </span>
             <span className="flex items-center gap-1">
-              <Star className="size-3.5" /> {compactNumber(repo.stars)}
+              <Star aria-hidden="true" className="size-3.5" /> {compactNumber(repo.stars)}
             </span>
             <span className="flex items-center gap-1">
-              <GitBranch className="size-3.5" /> {repo.defaultBranch}
+              <GitBranch aria-hidden="true" className="size-3.5" /> {repo.defaultBranch}
             </span>
             <span>{fromMb(repo.sizeMb)}</span>
             <span>updated {relativeTime(repo.lastPushedAt)}</span>
@@ -200,7 +244,7 @@ export function RepoDetailPage() {
             <CardHeader title="Activity" />
             <div className="grid grid-cols-3 divide-x divide-hairline border-t border-hairline">
               <Stat
-                icon={<GitPullRequest className="size-4" />}
+                icon={<GitPullRequest aria-hidden="true" className="size-4" />}
                 value={repo.openPRs}
                 label="Open PRs"
               />
@@ -210,7 +254,7 @@ export function RepoDetailPage() {
                 label="Stale branches"
               />
               <Stat
-                icon={<ScanLine className="size-4" />}
+                icon={<ScanLine aria-hidden="true" className="size-4" />}
                 value={codeAlerts.length}
                 label="Code alerts"
               />
