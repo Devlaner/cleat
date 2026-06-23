@@ -40,6 +40,7 @@ public class GitHubClient {
                     }
                     return Mono.justOrEmpty(entity.getBody());
                 })
+                .timeout(java.time.Duration.ofSeconds(10))
                 .block();
     }
 }
