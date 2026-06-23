@@ -24,7 +24,7 @@ public class GitHubClient {
 
         return webClient
                 .get()
-                .uri(uri)
+                .uri(builder -> builder.path(uri).build())
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .toEntity(responseType)
