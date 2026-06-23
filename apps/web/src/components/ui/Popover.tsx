@@ -41,7 +41,6 @@ export function Popover({
   focus-visible:ring-primary
   focus-visible:ring-offset-2
 "
-        aria-haspopup="menu"
         aria-expanded={open}
       >
         {trigger(open)}
@@ -60,7 +59,6 @@ export function Popover({
               align === "center" && "left-1/2 -translate-x-1/2",
               panelClassName,
             )}
-            role="menu"
           >
             <div className="flex flex-col gap-1">
               {typeof children === "function" ? children(close) : children}
