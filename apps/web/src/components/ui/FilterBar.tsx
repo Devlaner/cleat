@@ -77,7 +77,7 @@ export function FilterBar<T>({
                   <button
                     key={opt.value}
                     onClick={() => toggleFacet(tableKey, facet.key, opt.value)}
-                    className="flex min-h-12 items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm text-ink-muted transition-colors hover:bg-surface-3"
+                    className="flex w-full min-h-12 items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm text-ink-muted transition-colors hover:bg-surface-3"
                   >
                     <span
                       className={cn(
