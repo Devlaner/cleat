@@ -32,6 +32,7 @@ public class RateLimiterService {
                     .opsForValue()
                     .set("rate_limit:" + installationId, String.valueOf(limit), Duration.ofSeconds(Math.max(ttl, 1)));
         } catch (NumberFormatException e) {
+            redisTemplate.delete("rate_limit:" + installationId);
         }
     }
 }
