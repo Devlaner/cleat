@@ -11,11 +11,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-focus shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+    "bg-primary !text-white hover:bg-primary-hover active:bg-primary-focus shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
 
   secondary: "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2",
 
-  ghost: "bg-transparent text-ink-muted hover:bg-surface-1 hover:text-ink",
+  ghost: "bg-transparent text-ink-subtle hover:bg-surface-1 hover:text-ink",
 
   inverse: "bg-ink text-canvas hover:bg-surface-2",
 
