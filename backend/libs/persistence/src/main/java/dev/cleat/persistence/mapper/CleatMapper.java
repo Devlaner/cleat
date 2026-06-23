@@ -1,4 +1,4 @@
-package dev.cleat.common.mapper;
+package dev.cleat.persistence.mapper;
 
 import dev.cleat.common.dto.UsagePointDto;
 import dev.cleat.common.dto.request.AccountRequestDto;
