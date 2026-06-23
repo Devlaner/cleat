@@ -34,7 +34,13 @@ export function Popover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="block min-h-12 w-full rounded-md text-left px-3 transition-colors focus-visible:outline-2"
+      className="
+  block min-h-12 w-full rounded-md px-3 text-left transition-colors
+  focus:outline-none
+  focus-visible:ring-2
+  focus-visible:ring-primary
+  focus-visible:ring-offset-2
+"
         aria-haspopup="menu"
         aria-expanded={open}
       >
@@ -87,7 +93,7 @@ export function MenuItem({
       role="menuitem"
       onClick={onClick}
       className={cn(
-        "flex  min-h-12 w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
+        "flex min-h-12 w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
         danger
           ? "text-critical hover:bg-critical/10"
           : "text-ink-muted hover:bg-surface-3 hover:text-ink",

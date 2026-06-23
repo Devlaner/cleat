@@ -7,7 +7,7 @@ type Tone = "neutral" | "primary" | "success" | "danger" | "warning" | "muted";
 
 const TONES: Record<Tone, string> = {
   neutral: "bg-surface-2 text-ink-muted ring-1 ring-inset ring-hairline",
-  primary: "bg-primary/12 text-primary-hover ring-1 ring-inset ring-primary/25",
+  primary: "bg-primary/12 text-ink ring-1 ring-inset ring-primary/25",
   success: "bg-success/12 text-success ring-1 ring-inset ring-success/25",
   danger: "bg-critical/10 text-critical ring-1 ring-inset ring-critical/25",
   warning: "bg-high/10 text-high ring-1 ring-inset ring-high/25",
