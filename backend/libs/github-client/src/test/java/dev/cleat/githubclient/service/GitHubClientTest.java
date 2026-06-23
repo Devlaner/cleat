@@ -30,7 +30,6 @@ class GitHubClientTest {
     @BeforeEach
     void setUp() {
         ExchangeFunction exchangeFunction = request -> {
-            // Authorization header-in mövcudluğunu və formatını yoxlayırıq
             if (request.headers().getFirst("Authorization") == null
                     || !request.headers().getFirst("Authorization").startsWith("Bearer ")) {
                 return Mono.just(ClientResponse.create(HttpStatus.UNAUTHORIZED).build());
