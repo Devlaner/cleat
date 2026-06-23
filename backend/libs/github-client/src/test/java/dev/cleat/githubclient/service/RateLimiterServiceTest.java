@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,14 +27,10 @@ class RateLimiterServiceTest {
     @InjectMocks
     private RateLimiterService rateLimiterService;
 
-    @BeforeEach
-    void setUp() {
-        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-    }
-
     @Test
     void checkLimitThrowsExceptionWhenLimitIsZero() {
         String id = "123";
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
         when(valueOperations.get("rate_limit:" + id)).thenReturn("0");
 
         assertThrows(RuntimeException.class, () -> rateLimiterService.checkLimit(id));
@@ -47,6 +42,8 @@ class RateLimiterServiceTest {
         String remaining = "4999";
         long resetTimestamp = Instant.now().getEpochSecond() + 3600;
         String resetStr = String.valueOf(resetTimestamp);
+
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
 
         rateLimiterService.updateLimit(installationId, remaining, resetStr);
 
@@ -60,6 +57,7 @@ class RateLimiterServiceTest {
     @Test
     void updateLimitShouldClearCacheOnNumberFormatException() {
         String installationId = "123";
+
         rateLimiterService.updateLimit(installationId, "invalid", "invalid");
 
         verify(redisTemplate).delete("rate_limit:" + installationId);
