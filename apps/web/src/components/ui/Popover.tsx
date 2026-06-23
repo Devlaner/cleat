@@ -34,13 +34,7 @@ export function Popover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="
-  block min-h-12 w-full rounded-md px-3 text-left transition-colors
-  focus:outline-none
-  focus-visible:ring-2
-  focus-visible:ring-primary
-  focus-visible:ring-offset-2
-"
+        className="block min-h-12 w-full rounded-md px-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         aria-expanded={open}
       >
         {trigger(open)}
@@ -88,7 +82,6 @@ export function MenuItem({
 }) {
   return (
     <button
-      role="menuitem"
       onClick={onClick}
       className={cn(
         "flex min-h-12 w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left text-body-sm transition-colors",
