@@ -43,7 +43,6 @@ class RateLimiterServiceTest {
 
     @Test
     void updateLimitShouldCalculateCorrectTtlAndCallRedis() {
-
         String installationId = "123";
         String remaining = "4999";
         long resetTimestamp = Instant.now().getEpochSecond() + 3600;
@@ -53,8 +52,16 @@ class RateLimiterServiceTest {
 
         verify(valueOperations)
                 .set(
-                        eq("ratelimit:" + installationId),
+                        eq("rate_limit:" + installationId),
                         eq(remaining),
                         argThat(duration -> duration.getSeconds() >= 3590 && duration.getSeconds() <= 3600));
+    }
+
+    @Test
+    void updateLimitShouldClearCacheOnNumberFormatException() {
+        String installationId = "123";
+        rateLimiterService.updateLimit(installationId, "invalid", "invalid");
+
+        verify(redisTemplate).delete("rate_limit:" + installationId);
     }
 }
