@@ -154,7 +154,7 @@ export function TokensTab({ pats }: { pats: Pat[] }) {
         getRowId={(r) => r.id}
         empty={{ icon: KeyRound, title: "No tokens", description: "No personal access tokens." }}
       />
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         {classic} classic · {pats.length - classic} fine-grained · {expiring} expired or expiring
         soon.
       </p>

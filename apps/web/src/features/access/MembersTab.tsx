@@ -147,7 +147,7 @@ export function MembersTab({ members }: { members: Member[] }) {
           description: "Adjust the filters above.",
         }}
       />
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         {pluralize(members.filter((m) => !m.twoFactor).length, "member")} without 2FA ·{" "}
         {pluralize(members.filter((m) => m.outsideCollaborator).length, "outside collaborator")}.
       </p>

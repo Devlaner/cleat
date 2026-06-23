@@ -14,13 +14,12 @@ export function MonoChip({
   return (
     <span
       className={cn(
-        "inline-flex h-5 min-w-5 items-center justify-center rounded px-1 font-mono text-[0.6875rem] font-semibold leading-none",
+        "inline-flex h-5 min-w-5 items-center justify-center rounded px-1 font-mono text-[0.6875rem] font-semibold leading-none text-ink",
         className,
       )}
       style={{
-        color: hex,
-        backgroundColor: `color-mix(in srgb, ${hex} 16%, transparent)`,
-        boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${hex} 30%, transparent)`,
+        backgroundColor: `color-mix(in srgb, ${hex} 18%, transparent)`,
+        boxShadow: `inset 0 0 0 1px color-mix(in srgb, ${hex} 35%, transparent)`,
       }}
     >
       {short}

@@ -38,6 +38,7 @@ export function OverviewPage() {
       <div className="flex h-[60vh] items-center justify-center">
         <div
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          role="status"
           aria-label="loading"
         />
       </div>
@@ -300,7 +301,7 @@ export function OverviewPage() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-body-sm text-ink">{e.message}</p>
-                    <p className="text-caption text-ink-tertiary">{relativeTime(e.createdAt)}</p>
+                    <p className="text-caption text-ink-subtle">{relativeTime(e.createdAt)}</p>
                   </div>
                 </div>
               );

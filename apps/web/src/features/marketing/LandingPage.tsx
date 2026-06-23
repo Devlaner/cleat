@@ -201,7 +201,7 @@ export function LandingPage() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 opacity-70">
             {["Aurora Labs", "Northwind", "Helios Systems", "Vertex", "Lumen", "Cobalt"].map(
               (name) => (
-                <span key={name} className="text-body font-semibold tracking-tight text-ink-subtle">
+                <span key={name} className="text-body font-semibold tracking-tight text-ink">
                   {name}
                 </span>
               ),
@@ -229,7 +229,7 @@ export function LandingPage() {
                   <f.icon className="size-5" />
                 </div>
                 <h3 className="mt-4 text-card-title font-medium text-ink">{f.title}</h3>
-                <p className="mt-2 text-body-sm text-ink-subtle">{f.body}</p>
+                <p className="mt-2 text-body-sm text-ink-muted">{f.body}</p>
               </Card>
             </div>
           ))}
@@ -258,7 +258,7 @@ export function LandingPage() {
           {STATS.map((s) => (
             <div key={s.label} className="px-6 py-12 text-center">
               <p className="text-display-md font-semibold tracking-tight text-ink">{s.value}</p>
-              <p className="mt-1 text-caption text-ink-subtle">{s.label}</p>
+              <p className="mt-1 text-caption text-ink-muted">{s.label}</p>
             </div>
           ))}
         </div>
@@ -328,7 +328,7 @@ export function LandingPage() {
               <h3 className="text-headline font-semibold text-ink">{t.name}</h3>
               <div className="mt-3 flex items-baseline gap-1.5">
                 <span className="text-display-md font-semibold text-ink">{t.price}</span>
-                <span className="text-caption text-ink-subtle">{t.cadence}</span>
+                <span className="text-caption text-ink-muted">{t.cadence}</span>
               </div>
               <ul className="mt-6 flex-1 space-y-3">
                 {t.features.map((f) => (
@@ -367,7 +367,6 @@ export function LandingPage() {
           </div>
         </Card>
       </section>
-
       <MarketingFooter />
     </div>
   );

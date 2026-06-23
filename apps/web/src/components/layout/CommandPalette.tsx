@@ -139,6 +139,9 @@ export function CommandPalette() {
             onClick={() => setOpen(false)}
           />
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command palette"
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -152,6 +155,7 @@ export function CommandPalette() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={onKeyDown}
+                aria-label="Search pages, organizations, actions"
                 placeholder="Search pages, organizations, actions…"
                 className="h-12 w-full bg-transparent text-body text-ink placeholder:text-ink-tertiary focus:outline-none"
               />

@@ -61,8 +61,9 @@ export function SecretsPage() {
     return (
       <div data-testid="secrets-page" className="flex h-[60vh] items-center justify-center">
         <div
+          role="status"
+          aria-label="Loading secrets"
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
-          aria-label="loading"
         />
       </div>
     );

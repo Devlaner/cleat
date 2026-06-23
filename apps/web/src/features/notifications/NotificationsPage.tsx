@@ -110,7 +110,7 @@ export function NotificationsPage() {
             label: "Unread",
             value: unread,
             tone: unread > 0 ? "text-primary-hover" : undefined,
-            icon: <Bell className="size-3.5" />,
+            icon: <Bell aria-hidden="true" className="size-3.5" />,
           },
           {
             label: "Critical",
@@ -121,7 +121,7 @@ export function NotificationsPage() {
           {
             label: "Active rules",
             value: Object.values(rules).filter(Boolean).length,
-            icon: <Sparkles className="size-3.5" />,
+            icon: <Sparkles aria-hidden="true" className="size-3.5" />,
           },
         ]}
       />
@@ -171,6 +171,8 @@ export function NotificationsPage() {
               description="What triggers a notification"
               action={
                 <button
+                  type="button"
+                  aria-label="Create alert rule"
                   onClick={() =>
                     addToast({
                       title: "Rule builder",
@@ -180,7 +182,7 @@ export function NotificationsPage() {
                   }
                   className="text-ink-subtle transition-colors hover:text-ink"
                 >
-                  <Plus className="size-4" />
+                  <Plus className="size-4" aria-hidden="true" />
                 </button>
               }
             />
@@ -197,7 +199,7 @@ export function NotificationsPage() {
                         ) : (
                           rule.channels.map((c) => {
                             const Icon = CHANNEL_ICON[c as keyof typeof CHANNEL_ICON];
-                            return <Icon key={c} className="size-3" />;
+                            return <Icon key={c} aria-hidden="true" className="size-3" />;
                           })
                         )}
                       </div>
@@ -223,6 +225,7 @@ function NotificationRow({ item, onRead }: { item: NotificationItem; onRead: () 
   const sev = SEVERITY[item.severity];
   return (
     <button
+      type="button"
       onClick={onRead}
       className={cn(
         "flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2",
@@ -235,11 +238,11 @@ function NotificationRow({ item, onRead }: { item: NotificationItem; onRead: () 
           sev.badge,
         )}
       >
-        <Icon className="size-4" />
+        <Icon aria-hidden="true" className="size-4" />
       </span>
       <div className="min-w-0 flex-1">
         <p className="text-body-sm text-ink">{item.message}</p>
-        <div className="mt-1 flex items-center gap-2 text-caption text-ink-tertiary">
+        <div className="mt-1 flex items-center gap-2 text-caption text-ink-muted">
           <Badge tone="muted">{CATEGORY_LABEL[item.category]}</Badge>
           <span>{item.actor}</span>
           <span>·</span>

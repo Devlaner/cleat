@@ -94,7 +94,7 @@ export function DependenciesPage() {
   if (!ds) {
     return (
       <div className="flex h-[60vh] flex-col items-center justify-center gap-2 text-sm text-ink-subtle">
-        <Package className="size-6" />
+        <Package aria-hidden="true" className="size-6" />
         <span>No dependency data found.</span>
       </div>
     );
@@ -172,7 +172,7 @@ export function DependenciesPage() {
           <SeverityBadge severity={r.vulnSeverity} showDot={false} />
         ) : r.outdated ? (
           <span className="inline-flex items-center gap-1 text-caption text-high">
-            <ArrowUpCircle className="size-3" /> outdated
+            <ArrowUpCircle aria-hidden="true" className="size-3" /> outdated
           </span>
         ) : (
           <span className="text-caption text-success">up to date</span>
@@ -246,7 +246,7 @@ export function DependenciesPage() {
           <CardHeader
             title="Export SBOM"
             description="Software bill of materials"
-            icon={<FileJson className="size-4" />}
+            icon={<FileJson aria-hidden="true" className="size-4" />}
           />
           <div className="space-y-3 p-4 pt-0">
             <Segmented
@@ -264,7 +264,7 @@ export function DependenciesPage() {
                 : "CycloneDX 1.5: security and VEX oriented."}
             </p>
             <Button variant="primary" className="w-full" onClick={exportSbom}>
-              <Download className="size-4" /> Download {deps.length} components
+              <Download aria-hidden="true" className="size-4" /> Download {deps.length} components
             </Button>
           </div>
         </Card>

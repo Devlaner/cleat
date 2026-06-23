@@ -55,23 +55,14 @@ export function RepoDetailPage() {
     return (
       <div data-testid="repo-detail-page" className="flex h-[60vh] items-center justify-center">
         <div
-          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
+          role="status"
           aria-label="loading"
+          className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
         />
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div
-        data-testid="repo-detail-page"
-        className="flex h-[300px] items-center justify-center px-4 text-center text-sm text-ink-subtle"
-      >
-        Failed to load repository data.
-      </div>
-    );
-  }
   if (error) {
     return (
       <div
@@ -150,7 +141,7 @@ export function RepoDetailPage() {
             {repo.name}
             {repo.archived && (
               <Badge tone="muted">
-                <Archive className="size-3" /> Archived
+                <Archive aria-hidden="true" className="size-3" /> Archived
               </Badge>
             )}
           </span>
@@ -165,10 +156,10 @@ export function RepoDetailPage() {
               {repo.language}
             </span>
             <span className="flex items-center gap-1">
-              <Star className="size-3.5" /> {compactNumber(repo.stars)}
+              <Star aria-hidden="true" className="size-3.5" /> {compactNumber(repo.stars)}
             </span>
             <span className="flex items-center gap-1">
-              <GitBranch className="size-3.5" /> {repo.defaultBranch}
+              <GitBranch aria-hidden="true" className="size-3.5" /> {repo.defaultBranch}
             </span>
             <span>{fromMb(repo.sizeMb)}</span>
             <span>updated {relativeTime(repo.lastPushedAt)}</span>
@@ -253,7 +244,7 @@ export function RepoDetailPage() {
             <CardHeader title="Activity" />
             <div className="grid grid-cols-3 divide-x divide-hairline border-t border-hairline">
               <Stat
-                icon={<GitPullRequest className="size-4" />}
+                icon={<GitPullRequest aria-hidden="true" className="size-4" />}
                 value={repo.openPRs}
                 label="Open PRs"
               />
@@ -263,7 +254,7 @@ export function RepoDetailPage() {
                 label="Stale branches"
               />
               <Stat
-                icon={<ScanLine className="size-4" />}
+                icon={<ScanLine aria-hidden="true" className="size-4" />}
                 value={codeAlerts.length}
                 label="Code alerts"
               />

@@ -76,8 +76,9 @@ export function VulnerabilitiesPage() {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <div
+          role="status"
+          aria-label="Loading vulnerability data"
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
-          aria-label="loading"
         />
       </div>
     );
@@ -176,11 +177,11 @@ export function VulnerabilitiesPage() {
       cell: (r) =>
         r.kev ? (
           <Badge tone="danger">
-            <Flame className="size-3" /> Exploited
+            <Flame aria-hidden="true" className="size-3" /> Exploited
           </Badge>
         ) : r.reachable === "reachable" ? (
           <span className="inline-flex items-center gap-1 text-caption text-high">
-            <Crosshair className="size-3" /> Reachable
+            <Crosshair aria-hidden="true" className="size-3" /> Reachable
           </span>
         ) : (
           <span className="text-caption text-ink-tertiary">None</span>
@@ -224,20 +225,20 @@ export function VulnerabilitiesPage() {
           {
             label: "Open advisories",
             value: ds.vulnerabilities.length,
-            icon: <ShieldAlert className="size-3.5" />,
+            icon: <ShieldAlert aria-hidden="true" className="size-3.5" />,
           },
           { label: "Critical", value: critical, tone: critical > 0 ? "text-critical" : undefined },
           {
             label: "Actively exploited",
             value: kev,
             tone: kev > 0 ? "text-critical" : undefined,
-            icon: <Flame className="size-3.5" />,
+            icon: <Flame aria-hidden="true" className="size-3.5" />,
           },
           {
             label: "With a fix available",
             value: fixable,
             tone: "text-success",
-            icon: <GitPullRequestArrow className="size-3.5" />,
+            icon: <GitPullRequestArrow aria-hidden="true" className="size-3.5" />,
           },
         ]}
       />
@@ -264,7 +265,7 @@ export function VulnerabilitiesPage() {
         }}
       />
 
-      <p className="text-caption text-ink-tertiary">
+      <p className="text-caption text-ink-subtle">
         Showing {pluralize(rows.length, "advisory", "advisories")} ranked by fix-first priority.
       </p>
 

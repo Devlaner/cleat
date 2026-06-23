@@ -75,7 +75,7 @@ export function NotificationBell({ unread = 0 }: { unread?: number }) {
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-body-sm text-ink">{n.message}</p>
-                      <p className="text-caption text-ink-tertiary">{relativeTime(n.createdAt)}</p>
+                      <p className="text-caption text-ink-subtle">{relativeTime(n.createdAt)}</p>
                     </div>
                     {!n.read && <span className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" />}
                   </button>

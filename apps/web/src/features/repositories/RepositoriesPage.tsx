@@ -78,8 +78,9 @@ export function RepositoriesPage() {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <div
+          role="status"
+          aria-label="Loading"
           className="size-8 animate-spin rounded-full border-2 border-surface-3 border-t-primary"
-          aria-label="loading"
         />
       </div>
     );
@@ -127,7 +128,7 @@ export function RepositoriesPage() {
                 {r.name}
                 {r.archived && <Archive className="size-3 text-ink-tertiary" />}
               </p>
-              <p className="flex items-center gap-1.5 truncate text-caption text-ink-tertiary">
+              <p className="flex items-center gap-1.5 truncate text-caption text-ink-subtle">
                 <span
                   className="size-2 rounded-full"
                   style={{ backgroundColor: languageColor(r.language) }}
@@ -270,6 +271,7 @@ export function RepositoriesPage() {
 
       <DataTable
         tableKey={TABLE}
+        testId="repositories-table"
         columns={columns}
         rows={rows}
         getRowId={(r) => r.id}

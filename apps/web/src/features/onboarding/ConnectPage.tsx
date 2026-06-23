@@ -63,11 +63,11 @@ export function ConnectPage() {
               {SCOPES.map((s) => (
                 <div key={s.label} className="flex items-start gap-3 rounded-lg bg-surface-2 p-3">
                   <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-success/12 text-success ring-1 ring-inset ring-success/25">
-                    <Check className="size-3" />
+                    <Check aria-hidden="true" className="size-3" />
                   </span>
                   <div className="min-w-0">
                     <p className="text-body-sm text-ink">{s.label}</p>
-                    <p className="text-caption text-ink-tertiary">{s.detail}</p>
+                    <p className="text-caption text-ink-subtle">{s.detail}</p>
                   </div>
                 </div>
               ))}
@@ -77,6 +77,7 @@ export function ConnectPage() {
               variant="primary"
               size="lg"
               className="mt-6 w-full"
+              aria-busy={authorizing}
               onClick={authorize}
               disabled={authorizing}
             >
@@ -88,13 +89,13 @@ export function ConnectPage() {
               ) : (
                 <>
                   Authorize & continue
-                  <ChevronRight className="size-4" />
+                  <ChevronRight aria-hidden="true" className="size-4" />
                 </>
               )}
             </Button>
 
             <p className="mt-4 flex items-center justify-center gap-1.5 text-caption text-ink-tertiary">
-              <Lock className="size-3" />
+              <Lock aria-hidden="true" className="size-3" />
               Read-only · no code is ever modified · revoke anytime
             </p>
           </div>

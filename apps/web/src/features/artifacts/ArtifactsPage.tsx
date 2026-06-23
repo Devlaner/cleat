@@ -353,7 +353,7 @@ function ArtifactTable({
     },
     {
       id: "status",
-      header: "",
+      header: <span className="sr-only">Status</span>,
       align: "right",
       cell: (r) => (isReclaimable(r) ? <Badge tone="success">reclaimable</Badge> : null),
     },
@@ -485,7 +485,7 @@ function PackageTable({ rows }: { rows: PackageEntry[] }) {
     },
     {
       id: "action",
-      header: "",
+      header: <span className="sr-only">Actions</span>,
       align: "right",
       cell: (r) =>
         r.untaggedLayers > 0 ? (
