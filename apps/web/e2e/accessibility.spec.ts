@@ -39,18 +39,43 @@ test.describe("Authenticated accessibility checks", () => {
   test("accessibility check: repository details", async ({ page }) => {
     await page.goto("/app/repositories");
 
-    await page.waitForSelector("h1", { state: "visible" });
+    await expect(page.locator('[data-testid="repositories-table"]')).toBeVisible();
 
-    const repositoryLinks = await page
-      .locator('a[href^="/app/repositories/"]')
-      .evaluateAll((links) => links.map((link) => (link as HTMLAnchorElement).href));
+    const rows = page.locator('[data-testid^="table-row-"]');
 
-    for (const url of repositoryLinks) {
+    const count = await rows.count();
+
+    if (count === 0) {
+      test.skip(true, "No repositories available");
+    }
+
+    expect(count).toBeGreaterThan(0);
+
+    const repoIds = await rows.evaluateAll((items) =>
+      items
+        .map((item) => item.getAttribute("data-testid"))
+        .filter(Boolean)
+        .map((id) => id!.replace("table-row-", "")),
+    );
+
+    expect(repoIds.length).toBeGreaterThan(0);
+
+    for (const repoId of repoIds) {
+      const url = `/app/repositories/${repoId}`;
+
       await page.goto(url);
 
-      await page.waitForSelector("h1", { state: "visible" });
+      await page.waitForLoadState("networkidle");
 
-      const results = await new AxeBuilder({ page }).analyze();
+      await expect(page.locator("h1")).toBeVisible();
+
+      const results = await new AxeBuilder({
+        page,
+      }).analyze();
+
+      if (results.violations.length > 0) {
+        console.log(JSON.stringify(results.violations, null, 2));
+      }
 
       expect(results.violations).toEqual([]);
     }
@@ -60,9 +85,11 @@ test.describe("Authenticated accessibility checks", () => {
     test(`accessibility check: ${path}`, async ({ page }) => {
       await page.goto(path);
 
-      await page.waitForSelector("h1", { state: "visible" });
+      await expect(page.locator("h1")).toBeVisible();
 
-      const results = await new AxeBuilder({ page }).analyze();
+      const results = await new AxeBuilder({
+        page,
+      }).analyze();
 
       expect(results.violations).toEqual([]);
     });

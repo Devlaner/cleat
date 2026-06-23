@@ -33,6 +33,7 @@ interface DataTableProps<T> {
   rows: T[];
   getRowId: (row: T) => string;
   onRowClick?: (row: T) => void;
+  testId?: string;
   empty?: { icon: LucideIcon; title: string; description?: string };
   /** leading selection / control column */
   selectable?: {
@@ -51,6 +52,7 @@ export function DataTable<T>({
   onRowClick,
   empty,
   selectable,
+  testId,
 }: DataTableProps<T>) {
   const ts = useTableState(tableKey);
   const setSort = useFilterStore((s) => s.setSort);
@@ -80,7 +82,7 @@ export function DataTable<T>({
   return (
     <div className="overflow-hidden rounded-lg border border-hairline bg-surface-1">
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse text-body-sm">
+        <table data-testid={testId} className="w-full border-collapse text-body-sm">
           <thead>
             <tr className="border-b border-hairline">
               {selectable && (
@@ -138,6 +140,7 @@ export function DataTable<T>({
             {sorted.map((row) => (
               <tr
                 key={getRowId(row)}
+                data-testid={`table-row-${getRowId(row)}`}
                 onClick={onRowClick ? () => onRowClick(row) : undefined}
                 className={cn(
                   "border-b border-hairline/60 last:border-0 transition-colors",

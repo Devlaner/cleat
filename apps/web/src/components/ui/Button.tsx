@@ -10,20 +10,16 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const VARIANTS: Record<Variant, string> = {
-primary:
-  "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-focus shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+  primary:
+    "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-focus shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
 
-  secondary:
-    "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2",
+  secondary: "bg-surface-1 text-ink ring-1 ring-inset ring-hairline hover:bg-surface-2",
 
-  ghost:
-    "bg-transparent text-ink-muted hover:bg-surface-1 hover:text-ink",
+  ghost: "bg-transparent text-ink-muted hover:bg-surface-1 hover:text-ink",
 
-  inverse:
-    "bg-ink text-canvas hover:bg-surface-2",
+  inverse: "bg-ink text-canvas hover:bg-surface-2",
 
-  danger:
-    "bg-critical/10 text-critical ring-1 ring-inset ring-critical/30 hover:bg-critical/15",
+  danger: "bg-critical/10 text-critical ring-1 ring-inset ring-critical/30 hover:bg-critical/15",
 };
 
 // Heights grow to a ~44px touch target on coarse pointers (touch devices) only,

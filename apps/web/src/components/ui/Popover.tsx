@@ -34,7 +34,7 @@ export function Popover({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-      className="
+        className="
   block min-h-12 w-full rounded-md px-3 text-left transition-colors
   focus:outline-none
   focus-visible:ring-2
