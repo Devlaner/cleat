@@ -54,9 +54,7 @@ subprojects {
     }
 
     tasks.withType<Test> {
-        //useJUnitPlatform()
-        if (System.getenv("CI") != null) {
-            enabled = false
+        useJUnitPlatform()
         }
-    }
+
 }

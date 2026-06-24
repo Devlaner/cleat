@@ -8,7 +8,7 @@ CREATE TABLE scorecard_check(
                                 CONSTRAINT fk_scorecard_repo
                                     FOREIGN KEY (repo_id)
                                     REFERENCES repo(id)
-                                    ON DELETE CASCADE);
+                                    ON DELETE CASCADE
 );
 
 CREATE TABLE repo_topics(
@@ -18,7 +18,7 @@ CREATE TABLE repo_topics(
                                 CONSTRAINT fk_repo_topics
                                     FOREIGN KEY (repo_id)
                                     REFERENCES repo(id)
-                                    ON DELETE CASCADE);
+                                    ON DELETE CASCADE
 );
 
 CREATE TABLE activity_event(
@@ -38,7 +38,7 @@ CREATE TABLE activity_event(
                                     REFERENCES account(id),
 
                                 CONSTRAINT fk_activity_repo
-                                    FOREIGN KEY (repo_id)
+                                    FOREIGN KEY (repo)
                                     REFERENCES repo(id)
 );
 
@@ -52,15 +52,20 @@ CREATE TABLE member         (
                                 outside_collaborator BOOLEAN,
                                 repo_access          INTEGER,
 
+                                CONSTRAINT fk_member_account
+                                    FOREIGN KEY(account_id)
+                                    REFERENCES account(id)
+
 );
 
 CREATE TABLE member_teams(
                                 member_id            UUID PRIMARY KEY,
                                 teams                VARCHAR(255),
-
+                                account_id           UUID,
                                  CONSTRAINT fk_member_teams
                                      FOREIGN KEY (member_id)
                                      REFERENCES member(id)
+
 );
 
 CREATE TABLE secret_finding(
@@ -84,7 +89,7 @@ CREATE TABLE secret_finding(
 
                                  CONSTRAINT fk_secret_repo
                                      FOREIGN KEY (repo)
-                                     REFERENCES repo(id);
+                                     REFERENCES repo(id)
 );
 
 CREATE TABLE usage(
@@ -93,7 +98,12 @@ CREATE TABLE usage(
                                  minutes_included         INTEGER,
                                  storage_gb               DOUBLE PRECISION,
                                  monthly_cost             DECIMAL(19,4) DEFAULT 0.0,
-                                 reclaimable              DECIMAL(19,4) DEFAULT 0.0
+                                 reclaimable              DECIMAL(19,4) DEFAULT 0.0,
+                                 account_id               UUID,
+
+                                CONSTRAINT fk_usage_account
+                                    FOREIGN KEY(account_id)
+                                    REFERENCES account(id)
 );
 
 CREATE TABLE breakdown(
@@ -110,7 +120,7 @@ CREATE TABLE usage_point(
                                 label      VARCHAR(255),
                                 minutes    INTEGER,
                                 storage_gb DOUBLE PRECISION,
-                                cost       DECIMAL(19, 4) DEFAULT 0.0
+                                cost       DECIMAL(19, 4) DEFAULT 0.0,
                                 usage_id   UUID,
 
                                 CONSTRAINT fk_usage_point_usage
@@ -122,7 +132,7 @@ CREATE TABLE usage_point(
 CREATE TABLE vulnerability(
                                 id               UUID PRIMARY KEY,
                                 account_id       UUID,
-                                packageName      VARCHAR(255),
+                                package_name      VARCHAR(255),
                                 ecosystem        VARCHAR(255),
                                 current_version  VARCHAR(255),
                                 fixed_version    VARCHAR(255),

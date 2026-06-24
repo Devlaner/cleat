@@ -51,6 +51,9 @@ public class MemberEntity {
     @Column(name = "repo_access")
     private Integer repoAccess;
 
+    @Column(name = "account_id")
+    private UUID accountId;
+
     public MemberEntity() {}
 
     public MemberEntity(
@@ -62,7 +65,8 @@ public class MemberEntity {
             OffsetDateTime lastActiveAt,
             List<String> teams,
             Boolean outsideCollaborator,
-            Integer repoAccess) {
+            Integer repoAccess,
+            UUID accountId) {
         this.id = id;
         this.login = login;
         this.name = name;
@@ -72,6 +76,7 @@ public class MemberEntity {
         this.teams = teams;
         this.outsideCollaborator = outsideCollaborator;
         this.repoAccess = repoAccess;
+        this.accountId = accountId;
     }
 
     public UUID getId() {
@@ -152,6 +157,15 @@ public class MemberEntity {
 
     public MemberEntity setRepoAccess(Integer repoAccess) {
         this.repoAccess = repoAccess;
+        return this;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public MemberEntity setAccountId(UUID accountId) {
+        this.accountId = accountId;
         return this;
     }
 }

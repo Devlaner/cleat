@@ -24,11 +24,22 @@ public class UsageEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "actions_minutes")
     private Integer actionsMinutes;
+
+    @Column(name = "minutes_included")
     private Integer minutesIncluded;
+
+    @Column(name = "storage_gb")
     private Double storageGb;
+
+    @Column(name = "storage_included_gb")
     private Double storageIncludedGb;
+
+    @Column(name = "montly_cost")
     private BigDecimal monthlyCost;
+
+    @Column(name = "reclaimable")
     private BigDecimal reclaimable;
 
     @ElementCollection
@@ -37,7 +48,11 @@ public class UsageEntity {
     private List<BreakdownItem> breakdown;
 
     @OneToMany(mappedBy = "usage", cascade = CascadeType.ALL)
+    @Column(name = "series")
     private List<UsagePointEntity> series;
+
+    @Column(name = "account_id")
+    private UUID accountId;
 
     public UsageEntity() {}
 

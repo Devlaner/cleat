@@ -77,7 +77,6 @@ Backend:
 
 4. Data Container: The Frontend `Dataset` type is backed by `DatasetDto`. To switch from mock data 
    to real data, requests should be sent to the `/api/dashboard/dataset` endpoint.
-Local dependencies (Postgres, Redis) are expected to run via Docker Compose, while the API and Worker services are intended to be run locally via Gradle
 
 
 # Docker Setup
