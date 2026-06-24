@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "usage-point")
+@Table(name = "usage_point")
 public class UsagePointEntity {
 
     @Id

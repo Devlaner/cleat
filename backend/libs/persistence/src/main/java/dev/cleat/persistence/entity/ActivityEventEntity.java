@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "activity-entity")
+@Table(name = "activity_event")
 public class ActivityEventEntity {
 
     @Id

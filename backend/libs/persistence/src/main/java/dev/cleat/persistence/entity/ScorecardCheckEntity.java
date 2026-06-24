@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "scorecard-check")
+@Table(name = "scorecard_check")
 public class ScorecardCheckEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

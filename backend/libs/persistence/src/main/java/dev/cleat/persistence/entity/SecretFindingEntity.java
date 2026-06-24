@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "secret-finding")
+@Table(name = "secret_finding")
 public class SecretFindingEntity {
 
     @Id
