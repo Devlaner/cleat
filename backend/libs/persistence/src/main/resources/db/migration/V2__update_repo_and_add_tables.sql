@@ -42,7 +42,7 @@ CREATE TABLE activity_event(
                                     REFERENCES repo(id)
 );
 
-CREATE TABLE member         (
+CREATE TABLE member(
                                 id                   UUID PRIMARY KEY,
                                 login                VARCHAR(255),
                                 name                 VARCHAR(255),
@@ -107,7 +107,7 @@ CREATE TABLE usage(
                                     REFERENCES account(id)
 );
 
-CREATE TABLE breakdown(
+CREATE TABLE usage_breakdown(
                                  usage_id                 UUID NOT NULL,
                                  breakdown                VARCHAR(255),
 
