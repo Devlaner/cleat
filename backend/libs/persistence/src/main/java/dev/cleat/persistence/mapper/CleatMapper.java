@@ -32,7 +32,9 @@ import org.springframework.stereotype.Component;
 public class CleatMapper {
 
     public AccountResponseDto toAccountDto(AccountEntity accountEntity) {
-        if (accountEntity == null) return null;
+        if (accountEntity == null) {
+            return null;
+        }
 
         return new AccountResponseDto()
                 .setId(accountEntity.getId())
@@ -48,7 +50,9 @@ public class CleatMapper {
     }
 
     public AccountEntity toAccountEntity(AccountRequestDto accountRequestDto) {
-        if (accountRequestDto == null) return null;
+        if (accountRequestDto == null) {
+            return null;
+        }
         return new AccountEntity()
                 .setLogin(accountRequestDto.getLogin())
                 .setName(accountRequestDto.getName())
@@ -57,7 +61,9 @@ public class CleatMapper {
     }
 
     public RepoResponseDto toRepoDto(RepoEntity repoEntity) {
-        if (repoEntity == null) return null;
+        if (repoEntity == null) {
+            return null;
+        }
         return new RepoResponseDto()
                 .setId(repoEntity.getId())
                 .setName(repoEntity.getName())
@@ -87,7 +93,9 @@ public class CleatMapper {
     }
 
     public RepoEntity toRepoEntity(RepoRequestDto repoRequestDto) {
-        if (repoRequestDto == null) return null;
+        if (repoRequestDto == null) {
+            return null;
+        }
         return new RepoEntity()
                 .setName(repoRequestDto.getName())
                 .setVisibility(repoRequestDto.getVisibility())
@@ -97,7 +105,9 @@ public class CleatMapper {
     }
 
     public ScorecardCheckResponseDto toScorecardCheckResponseDto(ScorecardCheckEntity scorecardCheckEntity) {
-        if (scorecardCheckEntity == null) return null;
+        if (scorecardCheckEntity == null) {
+            return null;
+        }
         return new ScorecardCheckResponseDto()
                 .setId(scorecardCheckEntity.getId())
                 .setName(scorecardCheckEntity.getName())
@@ -106,7 +116,9 @@ public class CleatMapper {
     }
 
     public ActivityEventResponseDto toActivityEventDto(ActivityEventEntity activityEventEntity) {
-        if (activityEventEntity == null) return null;
+        if (activityEventEntity == null) {
+            return null;
+        }
         return new ActivityEventResponseDto()
                 .setId(activityEventEntity.getId())
                 .setAccountId(activityEventEntity.getAccount().getId())
@@ -120,7 +132,9 @@ public class CleatMapper {
     }
 
     public ActivityEventEntity toActiveEventEntity(ActivityEventRequestDto activityEventRequestDto) {
-        if (activityEventRequestDto == null) return null;
+        if (activityEventRequestDto == null) {
+            return null;
+        }
         return new ActivityEventEntity()
                 .setType(activityEventRequestDto.getType())
                 .setSeverity(activityEventRequestDto.getSeverity())
@@ -161,7 +175,9 @@ public class CleatMapper {
     }
 
     public MemberEntity toMemberEntity(MemberRequestDto memberRequestDto) {
-        if (memberRequestDto == null) return null;
+        if (memberRequestDto == null) {
+            return null;
+        }
         return new MemberEntity()
                 .setLogin(memberRequestDto.getLogin())
                 .setName(memberRequestDto.getName())
@@ -188,7 +204,9 @@ public class CleatMapper {
     }
 
     public SecretFindingEntity toSecretFindingEntity(SecretFindingRequestDto secretFindingRequestDto) {
-        if (secretFindingRequestDto == null) return null;
+        if (secretFindingRequestDto == null) {
+            return null;
+        }
         return new SecretFindingEntity()
                 .setProvider(secretFindingRequestDto.getProvider())
                 .setSecretType(secretFindingRequestDto.getSecretType())
@@ -224,7 +242,9 @@ public class CleatMapper {
     }
 
     public VulnerabilityEntity toVulnerabilityEntity(VulnerabilityRequestDto vulnerabilityRequestDto) {
-        if (vulnerabilityRequestDto == null) return null;
+        if (vulnerabilityRequestDto == null) {
+            return null;
+        }
         return new VulnerabilityEntity()
                 .setPackageName(vulnerabilityRequestDto.getPackageName())
                 .setEcosystem(vulnerabilityRequestDto.getEcosystem())
@@ -243,7 +263,9 @@ public class CleatMapper {
     }
 
     public UsageResponseDto toUsageDto(UsageEntity usageEntity) {
-        if (usageEntity == null) return null;
+        if (usageEntity == null) {
+            return null;
+        }
         return new UsageResponseDto()
                 .setActionsMinutes(usageEntity.getActionsMinutes())
                 .setMinutesIncluded(usageEntity.getMinutesIncluded())
@@ -258,7 +280,9 @@ public class CleatMapper {
     }
 
     public UsagePointDto toUsagePointDto(UsagePointEntity usagePointEntity) {
-        if (usagePointEntity == null) return null;
+        if (usagePointEntity == null) {
+            return null;
+        }
         return new UsagePointDto()
                 .setLabel(usagePointEntity.getLabel())
                 .setMinutes(usagePointEntity.getMinutes())

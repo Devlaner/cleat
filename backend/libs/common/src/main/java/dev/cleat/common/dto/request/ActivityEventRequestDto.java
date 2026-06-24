@@ -27,7 +27,6 @@ public class ActivityEventRequestDto {
         this.severity = severity;
         this.actor = actor;
         this.target = target;
-        this.repo = repo;
         this.message = message;
         this.eventCategory = eventCategory;
     }
@@ -65,15 +64,6 @@ public class ActivityEventRequestDto {
 
     public ActivityEventRequestDto setTarget(String target) {
         this.target = target;
-        return this;
-    }
-
-    public String getRepo() {
-        return repo;
-    }
-
-    public ActivityEventRequestDto setRepo(String repo) {
-        this.repo = repo;
         return this;
     }
 
