@@ -52,6 +52,8 @@ CREATE TABLE member         (
                                 outside_collaborator BOOLEAN,
                                 repo_access          INTEGER,
                                 account_id           UUID,
+
+
                                 CONSTRAINT fk_member_account
                                     FOREIGN KEY(account_id)
                                     REFERENCES account(id)

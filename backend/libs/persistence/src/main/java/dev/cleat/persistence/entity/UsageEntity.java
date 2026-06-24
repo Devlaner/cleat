@@ -36,7 +36,7 @@ public class UsageEntity {
     @Column(name = "storage_included_gb")
     private Double storageIncludedGb;
 
-    @Column(name = "montly_cost")
+    @Column(name = "monthly_cost")
     private BigDecimal monthlyCost;
 
     @Column(name = "reclaimable")
@@ -44,7 +44,6 @@ public class UsageEntity {
 
     @ElementCollection
     @CollectionTable(name = "usage_breakdown", joinColumns = @JoinColumn(name = "usage_id"))
-    @Column(name = "breakdown")
     private List<BreakdownItem> breakdown;
 
     @OneToMany(mappedBy = "usage", cascade = CascadeType.ALL)

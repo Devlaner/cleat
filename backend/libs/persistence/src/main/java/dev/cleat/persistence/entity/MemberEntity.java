@@ -42,7 +42,6 @@ public class MemberEntity {
 
     @ElementCollection
     @CollectionTable(name = "member_teams", joinColumns = @JoinColumn(name = "member_id"))
-    @Column(name = "teams")
     private List<String> teams;
 
     @Column(name = "outside_collaborator")

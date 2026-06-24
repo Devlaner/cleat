@@ -100,7 +100,6 @@ public class RepoEntity {
 
     @ElementCollection
     @CollectionTable(name = "repo_topics", joinColumns = @JoinColumn(name = "repo_id"))
-    @Column(name = "topics")
     private List<String> topics;
 
     @CreationTimestamp
