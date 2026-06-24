@@ -51,7 +51,7 @@ CREATE TABLE member         (
                                 last_active_at       TIMESTAMP WITH TIME ZONE,
                                 outside_collaborator BOOLEAN,
                                 repo_access          INTEGER,
-
+                                account_id           UUID,
                                 CONSTRAINT fk_member_account
                                     FOREIGN KEY(account_id)
                                     REFERENCES account(id)
@@ -61,7 +61,6 @@ CREATE TABLE member         (
 CREATE TABLE member_teams(
                                 member_id            UUID PRIMARY KEY,
                                 teams                VARCHAR(255),
-                                account_id           UUID,
                                  CONSTRAINT fk_member_teams
                                      FOREIGN KEY (member_id)
                                      REFERENCES member(id)
