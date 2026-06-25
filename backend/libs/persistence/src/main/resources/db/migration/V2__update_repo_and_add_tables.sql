@@ -160,3 +160,4 @@ CREATE TABLE vulnerability_affected_repos(
 
 );
 
+

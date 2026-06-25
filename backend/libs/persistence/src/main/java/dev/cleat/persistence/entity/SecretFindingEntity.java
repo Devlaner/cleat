@@ -24,9 +24,8 @@ public class SecretFindingEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    private AccountEntity account;
+    @Column(name = "account_id", insertable = false, updatable = false)
+    private UUID accountId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repo")
@@ -68,7 +67,7 @@ public class SecretFindingEntity {
 
     public SecretFindingEntity(
             UUID id,
-            AccountEntity account,
+            UUID accountId,
             RepoEntity repo,
             String provider,
             String secretType,
@@ -81,7 +80,7 @@ public class SecretFindingEntity {
             Severity severity,
             Boolean pushProtectionBlocked) {
         this.id = id;
-        this.account = account;
+        this.accountId = accountId;
         this.repo = repo;
         this.provider = provider;
         this.secretType = secretType;
@@ -104,12 +103,12 @@ public class SecretFindingEntity {
         return this;
     }
 
-    public AccountEntity getAccount() {
-        return account;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public SecretFindingEntity setAccount(AccountEntity account) {
-        this.account = account;
+    public SecretFindingEntity setAccountId(UUID accountId) {
+        this.accountId = accountId;
         return this;
     }
 

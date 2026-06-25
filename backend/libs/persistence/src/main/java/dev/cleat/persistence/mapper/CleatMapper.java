@@ -121,7 +121,7 @@ public class CleatMapper {
         }
         return new ActivityEventResponseDto()
                 .setId(activityEventEntity.getId())
-                .setAccountId(activityEventEntity.getAccount().getId())
+                .setAccountId(activityEventEntity.getAccountId())
                 .setType(activityEventEntity.getType())
                 .setSeverity(activityEventEntity.getSeverity())
                 .setActor(activityEventEntity.getActor())
@@ -189,7 +189,7 @@ public class CleatMapper {
     public SecretFindingResponseDto toSecretFindingDto(SecretFindingEntity secretFindingEntity) {
         return new SecretFindingResponseDto()
                 .setId(secretFindingEntity.getId())
-                .setAccountId(secretFindingEntity.getAccount().getId())
+                .setAccountId(secretFindingEntity.getAccountId())
                 .setRepo(secretFindingEntity.getRepo().getName())
                 .setProvider(secretFindingEntity.getProvider())
                 .setSecretType(secretFindingEntity.getSecretType())
@@ -223,7 +223,7 @@ public class CleatMapper {
     public VulnerabilityResponseDto toVulnerabilityDto(VulnerabilityEntity vulnerabilityEntity) {
         return new VulnerabilityResponseDto()
                 .setId(vulnerabilityEntity.getId())
-                .setAccountId(vulnerabilityEntity.getAccount().getId())
+                .setAccountId(vulnerabilityEntity.getAccountId())
                 .setPackageName(vulnerabilityEntity.getPackageName())
                 .setEcosystem(vulnerabilityEntity.getEcosystem())
                 .setCurrentVersion(vulnerabilityEntity.getCurrentVersion())

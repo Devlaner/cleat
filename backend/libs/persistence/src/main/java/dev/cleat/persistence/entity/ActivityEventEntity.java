@@ -24,9 +24,8 @@ public class ActivityEventEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    private AccountEntity account;
+    @Column(name = "account_id", insertable = false, updatable = false)
+    private UUID accountId;
 
     @Column(name = "type")
     private String type;
@@ -59,7 +58,7 @@ public class ActivityEventEntity {
 
     public ActivityEventEntity(
             UUID id,
-            AccountEntity account,
+            UUID accountId,
             String type,
             Severity severity,
             String actor,
@@ -69,7 +68,7 @@ public class ActivityEventEntity {
             OffsetDateTime createdAt,
             EventCategory category) {
         this.id = id;
-        this.account = account;
+        this.accountId = accountId;
         this.type = type;
         this.severity = severity;
         this.actor = actor;
@@ -89,12 +88,12 @@ public class ActivityEventEntity {
         return this;
     }
 
-    public AccountEntity getAccount() {
-        return account;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public ActivityEventEntity setAccount(AccountEntity account) {
-        this.account = account;
+    public ActivityEventEntity setAccountId(UUID accountId) {
+        this.accountId = accountId;
         return this;
     }
 

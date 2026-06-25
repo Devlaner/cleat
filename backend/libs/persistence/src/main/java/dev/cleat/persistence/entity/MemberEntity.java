@@ -51,7 +51,7 @@ public class MemberEntity {
     @Column(name = "repo_access")
     private Integer repoAccess;
 
-    @Column(name = "account_id")
+    @Column(name = "account_id", insertable = false, updatable = false)
     private UUID accountId;
 
     public MemberEntity() {}

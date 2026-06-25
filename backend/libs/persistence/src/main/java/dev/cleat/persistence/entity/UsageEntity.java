@@ -64,7 +64,8 @@ public class UsageEntity {
             BigDecimal monthlyCost,
             BigDecimal reclaimable,
             List<BreakdownItem> breakdown,
-            List<UsagePointEntity> series) {
+            List<UsagePointEntity> series,
+            UUID accountId) {
         this.id = id;
         this.actionsMinutes = actionsMinutes;
         this.minutesIncluded = minutesIncluded;
@@ -74,6 +75,7 @@ public class UsageEntity {
         this.reclaimable = reclaimable;
         this.breakdown = breakdown;
         this.series = series;
+        this.accountId = accountId;
     }
 
     public UUID getId() {
@@ -154,6 +156,15 @@ public class UsageEntity {
 
     public UsageEntity setSeries(List<UsagePointEntity> series) {
         this.series = series;
+        return this;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public UsageEntity setAccountId(UUID accountId) {
+        this.accountId = accountId;
         return this;
     }
 }
