@@ -57,7 +57,26 @@ for example `dev.cleat.domain` and `dev.cleat.githubclient`.
 ./gradlew build                    # build and test everything
 ```
 
-Local dependencies (Postgres, Redis) are expected to run via Docker Compose, while the API and Worker services are intended to be run locally via Gradle
+Local dependencies (Postgres, Redis) are expected to run via Docker Compose. The
+two services build into one container image each.
+
+
+## Frontend–Backend Data Contract
+
+The following rules apply to data exchange between the Frontend (`apps/web/src/data/types.ts`) and the 
+Backend:
+
+1. Field Mapping: All fields in Backend DTOs (e.g., `repoCount`, `postureScore`) follow the same camelCase
+   naming convention as the Frontend interfaces.
+
+2. Enum Synchronization: Enums such as `AccountType`, `Plan`, and `Severity` are serialized using 
+   `@JsonValue` to the lowercase values expected by the Frontend (e.g., `user`, `critical`).
+
+3. ISO Dates: Date fields (e.g., `lastPushedAt`, `detectedAt`) use the `OffsetDateTime` type and are 
+   serialized to JSON as ISO-8601 formatted strings.
+
+4. Data Container: The Frontend `Dataset` type is backed by `DatasetDto`. To switch from mock data 
+   to real data, requests should be sent to the `/api/dashboard/dataset` endpoint.
 
 
 # Docker Setup
