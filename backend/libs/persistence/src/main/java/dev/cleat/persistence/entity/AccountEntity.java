@@ -1,7 +1,7 @@
 package dev.cleat.persistence.entity;
 
-import dev.cleat.persistence.enums.AccountType;
-import dev.cleat.persistence.enums.Plan;
+import dev.cleat.common.enums.AccountType;
+import dev.cleat.common.enums.Plan;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -119,7 +119,8 @@ public class AccountEntity {
         return this;
     }
 
-    public AccountType getType() {
+
+    public dev.cleat.common.enums.AccountType getType() {
         return type;
     }
 
@@ -128,7 +129,8 @@ public class AccountEntity {
         return this;
     }
 
-    public Plan getPlan() {
+
+    public dev.cleat.common.enums.Plan getPlan() {
         return plan;
     }
 

@@ -1,7 +1,11 @@
 package dev.cleat.persistence.entity;
 
-import dev.cleat.persistence.enums.Visibility;
+
+import dev.cleat.common.enums.Visibility;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,8 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -89,9 +95,22 @@ public class RepoEntity {
     @Column(name = "hygiene_score")
     private Integer hygieneScore;
 
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "repo_id")
+    private List<ScorecardCheckEntity> scorecard;
+
+    @ElementCollection
+    @CollectionTable(name = "repo_topics", joinColumns = @JoinColumn(name = "repo_id"))
+    @Column(name = "topics")
+    private List<String> topics;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+
+    public RepoEntity() {}
 
     public RepoEntity(
             UUID id,
@@ -116,6 +135,9 @@ public class RepoEntity {
             Integer staleBranches,
             Integer openPRs,
             Integer hygieneScore,
+
+            List<ScorecardCheckEntity> scorecard,
+            List<String> topics,
             OffsetDateTime createdAt) {
         this.id = id;
         this.name = name;
@@ -139,10 +161,11 @@ public class RepoEntity {
         this.staleBranches = staleBranches;
         this.openPRs = openPRs;
         this.hygieneScore = hygieneScore;
+
+        this.scorecard = scorecard;
+        this.topics = topics;
         this.createdAt = createdAt;
     }
-
-    public RepoEntity() {}
 
     public UUID getId() {
         return id;
@@ -339,6 +362,25 @@ public class RepoEntity {
 
     public RepoEntity setHygieneScore(Integer hygieneScore) {
         this.hygieneScore = hygieneScore;
+        return this;
+    }
+
+
+    public List<ScorecardCheckEntity> getScorecard() {
+        return scorecard;
+    }
+
+    public RepoEntity setScorecard(List<ScorecardCheckEntity> scorecard) {
+        this.scorecard = scorecard;
+        return this;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public RepoEntity setTopics(List<String> topics) {
+        this.topics = topics;
         return this;
     }
 
