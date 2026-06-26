@@ -119,7 +119,6 @@ public class AccountEntity {
         return this;
     }
 
-
     public dev.cleat.common.enums.AccountType getType() {
         return type;
     }
@@ -128,7 +127,6 @@ public class AccountEntity {
         this.type = type;
         return this;
     }
-
 
     public dev.cleat.common.enums.Plan getPlan() {
         return plan;

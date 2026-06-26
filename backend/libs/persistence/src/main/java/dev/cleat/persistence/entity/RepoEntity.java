@@ -1,6 +1,5 @@
 package dev.cleat.persistence.entity;
 
-
 import dev.cleat.common.enums.Visibility;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -95,7 +94,6 @@ public class RepoEntity {
     @Column(name = "hygiene_score")
     private Integer hygieneScore;
 
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "repo_id")
     private List<ScorecardCheckEntity> scorecard;
@@ -108,7 +106,6 @@ public class RepoEntity {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
-
 
     public RepoEntity() {}
 
@@ -135,7 +132,6 @@ public class RepoEntity {
             Integer staleBranches,
             Integer openPRs,
             Integer hygieneScore,
-
             List<ScorecardCheckEntity> scorecard,
             List<String> topics,
             OffsetDateTime createdAt) {
@@ -364,7 +360,6 @@ public class RepoEntity {
         this.hygieneScore = hygieneScore;
         return this;
     }
-
 
     public List<ScorecardCheckEntity> getScorecard() {
         return scorecard;
