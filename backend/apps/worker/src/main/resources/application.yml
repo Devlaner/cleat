@@ -29,3 +29,6 @@ management:
       enabled: true
     redis:
       enabled: true
+cleat:
+  workflow-scan:
+    interval-ms: 3600000

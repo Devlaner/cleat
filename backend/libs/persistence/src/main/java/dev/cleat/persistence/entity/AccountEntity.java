@@ -1,5 +1,7 @@
-package dev.cleat.persistence;
+package dev.cleat.persistence.entity;
 
+import dev.cleat.persistence.enums.AccountType;
+import dev.cleat.persistence.enums.Plan;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

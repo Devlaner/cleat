@@ -1,4 +1,4 @@
-package dev.cleat.persistence;
+package dev.cleat.persistence.enums;
 
 public enum Visibility {
     PUBLIC,

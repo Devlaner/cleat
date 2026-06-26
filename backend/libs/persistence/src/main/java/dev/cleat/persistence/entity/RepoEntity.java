@@ -1,5 +1,6 @@
-package dev.cleat.persistence;
+package dev.cleat.persistence.entity;
 
+import dev.cleat.persistence.enums.Visibility;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
