@@ -1,11 +1,10 @@
 package dev.cleat.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import dev.cleat.common.enums.AccountType;
 import dev.cleat.persistence.entity.AccountEntity;
 import dev.cleat.persistence.entity.RepoEntity;
 import dev.cleat.persistence.entity.WorkflowScanEntity;
-import dev.cleat.common.enums.AccountType;
 import dev.cleat.persistence.repo.AccountRepository;
 import dev.cleat.persistence.repo.RepoRepository;
 import dev.cleat.persistence.repo.WorkflowScanRepository;
