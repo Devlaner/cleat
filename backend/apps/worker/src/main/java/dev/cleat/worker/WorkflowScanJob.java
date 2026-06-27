@@ -1,7 +1,7 @@
 package dev.cleat.worker;
 
 import dev.cleat.persistence.entity.RepoEntity;
-import dev.cleat.persistence.repo.AccountRepository;
+import dev.cleat.persistence.repository.AccountRepository;
 import dev.cleat.scanning.WorkflowScanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

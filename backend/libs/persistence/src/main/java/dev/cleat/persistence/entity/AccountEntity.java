@@ -27,6 +27,9 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "installation_id")
+    private String installationId;
+
     @Column(name = "login", nullable = false)
     private String login;
 
@@ -197,6 +200,15 @@ public class AccountEntity {
 
     public AccountEntity setRepos(List<RepoEntity> repos) {
         this.repos = repos;
+        return this;
+    }
+
+    public String getInstallationId() {
+        return installationId;
+    }
+
+    public AccountEntity setInstallationId(String installationId) {
+        this.installationId = installationId;
         return this;
     }
 }
