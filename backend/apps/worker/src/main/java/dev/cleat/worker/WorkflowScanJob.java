@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WorkflowScanJob {
 
-    private static final Logger log = LoggerFactory.getLogger(WorkflowScanJob.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WorkflowScanJob.class);
 
     private final AccountRepository accountRepository;
     private final WorkflowScanService workflowScanService;
@@ -23,7 +23,7 @@ public class WorkflowScanJob {
 
     @Scheduled(fixedDelayString = "${cleat.workflow-scan.interval-ms:3600000}")
     public void run() {
-        log.info("Starting workflow scan job");
+        LOG.info("Starting workflow scan job");
 
         accountRepository.findAll().forEach(account -> {
             String installationId = account.getInstallationId();
@@ -32,11 +32,11 @@ public class WorkflowScanJob {
                 try {
                     workflowScanService.scanRepo(repo, installationId);
                 } catch (Exception e) {
-                    log.error("Failed to scan workflows for repo {}/{}", account.getLogin(), repo.getName(), e);
+                    LOG.error("Failed to scan workflows for repo {}/{}", account.getLogin(), repo.getName(), e);
                 }
             }
         });
 
-        log.info("Workflow scan job completed");
+        LOG.info("Workflow scan job completed");
     }
 }
