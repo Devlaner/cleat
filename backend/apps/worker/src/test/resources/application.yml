@@ -1,0 +1,7 @@
+yamlgithub:
+  app-id: "test-app-id"
+  private-key-path: "/tmp/test-key.pem"
+
+cleat:
+  workflow-scan:
+    interval-ms: 3600000
