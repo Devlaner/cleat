@@ -41,7 +41,7 @@ class WorkflowParserTest {
                   build:
                     runs-on: ubuntu-latest
                     steps:
-                      - uses: actions/checkout@abc1234567890123456789012345678901234567890
+                      - uses: actions/checkout@abc123456789012345678901234567890123456789
                 """;
 
         WorkflowAnalysis result = parser.parse(".github/workflows/ci.yml", yaml);
@@ -62,7 +62,7 @@ class WorkflowParserTest {
                   build:
                     runs-on: ubuntu-latest
                     steps:
-                      - uses: actions/checkout@abc1234567890123456789012345678901234567890
+                      - uses: actions/checkout@abc123456789012345678901234567890123456789
                 """;
 
         WorkflowAnalysis result = parser.parse(".github/workflows/ci.yml", yaml);
