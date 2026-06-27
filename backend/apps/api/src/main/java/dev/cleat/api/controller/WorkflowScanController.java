@@ -1,7 +1,7 @@
 package dev.cleat.api.controller;
 
 import dev.cleat.persistence.entity.WorkflowScanEntity;
-import dev.cleat.persistence.repo.WorkflowScanRepository;
+import dev.cleat.persistence.repository.WorkflowScanRepository;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;

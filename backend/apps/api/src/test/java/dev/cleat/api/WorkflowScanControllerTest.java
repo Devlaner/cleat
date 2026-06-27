@@ -8,7 +8,7 @@ import dev.cleat.persistence.entity.WorkflowScanEntity;
 import dev.cleat.persistence.enums.AccountType;
 import dev.cleat.persistence.repo.AccountRepository;
 import dev.cleat.persistence.repo.RepoRepository;
-import dev.cleat.persistence.repo.WorkflowScanRepository;
+import dev.cleat.persistence.repository.WorkflowScanRepository;
 import java.time.OffsetDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;

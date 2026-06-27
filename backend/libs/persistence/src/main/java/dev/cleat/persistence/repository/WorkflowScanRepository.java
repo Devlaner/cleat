@@ -1,4 +1,4 @@
-package dev.cleat.persistence.repo;
+package dev.cleat.persistence.repository;
 
 import dev.cleat.persistence.entity.WorkflowScanEntity;
 import java.util.List;

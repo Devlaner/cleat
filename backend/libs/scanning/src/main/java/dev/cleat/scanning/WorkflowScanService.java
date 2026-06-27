@@ -3,7 +3,7 @@ package dev.cleat.scanning;
 import dev.cleat.githubclient.service.GitHubClient;
 import dev.cleat.persistence.entity.RepoEntity;
 import dev.cleat.persistence.entity.WorkflowScanEntity;
-import dev.cleat.persistence.repo.WorkflowScanRepository;
+import dev.cleat.persistence.repository.WorkflowScanRepository;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
