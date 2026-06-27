@@ -50,7 +50,9 @@ class WorkflowScanControllerTest extends AbstractIntegrationTest {
                 .setRiskScore(80)
                 .setScannedAt(OffsetDateTime.now()));
 
-        var response = restTemplate.getForEntity("/api/repos/" + repo.getId() + "/workflow-scans", List.class);
+        var response = restTemplate
+                .withBasicAuth("test", "test")
+                .getForEntity("/api/repos/" + repo.getId() + "/workflow-scans", List.class);
 
         // Assert
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
@@ -69,7 +71,9 @@ class WorkflowScanControllerTest extends AbstractIntegrationTest {
         RepoEntity repo = new RepoEntity().setAccount(account).setName("empty-repo");
         repoRepository.saveAndFlush(repo);
 
-        var response = restTemplate.getForEntity("/api/repos/" + repo.getId() + "/workflow-scans", List.class);
+        var response = restTemplate
+                .withBasicAuth("test", "test")
+                .getForEntity("/api/repos/" + repo.getId() + "/workflow-scans", List.class);
 
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isEmpty();

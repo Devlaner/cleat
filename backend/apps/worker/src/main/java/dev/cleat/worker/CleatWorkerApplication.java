@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@EntityScan(basePackages = "dev.cleat.persistence")
-@EnableJpaRepositories(basePackages = "dev.cleat.persistence")
+@EntityScan(basePackages = "dev.cleat.persistence.entity")
+@EnableJpaRepositories(basePackages = "dev.cleat.persistence.repository")
 @ComponentScan(basePackages = {"dev.cleat.worker", "dev.cleat.scanning", "dev.cleat.githubclient"})
 public class CleatWorkerApplication {
 
