@@ -31,9 +31,11 @@ class WorkflowScanControllerTest extends AbstractIntegrationTest {
 
     @Test
     void returnsWorkflowScansForRepo() {
-        // Arrange — DB-yə account, repo, scan yaz
-        AccountEntity account =
-                new AccountEntity().setLogin("octocat").setName("Octocat").setType(AccountType.USER);
+        AccountEntity account = new AccountEntity()
+                .setLogin("octocat")
+                .setName("Octocat")
+                .setType(AccountType.USER)
+                .setInstallationId("inst-123");
         accountRepository.saveAndFlush(account);
 
         RepoEntity repo = new RepoEntity().setAccount(account).setName("hello-world");
@@ -48,7 +50,6 @@ class WorkflowScanControllerTest extends AbstractIntegrationTest {
                 .setRiskScore(80)
                 .setScannedAt(OffsetDateTime.now()));
 
-        // Act — endpoint-ə sorğu at
         var response = restTemplate.getForEntity("/api/repos/" + repo.getId() + "/workflow-scans", List.class);
 
         // Assert
@@ -58,8 +59,11 @@ class WorkflowScanControllerTest extends AbstractIntegrationTest {
 
     @Test
     void returnsEmptyListWhenNoScans() {
-        AccountEntity account =
-                new AccountEntity().setLogin("octocat3").setName("Octocat3").setType(AccountType.USER);
+        AccountEntity account = new AccountEntity()
+                .setLogin("octocat3")
+                .setName("Octocat3")
+                .setType(AccountType.USER)
+                .setInstallationId("inst-456");
         accountRepository.saveAndFlush(account);
 
         RepoEntity repo = new RepoEntity().setAccount(account).setName("empty-repo");
