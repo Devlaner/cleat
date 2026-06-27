@@ -41,7 +41,9 @@ public class WorkflowParser {
         Object jobsObj = workflow.get("jobs");
         if (jobsObj instanceof Map<?, ?> jobs) {
             for (Object jobVal : jobs.values()) {
-                if (!(jobVal instanceof Map<?, ?> job)) continue;
+                if (!(jobVal instanceof Map<?, ?> job)) {
+                    continue;
+                }
 
                 // Per-job permissions can also grant OIDC
                 Object jobPerms = job.get("permissions");
@@ -50,10 +52,14 @@ public class WorkflowParser {
                 }
 
                 Object stepsObj = job.get("steps");
-                if (!(stepsObj instanceof List<?> steps)) continue;
+                if (!(stepsObj instanceof List<?> steps)) {
+                    continue;
+                }
 
                 for (Object stepObj : steps) {
-                    if (!(stepObj instanceof Map<?, ?> step)) continue;
+                    if (!(stepObj instanceof Map<?, ?> step)) {
+                        continue;
+                    }
                     Object uses = step.get("uses");
                     if (uses instanceof String action && !action.isBlank()) {
                         if (!PINNED.matcher(action).matches()) {
@@ -72,8 +78,12 @@ public class WorkflowParser {
 
         int score = 0;
         score += unpinnedActions.size() * 30;
-        if (broadPermissions) score += 40;
-        if (missingOidc) score += 20;
+        if (broadPermissions) {
+            score += 40;
+        }
+        if (missingOidc) {
+            score += 20;
+        }
         score = Math.min(score, 100);
 
         return new WorkflowAnalysis(workflowPath, unpinnedActions, broadPermissions, missingOidc, score);
