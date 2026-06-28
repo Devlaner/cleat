@@ -1,0 +1,3 @@
+ALTER TABLE secret_finding
+ALTER COLUMN detected_at
+      SET DEFAULT  CURRENT_TIMESTAMP;

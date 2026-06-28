@@ -4,9 +4,17 @@ import dev.cleat.common.dto.response.DatasetDto;
 import dev.cleat.common.exception.NotFoundException;
 import dev.cleat.persistence.entity.AccountEntity;
 import dev.cleat.persistence.entity.UsageEntity;
-import dev.cleat.persistence.mapper.CleatMapper;
+import dev.cleat.persistence.mapper.AccountMapper;
+import dev.cleat.persistence.mapper.ActivityEventMapper;
+import dev.cleat.persistence.mapper.CodeScanAlertMapper;
+import dev.cleat.persistence.mapper.MemberMapper;
+import dev.cleat.persistence.mapper.RepoMapper;
+import dev.cleat.persistence.mapper.SecretFindingMapper;
+import dev.cleat.persistence.mapper.UsageMapper;
+import dev.cleat.persistence.mapper.VulnerabilityMapper;
 import dev.cleat.persistence.repository.AccountRepository;
 import dev.cleat.persistence.repository.ActivityEventRepository;
+import dev.cleat.persistence.repository.CodeScanAlertRepository;
 import dev.cleat.persistence.repository.MemberRepository;
 import dev.cleat.persistence.repository.RepoRepository;
 import dev.cleat.persistence.repository.SecretFindingRepository;
@@ -25,7 +33,15 @@ public class DashboardService {
     private final UsageRepository usageRepository;
     private final MemberRepository memberRepository;
     private final ActivityEventRepository activityEventRepository;
-    private final CleatMapper cleatMapper;
+    private final AccountMapper accountMapper;
+    private final ActivityEventMapper activityEventMapper;
+    private final MemberMapper memberMapper;
+    private final RepoMapper repoMapper;
+    private final UsageMapper usageMapper;
+    private final SecretFindingMapper secretFindingMapper;
+    private final VulnerabilityMapper vulnerabilityMapper;
+    private final CodeScanAlertMapper codeScanAlertMapper;
+    private final CodeScanAlertRepository codeScanAlertRepository;
 
     public DashboardService(
             AccountRepository accountRepository,
@@ -35,7 +51,15 @@ public class DashboardService {
             UsageRepository usageRepository,
             MemberRepository memberRepository,
             ActivityEventRepository activityEventRepository,
-            CleatMapper cleatMapper) {
+            AccountMapper accountMapper,
+            ActivityEventMapper activityEventMapper,
+            MemberMapper memberMapper,
+            RepoMapper repoMapper,
+            UsageMapper usageMapper,
+            SecretFindingMapper secretFindingMapper,
+            VulnerabilityMapper vulnerabilityMapper,
+            CodeScanAlertMapper codeScanAlertMapper,
+            CodeScanAlertRepository codeScanAlertRepository) {
         this.accountRepository = accountRepository;
         this.repoRepository = repoRepository;
         this.secretFindingRepository = secretFindingRepository;
@@ -43,7 +67,15 @@ public class DashboardService {
         this.usageRepository = usageRepository;
         this.memberRepository = memberRepository;
         this.activityEventRepository = activityEventRepository;
-        this.cleatMapper = cleatMapper;
+        this.accountMapper = accountMapper;
+        this.activityEventMapper = activityEventMapper;
+        this.memberMapper = memberMapper;
+        this.repoMapper = repoMapper;
+        this.usageMapper = usageMapper;
+        this.secretFindingMapper = secretFindingMapper;
+        this.vulnerabilityMapper = vulnerabilityMapper;
+        this.codeScanAlertMapper = codeScanAlertMapper;
+        this.codeScanAlertRepository = codeScanAlertRepository;
     }
 
     @Transactional(readOnly = true)
@@ -52,23 +84,26 @@ public class DashboardService {
         AccountEntity account =
                 accountRepository.findById(accountId).orElseThrow(() -> new NotFoundException("Account not found"));
         return new DatasetDto(
-                cleatMapper.toAccountDto(account),
+                accountMapper.toAccountDto(account),
                 repoRepository.findAllByAccountId(accountId).stream()
-                        .map(cleatMapper::toRepoDto)
+                        .map(repoMapper::toRepoDto)
                         .toList(),
                 secretFindingRepository.findAllByAccountId(accountId).stream()
-                        .map(cleatMapper::toSecretFindingDto)
+                        .map(secretFindingMapper::toSecretFindingDto)
                         .toList(),
                 vulnerabilityRepository.findAllByAccountId(accountId).stream()
-                        .map(cleatMapper::toVulnerabilityDto)
+                        .map(vulnerabilityMapper::toVulnerabilityDto)
                         .toList(),
-                cleatMapper.toUsageDto(
+                codeScanAlertRepository.findAllByAccountId(accountId).stream()
+                        .map(codeScanAlertMapper::toCodeScanAlertDto)
+                        .toList(),
+                usageMapper.toUsageDto(
                         usageRepository.findByAccountId(accountId).orElse(new UsageEntity())),
                 memberRepository.findAllByAccountId(accountId).stream()
-                        .map(cleatMapper::toMemberDto)
+                        .map(memberMapper::toMemberDto)
                         .toList(),
                 activityEventRepository.findAllByAccountId(accountId).stream()
-                        .map(cleatMapper::toActivityEventDto)
+                        .map(activityEventMapper::toActivityEventDto)
                         .toList());
     }
 }

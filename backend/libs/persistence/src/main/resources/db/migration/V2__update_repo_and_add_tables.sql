@@ -160,4 +160,30 @@ CREATE TABLE vulnerability_affected_repos(
 
 );
 
+CREATE INDEX idx_scorecard_repo_id on scorecard_check(repo_id);
+
+CREATE INDEX idx_repo_topics_repo_id on repo_topics(repo_id);
+
+CREATE INDEX idx_activity_account_id on activity_event(account_id);
+CREATE INDEX idx_activity_repo_id on activity_event(repo);
+CREATE INDEX idx_activity_created_at on activity_event(created_at);
+
+CREATE INDEX idx_member_account_id on member(account_id);
+CREATE INDEX idx_member_login on member(login);
+
+CREATE INDEX idx_secret_account_id on secret_finding(account_id);
+CREATE INDEX idx_secret_repo_id on secret_finding(repo);
+CREATE INDEX idx_secret_severity on secret_finding(severity);
+
+CREATE INDEX idx_usage_account_id on usage(account_id);
+
+CREATE INDEX idx_usage_point_usage_id on usage_point(usage_id);
+
+CREATE INDEX idx_vulnerability_account_id on vulnerability(account_id);
+CREATE INDEX idx_vulnerability_severity on vulnerability(severity);
+CREATE INDEX idx_vulnerability_kev on vulnerability(kev);
+CREATE INDEX idx_vulnerability_cvss on vulnerability(cvss);
+
+CREATE INDEX idx_vulnerability_affected_repos_id on vulnerability_affected_repos(vulnerability_id);
+
 
