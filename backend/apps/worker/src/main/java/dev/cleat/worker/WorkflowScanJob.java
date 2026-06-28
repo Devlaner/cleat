@@ -3,6 +3,7 @@ package dev.cleat.worker;
 import dev.cleat.persistence.entity.RepoEntity;
 import dev.cleat.persistence.repository.AccountRepository;
 import dev.cleat.scanning.WorkflowScanService;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +23,7 @@ public class WorkflowScanJob {
     }
 
     @Scheduled(fixedDelayString = "${cleat.workflow-scan.interval-ms:3600000}")
+    @Transactional
     public void run() {
         LOG.info("Starting workflow scan job");
 
