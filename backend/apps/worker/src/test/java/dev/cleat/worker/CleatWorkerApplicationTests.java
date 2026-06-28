@@ -1,5 +1,7 @@
 package dev.cleat.worker;
 
+import dev.cleat.domain.PriorityCalculator;
+import dev.cleat.persistence.repository.VulnerabilityRepository;
 import dev.cleat.scanning.VulnerabilityScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +17,12 @@ public class CleatWorkerApplicationTests extends AbstractIntegrationTest {
 
     @MockitoBean
     private VulnerabilityScanner vulnerabilityScanner;
+
+    @MockitoBean
+    private PriorityCalculator priorityCalculator;
+
+    @MockitoBean
+    private VulnerabilityRepository vulnerabilityRepository;
 
     @Test
     void contextLoads() {}
