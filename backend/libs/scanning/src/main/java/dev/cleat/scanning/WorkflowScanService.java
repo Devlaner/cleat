@@ -55,16 +55,13 @@ public class WorkflowScanService {
                 continue;
             }
 
-            // 3. Fetch raw YAML content
-            String downloadUrl = (String) file.get("download_url");
-            if (downloadUrl == null) {
+            String base64Content = (String) file.get("content");
+            if (base64Content == null) {
+                LOG.warn("Content field missing for {}, skipping.", path);
                 continue;
             }
 
-            String yamlContent = gitHubClient.get(downloadUrl, installationId, String.class);
-            if (yamlContent == null) {
-                continue;
-            }
+            String yamlContent = new String(java.util.Base64.getMimeDecoder().decode(base64Content));
 
             // 4. Parse and score
             WorkflowAnalysis analysis = workflowParser.parse(path, yamlContent);
