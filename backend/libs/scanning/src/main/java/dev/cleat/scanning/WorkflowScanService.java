@@ -39,13 +39,13 @@ public class WorkflowScanService {
         List<Map<String, Object>> files = gitHubClient.get(
                 "/repos/" + owner + "/" + repoName + "/contents/.github/workflows", installationId, List.class);
 
+        // 2. Delete previous scans for this repo before inserting fresh ones
+        workflowScanRepository.deleteByRepoId(repo.getId());
+
         if (files == null || files.isEmpty()) {
             LOG.debug("No workflows found for {}/{}", owner, repoName);
             return List.of();
         }
-
-        // 2. Delete previous scans for this repo before inserting fresh ones
-        workflowScanRepository.deleteByRepoId(repo.getId());
 
         List<WorkflowScanEntity> results = new ArrayList<>();
 
