@@ -74,10 +74,10 @@ class WorkflowParserTest {
     }
 
     @Test
-    void emptyYamlReturnsZeroScore() {
+    void emptyYamlScoresOnlyMissingOidc() {
         WorkflowAnalysis result = parser.parse(".github/workflows/empty.yml", "");
 
         assertThat(result.unpinnedActions()).isEmpty();
-        assertThat(result.riskScore()).isEqualTo(20); // only missingOidc penalty
+        assertThat(result.riskScore()).isEqualTo(20);
     }
 }
