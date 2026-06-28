@@ -28,16 +28,14 @@ public class WorkflowParser {
             return scored(workflowPath, unpinnedActions, broadPermissions, missingOidc);
         }
 
-        // Check top-level permissions block
-        Object perms = workflow.get("permissions");
-        if (perms instanceof String s) {
-            broadPermissions = BROAD_VALUES.contains(s);
-        } else if (perms instanceof Map<?, ?> permsMap) {
-            broadPermissions = permsMap.values().stream().anyMatch(v -> "write".equals(v) && permsMap.size() > 3);
-            missingOidc = !"write".equals(permsMap.get("id-token"));
+        // Check top-level permissions
+        var topPerms = getPermissionStatus(workflow.get("permissions"));
+        broadPermissions = topPerms.broad();
+        if (topPerms.oidcWrite()) {
+            missingOidc = false;
         }
 
-        // Walk jobs → steps → uses
+        // Walk jobs
         Object jobsObj = workflow.get("jobs");
         if (jobsObj instanceof Map<?, ?> jobs) {
             for (Object jobVal : jobs.values()) {
@@ -45,9 +43,12 @@ public class WorkflowParser {
                     continue;
                 }
 
-                // Per-job permissions can also grant OIDC
-                Object jobPerms = job.get("permissions");
-                if (jobPerms instanceof Map<?, ?> jp && "write".equals(jp.get("id-token"))) {
+                // Check job-level permissions
+                var jobPerms = getPermissionStatus(job.get("permissions"));
+                if (jobPerms.broad()) {
+                    broadPermissions = true;
+                }
+                if (jobPerms.oidcWrite()) {
                     missingOidc = false;
                 }
 
@@ -72,6 +73,21 @@ public class WorkflowParser {
 
         return scored(workflowPath, unpinnedActions, broadPermissions, missingOidc);
     }
+
+    private PermissionStatus getPermissionStatus(Object perms) {
+        if (perms instanceof String s) {
+            boolean isBroad = BROAD_VALUES.contains(s);
+            boolean isOidc = "write-all".equals(s);
+            return new PermissionStatus(isBroad, isOidc);
+        } else if (perms instanceof Map<?, ?> map) {
+            boolean isOidc = "write".equals(map.get("id-token"));
+            boolean isBroad = map.values().stream().anyMatch(v -> "write".equals(v));
+            return new PermissionStatus(isBroad, isOidc);
+        }
+        return new PermissionStatus(false, false);
+    }
+
+    private record PermissionStatus(boolean broad, boolean oidcWrite) {}
 
     private WorkflowAnalysis scored(
             String workflowPath, List<String> unpinnedActions, boolean broadPermissions, boolean missingOidc) {
