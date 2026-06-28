@@ -1,4 +1,4 @@
-yamlgithub:
+github:
   app-id: "test-app-id"
   private-key-path: "/tmp/test-key.pem"
 
