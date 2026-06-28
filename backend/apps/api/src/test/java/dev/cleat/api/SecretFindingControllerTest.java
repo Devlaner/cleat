@@ -31,7 +31,7 @@ public class SecretFindingControllerTest {
     private SecretFindingService secretFindingService;
 
     @Test
-    void whenCreateSecret_thenShouldReturn201() throws Exception {
+    void whenCreateSecretThenShouldReturn201() throws Exception {
 
         // given
         SecretFindingRequestDto secretFindingRequestDto = new SecretFindingRequestDto();

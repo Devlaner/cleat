@@ -24,7 +24,7 @@ public class CodeScanAlertScannerTest {
     CodeScanAlertRepository codeScanAlertRepository;
 
     @Test
-    void whenProcessAlert_thenStatusShouldBeOpen() {
+    void whenProcessAlertThenStatusShouldBeOpen() {
 
         // given
         CodeScanAlertEntity codeScanAlertEntity = new CodeScanAlertEntity().setSeverity(Severity.CRITICAL);

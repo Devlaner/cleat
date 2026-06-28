@@ -31,7 +31,7 @@ public class CodeScanAlertControllerTest {
     private CodeScanAlertService codeScanAlertService;
 
     @Test
-    void whenCreateCodeScanAlert_thenShouldBeReturn201() throws Exception {
+    void whenCreateCodeScanAlertThenShouldBeReturn201() throws Exception {
 
         // given
         CodeScanAlertRequestDto codeScanAlertRequestDto = new CodeScanAlertRequestDto();

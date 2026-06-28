@@ -25,7 +25,7 @@ public class SecretFindingScannerTest {
     private SecretFindingRepository secretFindingRepository;
 
     @Test
-    void givenSecretNotBlockedByPushProtection_whenProcessing_thenSeverityShouldBeCritical() {
+    void givenSecretNotBlockedByPushProtectionWhenProcessingThenSeverityShouldBeCritical() {
 
         // given
         SecretFindingEntity secretFindingEntity = new SecretFindingEntity().setPushProtectionBlocked(false);
@@ -41,7 +41,7 @@ public class SecretFindingScannerTest {
     }
 
     @Test
-    void givenSecretBlockedByPushProtection_whenProcessing_thenSeverityShouldBeLow() {
+    void givenSecretBlockedByPushProtectionWhenProcessingThenSeverityShouldBeLow() {
 
         // given
         SecretFindingEntity secretFindingEntity = new SecretFindingEntity().setPushProtectionBlocked(true);
