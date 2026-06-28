@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CodeScanAlertScanner {
-    private static final Logger log = LoggerFactory.getLogger(CodeScanAlertScanner.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeScanAlertScanner.class);
     private final CodeScanAlertRepository codeScanAlertRepository;
 
     public CodeScanAlertScanner(CodeScanAlertRepository codeScanAlertRepository) {
@@ -18,7 +18,7 @@ public class CodeScanAlertScanner {
     }
 
     public void process(CodeScanAlertEntity codeScanAlertEntity) {
-        log.info("Analyzing code scan alert for rule: {}", codeScanAlertEntity.getRule());
+        LOG.info("Analyzing code scan alert for rule: {}", codeScanAlertEntity.getRule());
         if (Severity.CRITICAL.equals(codeScanAlertEntity.getSeverity())
                 || Severity.HIGH.equals(codeScanAlertEntity.getSeverity())) {
             codeScanAlertEntity.setStatus(Status.OPEN);
@@ -26,6 +26,6 @@ public class CodeScanAlertScanner {
             codeScanAlertEntity.setStatus(Status.OPEN);
         }
         codeScanAlertRepository.save(codeScanAlertEntity);
-        log.info("Code scan alert processed successfully with status: {}", codeScanAlertEntity.getStatus());
+        LOG.info("Code scan alert processed successfully with status: {}", codeScanAlertEntity.getStatus());
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SecretFindingScanner {
-    private static final Logger log = LoggerFactory.getLogger(SecretFindingScanner.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SecretFindingScanner.class);
     private final SecretFindingRepository secretFindingRepository;
 
     public SecretFindingScanner(SecretFindingRepository secretFindingRepository) {
@@ -18,7 +18,7 @@ public class SecretFindingScanner {
     }
 
     public void process(SecretFindingEntity secretFindingEntity) {
-        log.info(
+        LOG.info(
                 "Processing secret finding for repo: {}",
                 secretFindingEntity.getRepo().getName());
         if (Boolean.FALSE.equals(secretFindingEntity.getPushProtectionBlocked())) {
@@ -27,6 +27,6 @@ public class SecretFindingScanner {
             secretFindingEntity.setSeverity(Severity.LOW).setValidity(Validity.REVOKED);
         }
         secretFindingRepository.save(secretFindingEntity);
-        log.info("Secret finding processed successfully: {}", secretFindingEntity.getId());
+        LOG.info("Secret finding processed successfully: {}", secretFindingEntity.getId());
     }
 }

@@ -3,7 +3,7 @@ package dev.cleat.api;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = CleatApiApplication.class)
 public class CleatApiTests extends AbstractIntegrationTest {
 
     @Test
