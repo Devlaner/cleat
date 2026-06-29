@@ -4,7 +4,7 @@ CREATE TABLE code_scan_alerts(
                                severity    VARCHAR(50) NOT NULL,
                                file        VARCHAR(255) NOT NULL,
                                line        INTEGER CHECK (line>=0),
-                               branch      VARCHAR(250) DEFAULT,
+                               branch      VARCHAR(250),
                                status      VARCHAR(50) NOT NULL ,
                                tool        VARCHAR(255) NOT NULL,
                                detected_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
