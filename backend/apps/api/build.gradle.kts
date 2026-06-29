@@ -19,4 +19,5 @@ dependencies {
         testImplementation("org.testcontainers:postgresql")
         testImplementation("org.testcontainers:testcontainers")
         testImplementation("org.springframework.boot:spring-boot-testcontainers")
+        testImplementation("com.h2database:h2")
 }

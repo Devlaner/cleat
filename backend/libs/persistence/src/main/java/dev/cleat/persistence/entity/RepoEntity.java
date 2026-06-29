@@ -157,6 +157,7 @@ public class RepoEntity {
         this.staleBranches = staleBranches;
         this.openPRs = openPRs;
         this.hygieneScore = hygieneScore;
+
         this.scorecard = scorecard;
         this.topics = topics;
         this.createdAt = createdAt;

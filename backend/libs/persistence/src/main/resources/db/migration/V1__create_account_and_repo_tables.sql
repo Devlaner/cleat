@@ -9,7 +9,8 @@ CREATE TABLE account (
                          posture_score   INTEGER DEFAULT 0,
                          monthly_spend   DECIMAL(19,4) DEFAULT 0.0,
                          reclaimable     DECIMAL(19,4) DEFAULT 0.0,
-                         created_at      TIMESTAMP WITH TIME ZONE NOT NULL
+                         created_at      TIMESTAMP WITH TIME ZONE NOT NULL,
+                         installation_id VARCHAR(255)
 );
 
 CREATE TABLE repo (
