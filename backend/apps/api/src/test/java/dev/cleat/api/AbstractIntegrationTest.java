@@ -11,9 +11,9 @@ public abstract class AbstractIntegrationTest {
 
     @Container
     @ServiceConnection
-    PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @Container
     @ServiceConnection
-    GenericContainer<?> redis = new GenericContainer<>("redis:7-alpine").withExposedPorts(6379);
+    static GenericContainer<?> redis = new GenericContainer<>("redis:7-alpine").withExposedPorts(6379);
 }
