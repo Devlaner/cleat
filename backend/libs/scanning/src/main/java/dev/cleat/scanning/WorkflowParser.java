@@ -81,7 +81,8 @@ public class WorkflowParser {
             return new PermissionStatus(isBroad, isOidc);
         } else if (perms instanceof Map<?, ?> map) {
             boolean isOidc = "write".equals(map.get("id-token"));
-            boolean isBroad = map.values().stream().anyMatch(v -> "write".equals(v));
+            boolean isBroad = map.entrySet().stream()
+                    .anyMatch(e -> "write".equals(e.getValue()) && !"id-token".equals(e.getKey()));
             return new PermissionStatus(isBroad, isOidc);
         }
         return new PermissionStatus(false, false);
