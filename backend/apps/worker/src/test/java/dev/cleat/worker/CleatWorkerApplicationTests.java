@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootTest(classes = CleatWorkerApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@EntityScan(basePackages = "dev.cleat.persistence.entity")
-@EnableJpaRepositories(basePackages = "dev.cleat.persistence.repository")
+@EntityScan(basePackages = "dev.cleat")
+@EnableJpaRepositories(basePackages = "dev.cleat")
 public class CleatWorkerApplicationTests extends AbstractIntegrationTest {
 
     @Test
