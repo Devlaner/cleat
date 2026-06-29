@@ -6,7 +6,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@SpringBootTest(classes = CleatApiApplication.class, properties = "spring.main.allow-bean-definition-overriding=true")
 @EntityScan(basePackages = "dev.cleat.persistence.entity")
 @EnableJpaRepositories(basePackages = "dev.cleat.persistence.repository")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
