@@ -19,7 +19,10 @@ public class ActivityEventMapper {
                 .setSeverity(activityEventEntity.getSeverity())
                 .setActor(activityEventEntity.getActor())
                 .setTarget(activityEventEntity.getTarget())
-                .setRepo(activityEventEntity.getRepo().getName())
+                .setRepo(
+                        activityEventEntity.getRepo() != null
+                                ? activityEventEntity.getRepo().getName()
+                                : "Unknown")
                 .setMessage(activityEventEntity.getMessage())
                 .setCreatedAt(activityEventEntity.getCreatedAt());
     }

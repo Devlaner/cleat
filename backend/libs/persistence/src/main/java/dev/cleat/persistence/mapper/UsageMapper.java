@@ -2,6 +2,7 @@ package dev.cleat.persistence.mapper;
 
 import dev.cleat.common.dto.response.UsageResponseDto;
 import dev.cleat.persistence.entity.UsageEntity;
+import java.util.Collections;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,8 +26,11 @@ public class UsageMapper {
                 .setMonthlyCost(usageEntity.getMonthlyCost())
                 .setReclaimable(usageEntity.getReclaimable())
                 .setBreakdown(usageEntity.getBreakdown())
-                .setSeries(usageEntity.getSeries().stream()
-                        .map(usagePointMapper::toUsagePointDto)
-                        .toList());
+                .setSeries(
+                        usageEntity.getSeries() != null
+                                ? usageEntity.getSeries().stream()
+                                        .map(usagePointMapper::toUsagePointDto)
+                                        .toList()
+                                : Collections.emptyList());
     }
 }
