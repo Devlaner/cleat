@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class CodeScanAlertEntity {
     @Column(name = "tool")
     private String tool;
 
-    @Column(name = "detected_at")
+    @Column(name = "detected_at", insertable = false, updatable = true)
     private OffsetDateTime detectedAt;
 
     @Column(name = "description")
@@ -205,5 +206,12 @@ public class CodeScanAlertEntity {
     public CodeScanAlertEntity setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.detectedAt == null) {
+            this.detectedAt = OffsetDateTime.now();
+        }
     }
 }
