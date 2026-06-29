@@ -3,8 +3,11 @@ package dev.cleat.common.dto.request;
 import dev.cleat.common.enums.Severity;
 import dev.cleat.common.enums.Validity;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class SecretFindingRequestDto {
+    private UUID accountId;
+    private UUID repoId;
     private String provider;
     private String secretType;
     private String file;
@@ -19,6 +22,8 @@ public class SecretFindingRequestDto {
     public SecretFindingRequestDto() {}
 
     public SecretFindingRequestDto(
+            UUID accountId,
+            UUID repoId,
             String provider,
             String secretType,
             String file,
@@ -30,6 +35,8 @@ public class SecretFindingRequestDto {
             Severity severity,
             Boolean pushProtectionBlocked) {
 
+        this.accountId = accountId;
+        this.repoId = repoId;
         this.provider = provider;
         this.secretType = secretType;
         this.file = file;
@@ -40,6 +47,24 @@ public class SecretFindingRequestDto {
         this.validity = validity;
         this.severity = severity;
         this.pushProtectionBlocked = pushProtectionBlocked;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public SecretFindingRequestDto setAccountId(UUID accountId) {
+        this.accountId = accountId;
+        return this;
+    }
+
+    public UUID getRepoId() {
+        return repoId;
+    }
+
+    public SecretFindingRequestDto setRepoId(UUID repoId) {
+        this.repoId = repoId;
+        return this;
     }
 
     public String getProvider() {

@@ -12,7 +12,10 @@ public class SecretFindingMapper {
         return new SecretFindingResponseDto()
                 .setId(secretFindingEntity.getId())
                 .setAccountId(secretFindingEntity.getAccountId())
-                .setRepo(secretFindingEntity.getRepo().getName())
+                .setRepo(
+                        secretFindingEntity.getRepo() != null
+                                ? secretFindingEntity.getRepo().getName()
+                                : "Unknown")
                 .setProvider(secretFindingEntity.getProvider())
                 .setSecretType(secretFindingEntity.getSecretType())
                 .setFile(secretFindingEntity.getFile())
@@ -30,6 +33,7 @@ public class SecretFindingMapper {
             return null;
         }
         return new SecretFindingEntity()
+                .setAccountId(secretFindingRequestDto.getAccountId())
                 .setProvider(secretFindingRequestDto.getProvider())
                 .setSecretType(secretFindingRequestDto.getSecretType())
                 .setFile(secretFindingRequestDto.getFile())
