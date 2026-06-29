@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     url: jdbc:tc:postgresql:16-alpine:///cleat_db
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
