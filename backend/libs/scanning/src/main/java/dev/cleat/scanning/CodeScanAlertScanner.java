@@ -19,7 +19,5 @@ public class CodeScanAlertScanner {
         } else {
             codeScanAlertEntity.setStatus(Status.OPEN);
         }
-
-        LOG.info("Code scan alert processed successfully with status: {}", codeScanAlertEntity.getStatus());
     }
 }
