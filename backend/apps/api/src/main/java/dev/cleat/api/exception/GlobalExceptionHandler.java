@@ -26,8 +26,8 @@ public class GlobalExceptionHandler {
         if (ex instanceof ResponseStatusException) {
             throw (ResponseStatusException) ex;
         }
-        LOG.error("Unhandled exception occured: ", ex);
+        LOG.error("Unhandled exception occurred: ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "An unexpected error occured"));
+                .body(Map.of("error", "An unexpected error occurred"));
     }
 }

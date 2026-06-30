@@ -36,7 +36,7 @@ public class SecurityScanWorker {
         this.codeScanAlertScanner = codeScanAlertScanner;
     }
 
-    @Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelayString = "${app.security.scan-interval}")
     public void runSecurityScan() {
         LOG.info("Starting scheduled security scan...");
         processVulns();
