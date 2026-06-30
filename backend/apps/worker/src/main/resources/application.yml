@@ -29,3 +29,7 @@ management:
       enabled: true
     redis:
       enabled: true
+
+app:
+  security:
+    scan-interval: 600000

@@ -8,6 +8,7 @@ public class DatasetDto {
     private List<RepoResponseDto> repos;
     private List<SecretFindingResponseDto> secrets;
     private List<VulnerabilityResponseDto> vulnerabilities;
+    private List<CodeScanAlertResponseDto> codeAlerts;
     private UsageResponseDto usage;
     private List<MemberResponseDto> members;
     private List<ActivityEventResponseDto> events;
@@ -19,6 +20,7 @@ public class DatasetDto {
             List<RepoResponseDto> repos,
             List<SecretFindingResponseDto> secrets,
             List<VulnerabilityResponseDto> vulnerabilities,
+            List<CodeScanAlertResponseDto> codeAlerts,
             UsageResponseDto usage,
             List<MemberResponseDto> members,
             List<ActivityEventResponseDto> events) {
@@ -26,6 +28,7 @@ public class DatasetDto {
         this.repos = repos;
         this.secrets = secrets;
         this.vulnerabilities = vulnerabilities;
+        this.codeAlerts = codeAlerts;
         this.usage = usage;
         this.members = members;
         this.events = events;
@@ -64,6 +67,15 @@ public class DatasetDto {
 
     public DatasetDto setVulnerabilities(List<VulnerabilityResponseDto> vulnerabilities) {
         this.vulnerabilities = vulnerabilities;
+        return this;
+    }
+
+    public List<CodeScanAlertResponseDto> getCodeAlerts() {
+        return codeAlerts;
+    }
+
+    public DatasetDto setCodeAlerts(List<CodeScanAlertResponseDto> codeAlerts) {
+        this.codeAlerts = codeAlerts;
         return this;
     }
 
