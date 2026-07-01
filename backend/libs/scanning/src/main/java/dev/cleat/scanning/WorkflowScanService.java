@@ -55,13 +55,17 @@ public class WorkflowScanService {
                 continue;
             }
 
-            String base64Content = (String) file.get("content");
+            Map<String, Object> fileDetails = gitHubClient.get(
+                    "/repos/" + owner + "/" + repoName + "/contents/" + path, installationId, Map.class);
+
+            String base64Content = (String) fileDetails.get("content");
             if (base64Content == null) {
                 LOG.warn("Content field missing for {}, skipping.", path);
                 continue;
             }
 
-            String yamlContent = new String(java.util.Base64.getMimeDecoder().decode(base64Content));
+            String yamlContent =
+                    new String(java.util.Base64.getMimeDecoder().decode(base64Content.replaceAll("\\s", "")));
 
             // 4. Parse and score
             WorkflowAnalysis analysis = workflowParser.parse(path, yamlContent);
