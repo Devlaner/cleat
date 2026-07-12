@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":libs:persistence"))
     implementation(project(":libs:github-client"))
     implementation(project(":libs:scanning"))
+    implementation(project(":libs:enrichment"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")

@@ -1,6 +1,8 @@
 package dev.cleat.domain;
 
 import dev.cleat.common.enums.Priority;
+import dev.cleat.common.enums.Reachable;
+import dev.cleat.common.enums.Severity;
 import dev.cleat.domain.model.Vulnerability;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +13,18 @@ public class PriorityCalculator {
         if (vulnerability.cvss() < 0 || vulnerability.cvss() > 10) {
             throw new IllegalArgumentException("CVSS must be between 0 and 10");
         }
-        if (vulnerability.kev() || vulnerability.cvss() >= 9.0) {
+        if (vulnerability.kev() || vulnerability.cvss() >= 9.0 && vulnerability.reachable() == Reachable.REACHABLE) {
             return Priority.URGENT;
         }
 
-        return switch (vulnerability.severity()) {
-            case CRITICAL -> Priority.HIGH;
-            case HIGH -> Priority.MEDIUM;
-            default -> Priority.LOW;
-        };
+        if (vulnerability.epss() > 0.1 || vulnerability.severity() == Severity.CRITICAL) {
+            return Priority.HIGH;
+        }
+
+        if (vulnerability.cvss() >= 7.0) {
+            return Priority.MEDIUM;
+        }
+
+        return Priority.LOW;
     }
 }
