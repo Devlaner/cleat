@@ -20,6 +20,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 public class FeedSyncServiceTest {
@@ -48,8 +51,9 @@ public class FeedSyncServiceTest {
                 .setReachable(Reachable.REACHABLE);
 
         FeedResult feed = new FeedResult(true, 0.95, new OsvResponse());
+        Page<VulnerabilityEntity> page = new PageImpl<>(List.of(vulnerabilityEntity));
 
-        when(vulnerabilityRepository.findAll()).thenReturn(List.of(vulnerabilityEntity));
+        when(vulnerabilityRepository.findAll(any(Pageable.class))).thenReturn(page);
 
         when(feedService.fetchFeeds(
                         vulnerabilityEntity.getCve(),
