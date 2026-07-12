@@ -1,20 +1,19 @@
 package dev.cleat.scanning;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import dev.cleat.common.enums.Priority;
 import dev.cleat.common.enums.Reachable;
 import dev.cleat.common.enums.Severity;
-import dev.cleat.domain.PriorityCalculator;
 import dev.cleat.enrichment.dto.FeedResult;
 import dev.cleat.enrichment.dto.OsvResponse;
 import dev.cleat.enrichment.service.FeedService;
 import dev.cleat.persistence.entity.VulnerabilityEntity;
 import dev.cleat.persistence.repository.VulnerabilityRepository;
 import dev.cleat.scanning.service.FeedSyncService;
+import dev.cleat.scanning.service.VulnerabilityUpdateService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +31,7 @@ public class FeedSyncServiceTest {
     FeedService feedService;
 
     @Mock
-    PriorityCalculator priorityCalculator;
+    VulnerabilityUpdateService vulnerabilityUpdateService;
 
     @InjectMocks
     FeedSyncService feedSyncService;
@@ -58,14 +57,15 @@ public class FeedSyncServiceTest {
                         vulnerabilityEntity.getEcosystem()))
                 .thenReturn(feed);
 
-        when(priorityCalculator.calculate(any())).thenReturn(Priority.URGENT);
+        doNothing().when(vulnerabilityUpdateService).update(any(VulnerabilityEntity.class), any(FeedResult.class));
 
         feedSyncService.syncFeeds();
 
-        verify(vulnerabilityRepository).saveAll(any());
-
-        assertEquals(true, vulnerabilityEntity.getKev());
-        assertEquals(0.95, vulnerabilityEntity.getEpss());
-        assertEquals(Priority.URGENT, vulnerabilityEntity.getPriority());
+        verify(feedService)
+                .fetchFeeds(
+                        vulnerabilityEntity.getCve(),
+                        vulnerabilityEntity.getPackageName(),
+                        vulnerabilityEntity.getEcosystem());
+        verify(vulnerabilityUpdateService).update(any(VulnerabilityEntity.class), any(FeedResult.class));
     }
 }
