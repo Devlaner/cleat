@@ -12,11 +12,11 @@ public class EpssClient {
         this.restTemplate = restTemplate;
     }
 
-    private static final String URL = "https://api.first.org/data/v1/epss?cve=";
+    private static final String URL = "https://api.first.org/data/v1/epss?cve={cve}";
 
     public Double fetchScore(String cve) {
 
-        EpssResponse response = restTemplate.getForObject(URL + cve, EpssResponse.class);
+        EpssResponse response = restTemplate.getForObject(URL, EpssResponse.class, cve);
         if (response == null || response.getData() == null || response.getData().isEmpty()) {
             return null;
         }
@@ -24,6 +24,6 @@ public class EpssClient {
     }
 
     public EpssResponse fetchFeed(String cve) {
-        return restTemplate.getForObject(URL + cve, EpssResponse.class);
+        return restTemplate.getForObject(URL, EpssResponse.class, cve);
     }
 }
