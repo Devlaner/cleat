@@ -12,7 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
             "dev.cleat.scanning",
             "dev.cleat.worker",
             "dev.cleat.domain",
-            "dev.cleat.common"
+            "dev.cleat.common",
+            "dev.cleat.enrichment"
         })
 @EnableJpaRepositories(basePackages = "dev.cleat.persistence.repository")
 @EntityScan(basePackages = "dev.cleat.persistence.entity")

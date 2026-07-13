@@ -33,3 +33,7 @@ management:
 app:
   security:
     scan-interval: 600000
+
+feed:
+  sync:
+    delay: 3600000

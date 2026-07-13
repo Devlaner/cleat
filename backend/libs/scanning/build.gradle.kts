@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":libs:common"))
     implementation(project(":libs:persistence"))
     implementation(project(":libs:github-client"))
+    implementation(project(":libs:enrichment"))
 
     implementation("org.springframework.boot:spring-boot-starter")
 
