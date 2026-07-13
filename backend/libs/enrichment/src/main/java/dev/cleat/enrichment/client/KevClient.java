@@ -21,7 +21,7 @@ public class KevClient {
     private static final String URL =
             "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json";
 
-    public Set<String> getKevCache() {
+    public synchronized Set<String> getKevCache() {
 
         if (kevCache == null || System.currentTimeMillis() - cacheTimestamp > CACHE_TTL_MS) {
             KevResponse response = restTemplate.getForObject(URL, KevResponse.class);
